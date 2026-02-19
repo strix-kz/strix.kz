@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Strix.kz — Мамандық & ЖОО</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA8kTHiIIJXQeRZtIIb2v-f02XHiJyVLO8",
+  authDomain: "strix-kz.firebaseapp.com",
+  projectId: "strix-kz",
+  storageBucket: "strix-kz.firebasestorage.app",
+  messagingSenderId: "914224931230",
+  appId: "1:914224931230:web:3781b1720c93690382b68f",
+  measurementId: "G-9PXKHPW1HZ"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--p:#4B5EFF;--p2:#7B6FFF;--bg:#F2F4FF;--wh:#fff;--tx:#1A1A2E;--mu:#8B96A9;--br:#E4E7FF;--gr:#22C55E;--or:#F59E0B;--rd:#EF4444;--sh:0 2px 14px rgba(75,94,255,.09)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;max-width:480px;margin:0 auto;overflow-x:hidden}
+#splash{position:fixed;inset:0;background:linear-gradient(150deg,#4B5EFF,#7B6FFF);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .5s}
+#splash.out{opacity:0;pointer-events:none}
+.s-logo{font-size:3rem;font-weight:900;color:#fff;letter-spacing:-2px}.s-logo span{opacity:.4}
+.s-sub{color:rgba(255,255,255,.7);font-size:.88rem;margin-top:6px}
+.s-bar{width:56px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin-top:44px;overflow:hidden}
+.s-prog{height:100%;background:#fff;border-radius:4px;animation:prog 2.2s ease forwards}
+@keyframes prog{to{width:100%}}
+#auth{display:none;min-height:100vh;background:#fff}
+.a-top{background:linear-gradient(150deg,#4B5EFF,#7B6FFF);padding:52px 22px 68px;position:relative;overflow:hidden}
+.a-top::before{content:'';position:absolute;width:280px;height:280px;background:rgba(255,255,255,.07);border-radius:50%;right:-60px;top:-80px}
+.a-top::after{content:'';position:absolute;width:180px;height:180px;background:rgba(255,255,255,.05);border-radius:50%;left:-40px;bottom:-50px}
+.a-logo{font-size:2.6rem;font-weight:900;color:#fff;letter-spacing:-1.5px;position:relative;z-index:1}.a-logo span{opacity:.4}
+.a-sl{color:rgba(255,255,255,.85);font-size:.97rem;font-weight:600;margin-top:6px;position:relative;z-index:1}
+.a-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;position:relative;z-index:1}
+.a-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 13px;color:#fff;font-size:.77rem;font-weight:600}
+.a-card{background:#fff;border-radius:22px 22px 0 0;margin-top:-18px;padding:28px 22px 40px}
+.a-h2{font-size:1.35rem;font-weight:800;margin-bottom:5px}
+.a-p{color:var(--mu);font-size:.87rem;margin-bottom:22px}
+.lbl{display:block;font-size:.8rem;font-weight:700;margin-bottom:6px}
+.inp{width:100%;padding:14px 16px;border:2px solid var(--br);border-radius:13px;font-size:.93rem;font-family:'Inter',sans-serif;outline:none;color:var(--tx);transition:border-color .2s}
+.inp:focus{border-color:var(--p)}
+.ph-w{position:relative}.ph-p{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-weight:700;font-size:.93rem}
+.ph-w .inp{padding-left:46px}
+.mb14{margin-bottom:14px}
+.btn-p{width:100%;padding:15px;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:13px;font-size:1rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:opacity .15s,transform .15s}
+.btn-p:active{transform:scale(.98);opacity:.9}
+.or-r{display:flex;align-items:center;gap:10px;margin:16px 0}
+.or-l{flex:1;height:1px;background:var(--br)}.or-t{font-size:.78rem;color:var(--mu)}
+.btn-w{width:100%;padding:13px;background:#fff;color:var(--tx);border:2px solid var(--br);border-radius:13px;font-size:.9rem;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:border-color .2s}
+.btn-w:hover{border-color:var(--p)}
+.a-sw{text-align:center;margin-top:18px;font-size:.84rem;color:var(--mu)}
+.a-sw a{color:var(--p);font-weight:700;cursor:pointer}
+.otp-r{display:flex;gap:10px;justify-content:center;margin:18px 0}
+.otp-b{width:60px;height:64px;border:2px solid var(--br);border-radius:13px;text-align:center;font-size:1.6rem;font-weight:800;outline:none;transition:border-color .2s;color:var(--tx)}
+.otp-b:focus{border-color:var(--p)}
+.demo-box{background:#EEF0FF;border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:.82rem;color:var(--p);font-weight:600;text-align:center}
+.back-a{display:flex;align-items:center;gap:5px;color:var(--p);font-size:.85rem;font-weight:600;cursor:pointer;justify-content:center;margin-top:14px}
+#app{display:none;min-height:100vh;padding-bottom:74px}
+.topbar{background:#fff;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--br)}
+.t-logo{font-size:1.45rem;font-weight:900;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.t-r{display:flex;align-items:center;gap:10px}
+.t-ic{width:36px;height:36px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer}
+.t-av{width:36px;height:36px;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:700}
+.pg{display:none;animation:fu .25s ease}.pg.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.s-bar-inp{margin:12px 16px 6px;background:#fff;border-radius:13px;padding:11px 15px;display:flex;align-items:center;gap:9px;box-shadow:var(--sh)}
+.s-bar-inp input{border:none;outline:none;font-size:.9rem;font-family:'Inter',sans-serif;flex:1;background:transparent;color:var(--tx)}
+.frow{display:flex;gap:7px;padding:6px 16px 12px;overflow-x:auto;scrollbar-width:none}
+.frow::-webkit-scrollbar{display:none}
+.fp{padding:7px 15px;border-radius:20px;border:2px solid var(--br);background:#fff;font-size:.78rem;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--mu);flex-shrink:0;transition:all .15s}
+.fp.on{border-color:var(--p);background:#EEF0FF;color:var(--p)}
+.sec{font-size:1.05rem;font-weight:800;padding:16px 16px 8px}
+.sec-s{font-size:.8rem;color:var(--mu);padding:0 16px 12px;margin-top:-4px}
+.hero{margin:14px 16px;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);border-radius:20px;padding:22px 20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:200px;height:200px;background:rgba(255,255,255,.08);border-radius:50%;right:-40px;top:-50px}
+.h-tag{background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;font-weight:700;padding:4px 11px;border-radius:20px;display:inline-block;margin-bottom:9px}
+.h-t{font-size:1.1rem;font-weight:800;color:#fff;line-height:1.45;margin-bottom:14px}
+.h-btn{background:#fff;color:var(--p);border:none;padding:10px 18px;border-radius:10px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+.q-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:0 16px}
+.q-c{background:#fff;border-radius:17px;padding:16px;cursor:pointer;box-shadow:var(--sh);transition:transform .15s}
+.q-c:active{transform:scale(.97)}
+.q-ic{width:44px;height:44px;border-radius:13px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:11px}
+.q-t{font-size:.88rem;font-weight:700;margin-bottom:3px}
+.q-s{font-size:.73rem;color:var(--mu)}
+.q-cnt{font-size:.75rem;font-weight:700;color:var(--p);margin-top:9px}
+.live{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--mu);padding:8px 16px 0;justify-content:center}
+.ld{width:6px;height:6px;border-radius:50%;background:var(--gr);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sp-list{padding:0 16px}
+.sp-row{background:#fff;border-radius:15px;padding:14px 15px;margin-bottom:9px;display:flex;align-items:center;gap:13px;cursor:pointer;box-shadow:var(--sh);transition:transform .15s}
+.sp-row:active{transform:scale(.98)}
+.sp-cd{background:#EEF0FF;color:var(--p);font-weight:800;font-size:.77rem;border-radius:9px;padding:6px 9px;flex-shrink:0;text-align:center;min-width:50px}
+.sp-i{flex:1;min-width:0}
+.sp-nm{font-weight:700;font-size:.86rem;line-height:1.35}
+.sp-sj{font-size:.73rem;color:var(--p);margin-top:3px;font-weight:600}
+.sp-me{font-size:.7rem;color:var(--mu);margin-top:2px}
+.sp-ar{color:#C8CFE0;font-size:1.05rem}
+#sp-det{display:none;position:fixed;inset:0;max-width:480px;margin:0 auto;background:#fff;z-index:300;overflow-y:auto}
+.sd-top{background:linear-gradient(135deg,#4B5EFF,#7B6FFF);padding:18px 20px 26px}
+.sd-bk{width:34px;height:34px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;margin-bottom:14px;font-size:1.1rem}
+.sd-code{background:rgba(255,255,255,.2);color:#fff;font-size:.75rem;font-weight:700;padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:7px}
+.sd-nm{font-size:1.1rem;font-weight:800;color:#fff;line-height:1.4}
+.sd-sj{color:rgba(255,255,255,.75);font-size:.82rem;margin-top:5px}
+.sd-body{padding:18px}
+.sd-st-r{display:flex;gap:9px;margin-bottom:18px}
+.sd-st{flex:1;background:var(--bg);border-radius:13px;padding:13px;text-align:center}
+.sd-st strong{font-size:1.15rem;font-weight:800;color:var(--p);display:block}
+.sd-st span{font-size:.7rem;color:var(--mu)}
+.sd-ttl{font-size:.88rem;font-weight:700;margin-bottom:10px}
+.ur{background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
+.ur-nm{font-size:.83rem;font-weight:600}.ur-cy{font-size:.72rem;color:var(--mu);margin-top:2px}
+.ur-sc strong{font-size:.9rem;font-weight:800;color:var(--p);display:block;text-align:right}
+.ur-sc span{font-size:.68rem;color:var(--mu)}
+.uni-card{background:#fff;border-radius:18px;margin:0 16px 11px;overflow:hidden;box-shadow:var(--sh);cursor:pointer;transition:transform .15s}
+.uni-card:active{transform:scale(.98)}
+.uc-top{height:84px;display:flex;align-items:center;padding:0 18px;gap:12px}
+.uc-sh{font-size:1.05rem;font-weight:900;color:#fff}
+.uc-lo{font-size:.75rem;color:rgba(255,255,255,.8);line-height:1.3}
+.uc-body{padding:13px 16px}
+.uc-city{font-size:.77rem;color:var(--mu);margin-bottom:11px;display:flex;align-items:center;gap:5px}
+.uc-sts{display:flex;gap:8px}
+.uc-st{flex:1;background:var(--bg);border-radius:10px;padding:9px 8px;text-align:center}
+.uc-st strong{font-size:.9rem;font-weight:800;display:block}
+.uc-st span{font-size:.68rem;color:var(--mu)}
+.gr-card{background:#fff;border-radius:18px;margin:0 16px 14px;padding:18px;box-shadow:var(--sh)}
+.gr-ttl{font-size:.97rem;font-weight:800;margin-bottom:16px}
+.g-lbl{font-size:.8rem;font-weight:700;margin-bottom:6px;display:block}
+.g-sel{width:100%;padding:12px 13px;border:2px solid var(--br);border-radius:12px;font-size:.87rem;font-family:'Inter',sans-serif;outline:none;background:#fff;margin-bottom:13px;transition:border-color .2s}
+.g-sel:focus{border-color:var(--p)}
+.sc-box{background:var(--bg);border-radius:14px;padding:16px;margin-bottom:13px}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sc-lbl{font-size:.82rem;font-weight:700}
+.sc-num{background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;font-size:1.3rem;font-weight:900;padding:4px 16px;border-radius:10px;min-width:64px;text-align:center}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--br);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);cursor:pointer;box-shadow:0 2px 8px rgba(75,94,255,.35)}
+.sc-marks{display:flex;justify-content:space-between;margin-top:6px;font-size:.68rem;color:var(--mu);font-weight:600}
+.chk-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.chk-row{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:var(--bg);border-radius:12px;cursor:pointer;transition:background .15s}
+.chk-row:active{background:#E8EBFF}
+.chk-l{display:flex;align-items:center;gap:10px;font-size:.85rem;font-weight:500}
+.chk-b{width:20px;height:20px;border-radius:6px;border:2px solid var(--br);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:#fff;transition:all .15s}
+.chk-b.on{background:var(--p);border-color:var(--p)}
+.chk-q{width:20px;height:20px;border-radius:50%;background:var(--br);display:flex;align-items:center;justify-content:center;font-size:.68rem;color:var(--mu);font-weight:700}
+.btn-calc{width:100%;padding:15px;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:13px;font-size:.97rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:transform .15s,opacity .15s}
+.btn-calc:active{transform:scale(.98);opacity:.9}
+.gr-res{padding:0 16px;margin-top:4px}
+.gr-res-t{font-size:.97rem;font-weight:800;margin-bottom:12px}
+.cnt-box{background:#EEF0FF;border-radius:12px;padding:12px 15px;margin-bottom:11px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.cnt-t{font-size:.83rem;font-weight:600;color:var(--p)}
+.res-card{background:#fff;border-radius:15px;padding:14px 15px;margin-bottom:9px;display:flex;align-items:center;gap:13px;box-shadow:var(--sh)}
+.donut{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;border:5px solid}
+.donut.hi{border-color:var(--gr);color:var(--gr)}
+.donut.md{border-color:var(--or);color:var(--or)}
+.donut.lo{border-color:var(--rd);color:var(--rd)}
+.rc{flex:1;min-width:0}
+.rc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.rc-code{font-size:.7rem;font-weight:700;color:var(--p);background:#EEF0FF;padding:2px 8px;border-radius:4px}
+.rc-q{font-size:.68rem;color:var(--mu);font-weight:600;background:var(--bg);padding:2px 8px;border-radius:4px}
+.rc-nm{font-weight:700;font-size:.85rem;margin-bottom:2px}
+.rc-u{font-size:.75rem;color:var(--p);font-weight:500}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--br);display:flex;z-index:100;padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px))}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;cursor:pointer;color:var(--mu);font-size:.62rem;font-weight:600;transition:color .15s}
+.bn.on{color:var(--p)}
+.bn-ic{font-size:1.25rem;line-height:1}
+.bn-dot{width:4px;height:4px;border-radius:50%;background:var(--p);opacity:0}
+.bn.on .bn-dot{opacity:1}
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-12px);background:#1A1A2E;color:#fff;padding:11px 20px;border-radius:13px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.footer{text-align:center;padding:14px;font-size:.7rem;color:var(--mu);background:#fff;border-top:1px solid var(--br);margin-top:6px}
+.footer strong{color:var(--tx)}.footer a{color:var(--p);font-weight:700;text-decoration:none}
+.empty{text-align:center;padding:40px;color:var(--mu);font-size:.87rem}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <div class="s-logo">Strix<span>.kz</span></div>
+  <div class="s-sub">Білім навигаторы</div>
+  <div class="s-bar"><div class="s-prog"></div></div>
+</div>
+
+<div id="auth">
+  <div class="a-top">
+    <div class="a-logo">Strix<span>.kz</span></div>
+    <div class="a-sl">Мамандық таңда · ЖОО тап · Грант жеңіп ал</div>
+    <div class="a-chips">
+      <span class="a-chip">🎓 600+ мамандық</span>
+      <span class="a-chip">🏛️ 130+ ЖОО</span>
+      <span class="a-chip">📊 Грант есеп</span>
+      <span class="a-chip">🧭 Профориентация</span>
+    </div>
+  </div>
+  <div class="a-card">
+    <div id="v-ph">
+      <div class="a-h2">Кіру</div>
+      <div class="a-p">Телефон нөміріңізді енгізіңіз</div>
+      <div class="mb14">
+        <label class="lbl">Телефон нөмірі</label>
+        <div class="ph-w"><span class="ph-p">+7</span>
+          <input class="inp" type="tel" id="ph" placeholder="700 000 00 00" maxlength="10" inputmode="numeric">
+        </div>
+      </div>
+      <button class="btn-p" onclick="doSMS()">SMS код жіберу</button>
+      <div id="recaptcha-container"></div>
+      <div class="or-r"><div class="or-l"></div><span class="or-t">немесе</span><div class="or-l"></div></div>
+      <button class="btn-w" onclick="sv('v-em')">✉️ &nbsp;Email арқылы кіру</button>
+      <button class="btn-w" style="margin-top:10px" onclick="doGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.34-8.16 2.34-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Google арқылы кіру
+      </button>
+      <div class="a-sw">Аккаунт жоқ па? <a onclick="sv('v-reg')">Тіркелу</a></div>
+    </div>
+    <div id="v-otp" style="display:none">
+      <div class="a-h2">Код енгізу 🔐</div>
+      <div class="a-p">+7 <strong id="ph-s"></strong> нөміріне SMS жіберілді</div>
+      <div class="demo-box">⚡ Демо режим — кез келген 4 сан енгізіңіз</div>
+      <div class="otp-r">
+        <input class="otp-b" maxlength="1" id="o1" oninput="onxt(this,'o2')" inputmode="numeric">
+        <input class="otp-b" maxlength="1" id="o2" oninput="onxt(this,'o3')" inputmode="numeric">
+        <input class="otp-b" maxlength="1" id="o3" oninput="onxt(this,'o4')" inputmode="numeric">
+        <input class="otp-b" maxlength="1" id="o4" oninput="onxt(this,null)" inputmode="numeric">
+      </div>
+      <button class="btn-p" onclick="doVerify()">Растау</button>
+      <div class="back-a" onclick="sv('v-ph')">← Артқа қайту</div>
+    </div>
+    <div id="v-em" style="display:none">
+      <div class="a-h2">Email кіру ✉️</div>
+      <div class="a-p">Email мен парольді енгізіңіз</div>
+      <div class="mb14"><label class="lbl">Email</label><input class="inp" type="email" id="em-email" placeholder="example@mail.com"></div>
+      <div class="mb14"><label class="lbl">Пароль</label><input class="inp" type="password" id="em-pass" placeholder="••••••••"></div>
+      <button class="btn-p" onclick="doEmail()">Кіру</button>
+      <div class="back-a" onclick="sv('v-ph')">← Артқа</div>
+    </div>
+    <div id="v-google" style="display:none">
+      <div class="a-h2">Google арқылы кіру</div>
+      <div class="a-p">Google аккаунтыңызды таңдаңыз</div>
+      <div style="background:#F8F9FF;border-radius:14px;padding:14px;margin-bottom:14px;border:2px solid var(--br);cursor:pointer;display:flex;align-items:center;gap:12px" onclick="enterApp()">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0">G</div>
+        <div><div style="font-weight:700;font-size:.88rem">Google аккаунтымен жалғастыру</div><div style="font-size:.75rem;color:var(--mu)">yourname@gmail.com</div></div>
+        <div style="margin-left:auto;color:#C8CFE0">›</div>
+      </div>
+      <div class="demo-box">⚡ Демо режим — жоғарыдағы аккаунтты басыңыз</div>
+      <div class="back-a" onclick="sv('v-ph')">← Артқа</div>
+    </div>
+    <div id="v-reg" style="display:none">
+      <div class="a-h2">Тіркелу 📝</div>
+      <div class="a-p">Жаңа аккаунт жасаңыз</div>
+      <div class="mb14"><label class="lbl">Аты-жөні</label><input class="inp" type="text" placeholder="Аты Жөні"></div>
+      <div class="mb14"><label class="lbl">Email</label><input class="inp" type="email" id="reg-email" placeholder="example@mail.com"></div>
+      <div class="mb14">
+        <label class="lbl">Телефон нөмірі</label>
+        <div class="ph-w"><span class="ph-p">+7</span><input class="inp" type="tel" placeholder="700 000 00 00" maxlength="10" inputmode="numeric"></div>
+      </div>
+      <div class="mb14"><label class="lbl">Пароль</label><input class="inp" type="password" id="reg-pass" placeholder="Кем дегенде 8 символ"></div>
+      <button class="btn-p" onclick="doRegister()">Тіркелу</button>
+      <div class="or-r"><div class="or-l"></div><span class="or-t">немесе</span><div class="or-l"></div></div>
+      <button class="btn-w" onclick="doGoogle()">
+        <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.34-8.16 2.34-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Google арқылы тіркелу
+      </button>
+      <div class="a-sw">Аккаунт бар ма? <a onclick="sv('v-ph')">Кіру</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="t-logo">Strix.kz</div>
+    <div class="t-r">
+      <div class="t-ic">🔍</div>
+      <div class="t-av">АС</div>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="pg on" id="pg-home">
+    <div class="hero">
+      <div class="h-tag">✨ 2025 жылы ҰБТ</div>
+      <div class="h-t">Мамандық таңда,<br>ЖОО-ны тап,<br>Грантты жеңіп ал!</div>
+      <button class="h-btn" onclick="nav('pg-grant','n-grant')">Грантты есепте →</button>
+    </div>
+    <div class="sec">Сервистер</div>
+    <div class="q-grid">
+      <div class="q-c" onclick="nav('pg-specs','n-specs')"><div class="q-ic">🎓</div><div class="q-t">Мамандықтар</div><div class="q-s">Барлық бағыттар</div><div class="q-cnt">→ 600+ мамандық</div></div>
+      <div class="q-c" onclick="nav('pg-unis','n-unis')"><div class="q-ic">🏛️</div><div class="q-t">ЖОО-лар</div><div class="q-s">Университеттер</div><div class="q-cnt">→ 130+ ЖОО</div></div>
+      <div class="q-c" onclick="nav('pg-grant','n-grant')"><div class="q-ic">📊</div><div class="q-t">Грант есептеу</div><div class="q-s">Балыңды енгіз</div><div class="q-cnt">→ Нәтижені біл</div></div>
+      <div class="q-c" onclick="toast('Профориентация жақында!')"><div class="q-ic">🧭</div><div class="q-t">Профориентация</div><div class="q-s">Мамандық тест</div><div class="q-cnt">→ Жақында</div></div>
+    </div>
+    <div class="live"><div class="ld"></div> Деректер жаңартылып тұрады</div>
+    <div class="footer">© 2026 <strong>Strix.kz</strong> — Барлық құқықтар қорғалған &nbsp;|&nbsp; Жасаған: <a href="#">Rake / Strix.kz</a></div>
+  </div>
+
+  <!-- МАМАНДЫҚТАР -->
+  <div class="pg" id="pg-specs">
+    <div class="s-bar-inp"><span>🔍</span><input type="text" placeholder="Мамандық немесе код іздеу..." oninput="rSpecs(this.value)" id="ss"></div>
+    <div class="frow" id="sf">
+      <div class="fp on" onclick="sflt('',this)">Барлығы</div>
+      <div class="fp" onclick="sflt('Биология — География',this)">Биология — География</div>
+      <div class="fp" onclick="sflt('Математика — Физика',this)">Математика — Физика</div>
+      <div class="fp" onclick="sflt('Химия — Биология',this)">Химия — Биология</div>
+      <div class="fp" onclick="sflt('Қазақ тілі — Тарих',this)">Қазақ тілі — Тарих</div>
+      <div class="fp" onclick="sflt('Орыс тілі — Дүниежүзілік тарих',this)">Орыс тілі — Тарих</div>
+      <div class="fp" onclick="sflt('Шығармашылық',this)">Шығармашылық</div>
+      <div class="fp" onclick="sflt('Математика — Информатика',this)">Мат — Информатика</div>
+      <div class="fp" onclick="sflt('Физика — Математика',this)">Физика — Мат</div>
+      <div class="fp" onclick="sflt('География — Тарих',this)">География — Тарих</div>
+    </div>
+    <div class="sp-list" id="sp-list"></div>
+  </div>
+
+  <!-- ЖОО -->
+  <div class="pg" id="pg-unis">
+    <div class="s-bar-inp"><span>🔍</span><input type="text" placeholder="ЖОО іздеу..." oninput="rUnis(this.value)"></div>
+    <div class="frow" id="uf">
+      <div class="fp on" onclick="uflt('',this)">Барлығы</div>
+      <div class="fp" onclick="uflt('Алматы',this)">Алматы</div>
+      <div class="fp" onclick="uflt('Астана',this)">Астана</div>
+      <div class="fp" onclick="uflt('Шымкент',this)">Шымкент</div>
+      <div class="fp" onclick="uflt('Қарағанды',this)">Қарағанды</div>
+      <div class="fp" onclick="uflt('Орал',this)">Орал</div>
+      <div class="fp" onclick="uflt('Семей',this)">Семей</div>
+      <div class="fp" onclick="uflt('Өскемен',this)">Өскемен</div>
+      <div class="fp" onclick="uflt('Ақтөбе',this)">Ақтөбе</div>
+      <div class="fp" onclick="uflt('Ақтау',this)">Ақтау</div>
+      <div class="fp" onclick="uflt('Атырау',this)">Атырау</div>
+      <div class="fp" onclick="uflt('Павлодар',this)">Павлодар</div>
+      <div class="fp" onclick="uflt('Қостанай',this)">Қостанай</div>
+      <div class="fp" onclick="uflt('Кокшетау',this)">Көкшетау</div>
+      <div class="fp" onclick="uflt('Түркістан',this)">Түркістан</div>
+      <div class="fp" onclick="uflt('Тараз',this)">Тараз</div>
+      <div class="fp" onclick="uflt('Қызылорда',this)">Қызылорда</div>
+      <div class="fp" onclick="uflt('Петропавл',this)">Петропавл</div>
+      <div class="fp" onclick="uflt('Талдықорған',this)">Талдықорған</div>
+    </div>
+    <div id="u-list"></div>
+  </div>
+
+  <!-- ГРАНТ -->
+  <div class="pg" id="pg-grant">
+    <div class="sec">📊 Грантқа түсу мүмкіндігі</div>
+    <div class="sec-s">Балыңды енгізіп, қай университетке грантпен түсе алатыныңды біл</div>
+    <div class="gr-card">
+      <div class="gr-ttl">🔍 Параметрлерді таңда</div>
+      <label class="g-lbl">Бейінді пән комбинациясы</label>
+      <select class="g-sel" id="g-subj" onchange="updSpecSel()">
+        <option value="">— Пән комбинациясын таңдаңыз —</option>
+        <option>Биология — География</option>
+        <option>Математика — Физика</option>
+        <option>Химия — Биология</option>
+        <option>Қазақ тілі — Тарих</option>
+        <option>Орыс тілі — Дүниежүзілік тарих</option>
+        <option>Шығармашылық</option>
+        <option>Математика — Информатика</option>
+        <option>Физика — Математика</option>
+        <option>География — Тарих</option>
+        <option>Биология — Химия</option>
+        <option>Математика — Химия</option>
+        <option>Қазақ тілі — Орыс тілі</option>
+      </select>
+      <label class="g-lbl">Мамандық</label>
+      <select class="g-sel" id="g-spec"><option value="">— Алдымен пән таңдаңыз —</option></select>
+      <div class="sc-box">
+        <div class="sc-top"><span class="sc-lbl">ҰБТ балы</span><span class="sc-num" id="sc-n">100</span></div>
+        <input type="range" min="50" max="140" value="100" id="sc-r" oninput="document.getElementById('sc-n').textContent=this.value">
+        <div class="sc-marks"><span>50</span><span>70</span><span>90</span><span>110</span><span>130</span><span>140</span></div>
+      </div>
+      <label class="g-lbl">Квота түрі</label>
+      <div class="chk-grid">
+        <div class="chk-row" onclick="tChk(this)"><div class="chk-l"><div class="chk-b">✓</div>Ауылдық квота</div><div class="chk-q">?</div></div>
+        <div class="chk-row" onclick="tChk(this)"><div class="chk-l"><div class="chk-b">✓</div>Көпбалалы отбасы</div><div class="chk-q">?</div></div>
+        <div class="chk-row" onclick="tChk(this)"><div class="chk-l"><div class="chk-b on">✓</div>Толық емес отбасы</div><div class="chk-q">?</div></div>
+        <div class="chk-row" onclick="tChk(this)"><div class="chk-l"><div class="chk-b">✓</div>Серпін бағдарламасы</div><div class="chk-q">?</div></div>
+        <div class="chk-row" onclick="tChk(this)"><div class="chk-l"><div class="chk-b">✓</div>Мүгедектігі бар адамдар</div><div class="chk-q">?</div></div>
+        <div class="chk-row" onclick="tChk(this)"><div class="chk-l"><div class="chk-b">✓</div>Мүгедектігі бар отбасынан</div><div class="chk-q">?</div></div>
+        <div class="chk-row" onclick="tChk(this)"><div class="chk-l"><div class="chk-b">✓</div>Жетім балалар</div><div class="chk-q">?</div></div>
+      </div>
+      <button class="btn-calc" onclick="calcGrant()">Мүмкіндікті анықтау</button>
+    </div>
+    <div class="gr-res" id="gr-res" style="display:none">
+      <div class="gr-res-t">🎯 Сіздің мүмкіндіктеріңіз</div>
+      <div class="cnt-box"><span class="cnt-t">Осы мамандыққа түсуге болатын университеттер: <strong id="u-cnt">0</strong></span><span>∨</span></div>
+      <div id="res-list"></div>
+    </div>
+  </div>
+
+  <div class="bnav">
+    <div class="bn on" id="n-home" onclick="nav('pg-home','n-home')"><div class="bn-ic">🏠</div><span>Басты</span><div class="bn-dot"></div></div>
+    <div class="bn" id="n-specs" onclick="nav('pg-specs','n-specs')"><div class="bn-ic">🎓</div><span>Мамандықтар</span><div class="bn-dot"></div></div>
+    <div class="bn" id="n-unis" onclick="nav('pg-unis','n-unis')"><div class="bn-ic">🏛️</div><span>ЖОО-лар</span><div class="bn-dot"></div></div>
+    <div class="bn" id="n-grant" onclick="nav('pg-grant','n-grant')"><div class="bn-ic">📊</div><span>Грант</span><div class="bn-dot"></div></div>
+    <div class="bn" id="n-ai" onclick="nav('pg-ai','n-ai')"><div class="bn-ic">🤖</div><span>AI</span><div class="bn-dot"></div></div>
+  </div>
+
+  <!-- AI ЧАТ БЕТІ -->
+  <div class="pg" id="pg-ai" style="display:none;padding-bottom:80px">
+    <div class="sec">🤖 AI Көмекші</div>
+    <div class="sec-s">Сұрағыңызды жазыңыз немесе сурет жіберіңіз — AI жауап береді</div>
+
+    <div id="ai-messages" style="padding:0 16px;display:flex;flex-direction:column;gap:12px;min-height:300px"></div>
+
+    <div style="position:fixed;bottom:60px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--br);padding:10px 14px;display:flex;gap:8px;align-items:flex-end">
+      <label for="ai-img" style="cursor:pointer;font-size:1.4rem;padding:8px">📷</label>
+      <input type="file" id="ai-img" accept="image/*" style="display:none" onchange="previewImg(this)">
+      <div style="flex:1">
+        <div id="img-preview" style="display:none;margin-bottom:6px"><img id="prev-img" style="height:60px;border-radius:8px;object-fit:cover"><span onclick="clearImg()" style="cursor:pointer;margin-left:6px;color:var(--rd)">✕</span></div>
+        <textarea id="ai-inp" placeholder="Сұрақ жазыңыз..." style="width:100%;border:2px solid var(--br);border-radius:12px;padding:10px 13px;font-family:'Inter',sans-serif;font-size:.88rem;resize:none;outline:none;max-height:100px;overflow-y:auto" rows="1" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAI()}"></textarea>
+      </div>
+      <button onclick="sendAI()" style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:12px;padding:11px 16px;font-size:1rem;cursor:pointer">➤</button>
+    </div>
+  </div>
+</div>
+
+<div id="sp-det">
+  <div class="sd-top">
+    <div class="sd-bk" onclick="document.getElementById('sp-det').style.display='none'">←</div>
+    <div class="sd-code" id="d-code">B001</div>
+    <div class="sd-nm" id="d-name"></div>
+    <div class="sd-sj" id="d-subj"></div>
+  </div>
+  <div class="sd-body">
+    <div class="sd-st-r">
+      <div class="sd-st"><strong id="d-unis">0</strong><span>ЖОО</span></div>
+      <div class="sd-st"><strong id="d-min">0</strong><span>Мин. балл</span></div>
+      <div class="sd-st"><strong id="d-gr">0</strong><span>Грант</span></div>
+    </div>
+    <div class="sd-ttl">Осы мамандыққа байланысты ЖОО-лар</div>
+    <div id="d-ul"></div>
+  </div>
+</div>
+
+<div class="toast" id="t-el"><span id="t-msg"></span></div>
+
+<script>
+// ═══════════════════ МАМАНДЫҚТАР ═══════════════════
+const SPECS = [
+  // Биология — География (B001–B009, B054–B058)
+  {code:'B001',name:'Педагогика және психология',subj:'Биология — География',unis:35,min:76,grants:120},
+  {code:'B002',name:'Мектепке дейінгі оқыту және тәрбиелеу',subj:'Биология — География',unis:31,min:72,grants:95},
+  {code:'B003',name:'Бастауышта оқыту педагогикасы мен әдістемесі',subj:'Биология — География',unis:35,min:74,grants:110},
+  {code:'B054',name:'География',subj:'Биология — География',unis:28,min:74,grants:80},
+  {code:'B055',name:'Геология және жер қойнауын пайдалану',subj:'Биология — География',unis:18,min:78,grants:60},
+  {code:'B056',name:'Экология және табиғатты пайдалану',subj:'Биология — География',unis:22,min:76,grants:70},
+  {code:'B057',name:'Биогеография',subj:'Биология — География',unis:15,min:75,grants:55},
+  {code:'B058',name:'Туризм',subj:'Биология — География',unis:32,min:72,grants:90},
+  {code:'B059',name:'Жер кадастрі',subj:'Биология — География',unis:16,min:74,grants:55},
+  // Математика — Физика
+  {code:'B050',name:'Математика',subj:'Математика — Физика',unis:42,min:82,grants:150},
+  {code:'B051',name:'Физика',subj:'Математика — Физика',unis:38,min:84,grants:130},
+  {code:'B065',name:'Математика және информатика мұғалімі',subj:'Математика — Физика',unis:36,min:80,grants:140},
+  {code:'B070',name:'Автоматтандыру және басқару',subj:'Математика — Физика',unis:30,min:86,grants:120},
+  {code:'B071',name:'Радиотехника, электроника және телекоммуникация',subj:'Математика — Физика',unis:25,min:84,grants:100},
+  {code:'B073a',name:'Кәсіптік оқыту (физика-математика)',subj:'Математика — Физика',unis:20,min:74,grants:65},
+  {code:'B074a',name:'Энергетика',subj:'Математика — Физика',unis:28,min:82,grants:110},
+  {code:'B075a',name:'Электроэнергетика',subj:'Математика — Физика',unis:26,min:82,grants:105},
+  {code:'B076a',name:'Метрология, стандарттау және сертификаттау',subj:'Математика — Физика',unis:18,min:80,grants:70},
+  {code:'B094',name:'Экономика',subj:'Математика — Физика',unis:60,min:86,grants:280},
+  {code:'B095',name:'Қаржы',subj:'Математика — Физика',unis:48,min:88,grants:220},
+  {code:'B096',name:'Менеджмент',subj:'Математика — Физика',unis:55,min:82,grants:200},
+  {code:'B097',name:'Маркетинг',subj:'Математика — Физика',unis:40,min:82,grants:170},
+  {code:'B098',name:'Есеп және аудит',subj:'Математика — Физика',unis:45,min:80,grants:190},
+  {code:'B099',name:'Логистика',subj:'Математика — Физика',unis:30,min:80,grants:130},
+  {code:'B110',name:'Өнеркәсіптік инженерия',subj:'Математика — Физика',unis:22,min:84,grants:90},
+  {code:'B111',name:'Машина жасау',subj:'Математика — Физика',unis:20,min:82,grants:85},
+  {code:'B112',name:'Материалтану және жаңа материалдар технологиясы',subj:'Математика — Физика',unis:15,min:80,grants:60},
+  {code:'B113',name:'Аэроғарыш техникасы',subj:'Математика — Физика',unis:8,min:90,grants:50},
+  {code:'B114',name:'Кен ісі',subj:'Математика — Физика',unis:14,min:78,grants:65},
+  {code:'B115',name:'Мұнай-газ ісі',subj:'Математика — Физика',unis:18,min:84,grants:90},
+  // Химия — Биология
+  {code:'B052',name:'Химия',subj:'Химия — Биология',unis:30,min:80,grants:90},
+  {code:'B053',name:'Биология',subj:'Химия — Биология',unis:35,min:78,grants:110},
+  {code:'B080',name:'Медицина (жалпы медицина)',subj:'Химия — Биология',unis:18,min:110,grants:350},
+  {code:'B081',name:'Стоматология',subj:'Химия — Биология',unis:14,min:108,grants:180},
+  {code:'B082',name:'Мейіргерлік іс',subj:'Химия — Биология',unis:22,min:80,grants:150},
+  {code:'B083',name:'Фармация',subj:'Химия — Биология',unis:16,min:100,grants:200},
+  {code:'B084',name:'Қоғамдық денсаулық сақтау',subj:'Химия — Биология',unis:12,min:95,grants:120},
+  {code:'B085',name:'Биотехнология',subj:'Химия — Биология',unis:20,min:86,grants:90},
+  {code:'B086',name:'Химиялық технология және өндіріс',subj:'Химия — Биология',unis:22,min:82,grants:85},
+  {code:'B087',name:'Тамақ өнімдерінің технологиясы',subj:'Химия — Биология',unis:24,min:78,grants:80},
+  {code:'B088',name:'Ветеринария',subj:'Химия — Биология',unis:16,min:84,grants:100},
+  {code:'B089',name:'Агрономия',subj:'Химия — Биология',unis:18,min:76,grants:85},
+  {code:'B089b',name:'Зоотехния',subj:'Химия — Биология',unis:14,min:74,grants:70},
+  // Қазақ тілі — Тарих
+  {code:'B060',name:'Қазақ тілі мен әдебиеті',subj:'Қазақ тілі — Тарих',unis:48,min:76,grants:180},
+  {code:'B062',name:'Тарих',subj:'Қазақ тілі — Тарих',unis:40,min:75,grants:140},
+  {code:'B090',name:'Құқықтану',subj:'Қазақ тілі — Тарих',unis:55,min:88,grants:250},
+  {code:'B091',name:'Халықаралық қатынастар',subj:'Қазақ тілі — Тарих',unis:22,min:95,grants:180},
+  {code:'B092',name:'Мемлекеттік және жергілікті басқару',subj:'Қазақ тілі — Тарих',unis:30,min:86,grants:160},
+  {code:'B093',name:'Саясаттану',subj:'Қазақ тілі — Тарих',unis:18,min:84,grants:100},
+  {code:'B120',name:'Журналистика (қазақ тілі)',subj:'Қазақ тілі — Тарих',unis:28,min:82,grants:120},
+  {code:'B121',name:'Баспа ісі және редакциялау',subj:'Қазақ тілі — Тарих',unis:16,min:78,grants:80},
+  {code:'B122',name:'Аударма ісі (қаз-орыс)',subj:'Қазақ тілі — Тарих',unis:30,min:84,grants:130},
+  {code:'B125',name:'Дінтану',subj:'Қазақ тілі — Тарих',unis:10,min:76,grants:50},
+  {code:'B126',name:'Философия',subj:'Қазақ тілі — Тарих',unis:15,min:78,grants:60},
+  {code:'B127',name:'Мәдениеттану',subj:'Қазақ тілі — Тарих',unis:18,min:76,grants:70},
+  {code:'B128',name:'Кітапханатану және ақпараттану',subj:'Қазақ тілі — Тарих',unis:14,min:72,grants:55},
+  // Орыс тілі — Дүниежүзілік тарих
+  {code:'B061',name:'Орыс тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:35,min:74,grants:120},
+  {code:'B063',name:'Дүниежүзілік тарих',subj:'Орыс тілі — Дүниежүзілік тарих',unis:20,min:74,grants:80},
+  {code:'B123',name:'Аударма ісі (шет тілдері)',subj:'Орыс тілі — Дүниежүзілік тарих',unis:35,min:86,grants:140},
+  {code:'B124',name:'Халықаралық журналистика',subj:'Орыс тілі — Дүниежүзілік тарих',unis:14,min:84,grants:70},
+  {code:'B130',name:'Ағылшын тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:30,min:85,grants:120},
+  {code:'B131',name:'Неміс тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:14,min:82,grants:60},
+  {code:'B132',name:'Француз тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:12,min:82,grants:50},
+  {code:'B133',name:'Қытай тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:10,min:84,grants:55},
+  // Шығармашылық
+  {code:'B004',name:'Бастапқы әскери дайындық мұғалімдерін даярлау',subj:'Шығармашылық',unis:17,min:68,grants:40},
+  {code:'B005',name:'Дене шынықтыру мұғалімдерін даярлау',subj:'Шығармашылық',unis:38,min:65,grants:85},
+  {code:'B006',name:'Музыка мұғалімдерін даярлау',subj:'Шығармашылық',unis:22,min:70,grants:60},
+  {code:'B007',name:'Бейнелеу өнері мұғалімдерін даярлау',subj:'Шығармашылық',unis:19,min:68,grants:55},
+  {code:'B100',name:'Архитектура',subj:'Шығармашылық',unis:25,min:85,grants:80},
+  {code:'B101',name:'Дизайн (өнеркәсіптік)',subj:'Шығармашылық',unis:20,min:82,grants:60},
+  {code:'B101b',name:'Дизайн (графикалық)',subj:'Шығармашылық',unis:18,min:80,grants:55},
+  {code:'B101c',name:'Дизайн (интерьер)',subj:'Шығармашылық',unis:16,min:80,grants:50},
+  {code:'B102',name:'Кескіндеме',subj:'Шығармашылық',unis:12,min:78,grants:35},
+  {code:'B103',name:'Мүсін өнері',subj:'Шығармашылық',unis:8,min:78,grants:25},
+  {code:'B103b',name:'Декоративтік-қолданбалы өнер',subj:'Шығармашылық',unis:14,min:76,grants:40},
+  {code:'B104',name:'Хореография',subj:'Шығармашылық',unis:10,min:70,grants:40},
+  {code:'B105',name:'Театр өнері (актер)',subj:'Шығармашылық',unis:8,min:72,grants:35},
+  {code:'B106',name:'Кино және теледидар режиссурасы',subj:'Шығармашылық',unis:6,min:80,grants:30},
+  {code:'B107',name:'Музыка өнері (орындаушылық)',subj:'Шығармашылық',unis:12,min:72,grants:45},
+  {code:'B108',name:'Цирк өнері',subj:'Шығармашылық',unis:4,min:68,grants:20},
+  {code:'B109',name:'Эстрада өнері',subj:'Шығармашылық',unis:6,min:68,grants:25},
+  // Математика — Информатика
+  {code:'B072',name:'Информатика',subj:'Математика — Информатика',unis:50,min:85,grants:200},
+  {code:'B072b',name:'Информатика мұғалімі',subj:'Математика — Информатика',unis:40,min:80,grants:160},
+  {code:'B073c',name:'Компьютерлік ғылымдар (Computer Science)',subj:'Математика — Информатика',unis:30,min:90,grants:180},
+  {code:'B074c',name:'Бағдарламалық инженерия',subj:'Математика — Информатика',unis:28,min:92,grants:170},
+  {code:'B075c',name:'Киберқауіпсіздік',subj:'Математика — Информатика',unis:20,min:90,grants:150},
+  {code:'B076c',name:'Деректер ғылымы (Data Science)',subj:'Математика — Информатика',unis:18,min:92,grants:140},
+  {code:'B077c',name:'Жасанды интеллект (AI)',subj:'Математика — Информатика',unis:16,min:95,grants:130},
+  {code:'B078c',name:'Ақпараттық жүйелер',subj:'Математика — Информатика',unis:40,min:84,grants:160},
+  {code:'B079c',name:'Ақпараттық қауіпсіздік',subj:'Математика — Информатика',unis:22,min:88,grants:130},
+  {code:'B079d',name:'Есептеу техникасы және бағдарламалық қамтамасыз ету',subj:'Математика — Информатика',unis:35,min:86,grants:155},
+  // Физика — Математика
+  {code:'B068',name:'Физика-математика мұғалімі',subj:'Физика — Математика',unis:32,min:80,grants:120},
+  {code:'B068b',name:'Теориялық физика',subj:'Физика — Математика',unis:15,min:86,grants:80},
+  {code:'B068c',name:'Ядролық физика',subj:'Физика — Математика',unis:8,min:90,grants:60},
+  {code:'B068d',name:'Квант физикасы',subj:'Физика — Математика',unis:6,min:92,grants:50},
+  // География — Тарих
+  {code:'B064',name:'География және тарих мұғалімі',subj:'География — Тарих',unis:30,min:73,grants:100},
+  {code:'B064b',name:'Туризм және өлкетану',subj:'География — Тарих',unis:22,min:72,grants:80},
+  {code:'B064c',name:'Геоэкология',subj:'География — Тарих',unis:14,min:74,grants:55},
+];
+
+// ═══════════════════ ЖОО-ЛАР ═══════════════════
+const UNIS = [
+  // Алматы
+  {id:'001',short:'ҚазҰУ',name:'Әл-Фараби атындағы Қазақ ұлттық университеті',city:'Алматы',c1:'4B5EFF',c2:'6C63FF',specs:155,students:25000,min:88},
+  {id:'002',short:'ҚазҰПУ',name:'Абай атындағы Қазақ ұлттық педагогикалық университеті',city:'Алматы',c1:'059669',c2:'10b981',specs:120,students:18000,min:76},
+  {id:'003',short:'ҚазҰТЗУ',name:'Сәтбаев атындағы Қазақ ұлттық техникалық зерттеу университеті',city:'Алматы',c1:'b45309',c2:'f59e0b',specs:90,students:14000,min:84},
+  {id:'004',short:'ҚАЗГАСА',name:'Қазақстан сәулет-құрылыс академиясы',city:'Алматы',c1:'c2410c',c2:'fb923c',specs:20,students:4000,min:90},
+  {id:'005',short:'КБТУ',name:'Қазақ-Британ техникалық университеті',city:'Алматы',c1:'0f172a',c2:'334155',specs:30,students:5000,min:95},
+  {id:'006',short:'КИМЭП',name:'КИМЭП Университеті',city:'Алматы',c1:'1e3a5f',c2:'2563eb',specs:15,students:3500,min:100},
+  {id:'007',short:'AlmaU',name:'Алматы менеджмент университеті',city:'Алматы',c1:'7c3aed',c2:'a78bfa',specs:25,students:6000,min:86},
+  {id:'008',short:'АҚМедУни',name:'Жаңашыл медицина университеті',city:'Алматы',c1:'be123c',c2:'f43f5e',specs:8,students:3000,min:105},
+  {id:'009',short:'ҚазЭУ',name:'Т.Рысқұлов атындағы Қазақ экономикалық университеті',city:'Алматы',c1:'1d4ed8',c2:'60a5fa',specs:40,students:12000,min:84},
+  {id:'009b',short:'Narxoz',name:'Нархоз университеті',city:'Алматы',c1:'064e3b',c2:'16a34a',specs:30,students:8000,min:84},
+  {id:'009c',short:'МУИТ',name:'Халықаралық ақпараттық технологиялар университеті',city:'Алматы',c1:'312e81',c2:'6366f1',specs:20,students:5000,min:90},
+  {id:'009d',short:'АФК',name:'Алматы фармация колледжі (Фармация)',city:'Алматы',c1:'166534',c2:'4ade80',specs:5,students:2000,min:88},
+  // Астана
+  {id:'010',short:'ЕҰУ',name:'Л.Н.Гумилев атындағы Еуразия ұлттық университеті',city:'Астана',c1:'4c1d95',c2:'7c3aed',specs:140,students:20000,min:85},
+  {id:'011',short:'NU',name:'Назарбаев Университеті',city:'Астана',c1:'0f172a',c2:'1d4ed8',specs:50,students:7000,min:120},
+  {id:'012',short:'АстМедУни',name:'Астана медицина университеті',city:'Астана',c1:'991b1b',c2:'dc2626',specs:10,students:5000,min:108},
+  {id:'013',short:'КАЗГЮУ',name:'КАЗГЮУ Нур-Мүбарак университеті',city:'Астана',c1:'064e3b',c2:'059669',specs:20,students:8000,min:88},
+  {id:'014',short:'AITU',name:'Astana IT University',city:'Астана',c1:'1e40af',c2:'3b82f6',specs:15,students:4000,min:95},
+  {id:'015',short:'ҚарМУ',name:'Қарағанды медицина университеті (Астана қ.)',city:'Астана',c1:'78350f',c2:'d97706',specs:8,students:4500,min:106},
+  {id:'015b',short:'ҚазМУНАЙГАЗ',name:'Қазақ-Орыс халықаралық университеті',city:'Астана',c1:'1e3a5f',c2:'0ea5e9',specs:25,students:4000,min:82},
+  // Шымкент
+  {id:'020',short:'ОҚУ',name:'М.Әуезов атындағы Оңтүстік Қазақстан университеті',city:'Шымкент',c1:'0f766e',c2:'2dd4bf',specs:110,students:14000,min:73},
+  {id:'021',short:'ОҚМА',name:'Оңтүстік Қазақстан медицина академиясы',city:'Шымкент',c1:'7f1d1d',c2:'ef4444',specs:10,students:5500,min:104},
+  {id:'022',short:'ШПА',name:'Шымкент педагогика академиясы',city:'Шымкент',c1:'166534',c2:'22c55e',specs:45,students:6000,min:68},
+  {id:'023',short:'ИнноваШым',name:'Шымкент инновациялық-технологиялық университеті',city:'Шымкент',c1:'5b21b6',c2:'8b5cf6',specs:30,students:4000,min:72},
+  // Қарағанды
+  {id:'030',short:'КарБУ',name:'Е.Букетов атындағы Қарағанды университеті',city:'Қарағанды',c1:'d97706',c2:'fbbf24',specs:100,students:12000,min:75},
+  {id:'031',short:'КарТУ',name:'Абылқас Сағынов атындағы Қарағанды техникалық университеті',city:'Қарағанды',c1:'92400e',c2:'f97316',specs:60,students:8000,min:78},
+  {id:'032',short:'КарМедУни',name:'Қарағанды медицина университеті',city:'Қарағанды',c1:'881337',c2:'e11d48',specs:8,students:4000,min:104},
+  {id:'033',short:'КарЭУ',name:'Болашақ Қарағанды университеті',city:'Қарағанды',c1:'1a4731',c2:'16a34a',specs:40,students:5000,min:70},
+  // Орал
+  {id:'040',short:'БҚМУ',name:'М.Өтемісов атындағы Батыс Қазақстан университеті',city:'Орал',c1:'be185d',c2:'f472b6',specs:80,students:8500,min:68},
+  {id:'041',short:'БҚИТУ',name:'Батыс Қазақстан инновациялық-технологиялық университеті',city:'Орал',c1:'5b21b6',c2:'8b5cf6',specs:40,students:4000,min:70},
+  {id:'042',short:'БҚММА',name:'Батыс Қазақстан медицина академиясы',city:'Орал',c1:'9f1239',c2:'f43f5e',specs:6,students:2500,min:102},
+  // Семей
+  {id:'050',short:'ШУ',name:'Шәкәрім атындағы Семей университеті',city:'Семей',c1:'6d28d9',c2:'8b5cf6',specs:70,students:9000,min:70},
+  {id:'051',short:'СемМедУни',name:'Семей медицина университеті',city:'Семей',c1:'9f1239',c2:'f43f5e',specs:6,students:3500,min:104},
+  // Өскемен
+  {id:'060',short:'ШҚУ',name:'С.Аманжолов атындағы Шығыс Қазақстан университеті',city:'Өскемен',c1:'155e75',c2:'22d3ee',specs:75,students:8000,min:69},
+  {id:'061',short:'ШҚТУ',name:'Шығыс Қазақстан техникалық университеті',city:'Өскемен',c1:'1c4966',c2:'0ea5e9',specs:50,students:6000,min:72},
+  // Ақтөбе
+  {id:'070',short:'АӨУ',name:'Қ.Жұбанов атындағы Ақтөбе өңірлік университеті',city:'Ақтөбе',c1:'1d4ed8',c2:'60a5fa',specs:65,students:7500,min:68},
+  {id:'071',short:'АИТУ',name:'Ақтөбе инновациялық-технологиялық университеті',city:'Ақтөбе',c1:'312e81',c2:'6366f1',specs:30,students:3000,min:66},
+  // Ақтау
+  {id:'080',short:'КТУ',name:'Ш.Есенов атындағы Каспий технологиялар университеті',city:'Ақтау',c1:'065f46',c2:'34d399',specs:55,students:6000,min:70},
+  // Атырау
+  {id:'090',short:'АтУ',name:'Х.Досмұхамедов атындағы Атырау университеті',city:'Атырау',c1:'713f12',c2:'ca8a04',specs:55,students:6500,min:68},
+  {id:'091',short:'АИМУ',name:'Атырау инженерлік-гуманитарлық университеті',city:'Атырау',c1:'3b0764',c2:'7e22ce',specs:30,students:3000,min:66},
+  // Павлодар
+  {id:'100',short:'ПМУ',name:'С.Торайғыров атындағы Павлодар педагогикалық университеті',city:'Павлодар',c1:'134e4a',c2:'0d9488',specs:60,students:7000,min:68},
+  {id:'101',short:'ИННОПУ',name:'Павлодар мемлекеттік педагогикалық университеті',city:'Павлодар',c1:'064e3b',c2:'10b981',specs:45,students:5000,min:66},
+  // Қостанай
+  {id:'110',short:'ҚРУ',name:'А.Байтұрсынов атындағы Қостанай өңірлік университеті',city:'Қостанай',c1:'1e3a5f',c2:'2563eb',specs:58,students:6500,min:67},
+  // Кокшетау
+  {id:'120',short:'КУ',name:'Ш.Уәлиханов атындағы Кокшетау университеті',city:'Кокшетау',c1:'064e3b',c2:'16a34a',specs:55,students:6000,min:67},
+  {id:'121',short:'ҚАУ',name:'Көкшетау гуманитарлық-техникалық университеті',city:'Кокшетау',c1:'1a4731',c2:'4ade80',specs:30,students:3500,min:65},
+  // Түркістан
+  {id:'130',short:'ХАКУ',name:'Ахмет Яссауи атындағы халықаралық университет',city:'Түркістан',c1:'dc2626',c2:'f87171',specs:120,students:15000,min:72},
+  {id:'131',short:'ОҚПУ',name:'Оңтүстік Қазақстан педагогикалық университеті',city:'Түркістан',c1:'15803d',c2:'4ade80',specs:50,students:5000,min:66},
+  // Тараз
+  {id:'140',short:'ТарДУ',name:'Дулати атындағы Тараз өңірлік университеті',city:'Тараз',c1:'5b21b6',c2:'a855f7',specs:58,students:6800,min:67},
+  // Талдықорған
+  {id:'150',short:'ЖУ',name:'Жансүгіров атындағы Жетісу университеті',city:'Талдықорған',c1:'92400e',c2:'fcd34d',specs:60,students:6500,min:66},
+  // Қызылорда
+  {id:'160',short:'ҚМУ',name:'Қорқыт Ата атындағы Қызылорда университеті',city:'Қызылорда',c1:'1a4731',c2:'16a34a',specs:55,students:6200,min:66},
+  // Петропавл
+  {id:'170',short:'СҚМУ',name:'М.Қозыбаев атындағы Солтүстік Қазақстан университеті',city:'Петропавл',c1:'1e3a5f',c2:'0ea5e9',specs:55,students:5800,min:66},
+  // Жезқазған
+  {id:'180',short:'БЖУ',name:'Байқоңыр Жезқазған университеті',city:'Жезқазған',c1:'7c2d12',c2:'ea580c',specs:35,students:3500,min:65},
+  // Рудный
+  {id:'190',short:'РII',name:'Рудный индустриялық институты',city:'Рудный',c1:'1c3d5e',c2:'38bdf8',specs:30,students:3000,min:68},
+  // Арал
+  {id:'200',short:'АМУ',name:'Арал мемлекеттік университеті',city:'Арал',c1:'065f46',c2:'2dd4bf',specs:20,students:1800,min:62},
+  // Қаскелең
+  {id:'210',short:'АТУ',name:'Алматы технологиялық университеті',city:'Алматы',c1:'7c3aed',c2:'c084fc',specs:35,students:7000,min:80},
+];
+
+const subj2codes = {
+  'Биология — География':['B001','B002','B003','B054','B055','B056','B057','B058','B059'],
+  'Математика — Физика':['B050','B051','B065','B070','B071','B073a','B074a','B075a','B076a','B094','B095','B096','B097','B098','B099','B110','B111','B112','B113','B114','B115'],
+  'Химия — Биология':['B052','B053','B080','B081','B082','B083','B084','B085','B086','B087','B088','B089','B089b'],
+  'Қазақ тілі — Тарих':['B060','B062','B090','B091','B092','B093','B120','B121','B122','B125','B126','B127','B128'],
+  'Орыс тілі — Дүниежүзілік тарих':['B061','B063','B123','B124','B130','B131','B132','B133'],
+  'Шығармашылық':['B004','B005','B006','B007','B100','B101','B101b','B101c','B102','B103','B103b','B104','B105','B106','B107','B108','B109'],
+  'Математика — Информатика':['B072','B072b','B073c','B074c','B075c','B076c','B077c','B078c','B079c','B079d'],
+  'Физика — Математика':['B068','B068b','B068c','B068d'],
+  'География — Тарих':['B064','B064b','B064c'],
+};
+
+let sf='',uf='';
+
+function rSpecs(q=''){
+  const el=document.getElementById('sp-list');
+  const list=SPECS.filter(s=>
+    (!sf||s.subj===sf)&&
+    (!q||s.name.toLowerCase().includes(q.toLowerCase())||s.code.toLowerCase().includes(q.toLowerCase()))
+  );
+  if(!list.length){el.innerHTML='<div class="empty">Нәтиже табылмады 😔</div>';return;}
+  el.innerHTML=list.map(s=>`
+    <div class="sp-row" onclick="openSpec('${s.code}')">
+      <div class="sp-cd">${s.code}</div>
+      <div class="sp-i">
+        <div class="sp-nm">${s.name}</div>
+        <div class="sp-sj">${s.subj}</div>
+        <div class="sp-me">ЖОО: ${s.unis} &nbsp;·&nbsp; Мин.балл: ${s.min} &nbsp;·&nbsp; Грант: ${s.grants}</div>
+      </div>
+      <div class="sp-ar">›</div>
+    </div>`).join('');
+}
+
+function sflt(v,btn){
+  sf=v;
+  document.querySelectorAll('#sf .fp').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  rSpecs(document.getElementById('ss').value);
+}
+
+function openSpec(code){
+  const s=SPECS.find(x=>x.code===code);if(!s)return;
+  document.getElementById('d-code').textContent=s.code;
+  document.getElementById('d-name').textContent=s.name;
+  document.getElementById('d-subj').textContent=s.subj;
+  document.getElementById('d-unis').textContent=s.unis;
+  document.getElementById('d-min').textContent=s.min;
+  document.getElementById('d-gr').textContent=s.grants;
+  const ul=UNIS.filter(u=>u.min<=s.min+20).sort((a,b)=>b.min-a.min).slice(0,12);
+  document.getElementById('d-ul').innerHTML=ul.map(u=>`
+    <div class="ur">
+      <div><div class="ur-nm">${u.id} — ${u.short}</div><div class="ur-cy">📍 ${u.city}</div></div>
+      <div class="ur-sc"><strong>${u.min}</strong><span>мин.балл</span></div>
+    </div>`).join('');
+  document.getElementById('sp-det').style.display='block';
+  document.getElementById('sp-det').scrollTop=0;
+}
+
+function rUnis(q=''){
+  const el=document.getElementById('u-list');
+  const list=UNIS.filter(u=>
+    (!uf||u.city===uf)&&
+    (!q||u.name.toLowerCase().includes(q.toLowerCase())||u.short.toLowerCase().includes(q.toLowerCase()))
+  );
+  if(!list.length){el.innerHTML='<div class="empty">Нәтиже табылмады 😔</div>';return;}
+  el.innerHTML=list.map(u=>`
+    <div class="uni-card">
+      <div class="uc-top" style="background:linear-gradient(135deg,#${u.c1},#${u.c2})">
+        <div><div class="uc-sh">🏛️ ${u.short}</div><div class="uc-lo">${u.name}</div></div>
+      </div>
+      <div class="uc-body">
+        <div class="uc-city">📍 ${u.city}</div>
+        <div class="uc-sts">
+          <div class="uc-st"><strong>${u.specs}+</strong><span>Мамандық</span></div>
+          <div class="uc-st"><strong>${u.min}</strong><span>Мин.балл</span></div>
+          <div class="uc-st"><strong>${u.students.toLocaleString()}</strong><span>Студент</span></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function uflt(v,btn){
+  uf=v;
+  document.querySelectorAll('#uf .fp').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  rUnis();
+}
+
+function updSpecSel(){
+  const subj=document.getElementById('g-subj').value;
+  const sel=document.getElementById('g-spec');
+  if(!subj){sel.innerHTML='<option value="">— Алдымен пән таңдаңыз —</option>';return;}
+  const codes=subj2codes[subj]||[];
+  const list=SPECS.filter(s=>codes.includes(s.code));
+  sel.innerHTML='<option value="">— Мамандық таңдаңыз —</option>'+
+    list.map(s=>`<option value="${s.code}">${s.code} — ${s.name}</option>`).join('');
+}
+
+function tChk(row){row.querySelector('.chk-b').classList.toggle('on')}
+
+function calcGrant(){
+  const score=parseInt(document.getElementById('sc-r').value);
+  const specCode=document.getElementById('g-spec').value;
+  const qCount=document.querySelectorAll('.chk-b.on').length;
+  const bonus=qCount*5;
+  const eff=score+bonus;
+  const eligible=UNIS.filter(u=>eff>=u.min).sort((a,b)=>b.min-a.min);
+  document.getElementById('u-cnt').textContent=eligible.length;
+  const spec=SPECS.find(s=>s.code===specCode)||SPECS[0];
+  const qLabel=qCount>0?'Педагогикалық квота':'Жалпы конкурс';
+  document.getElementById('res-list').innerHTML=eligible.slice(0,12).map(u=>{
+    const diff=eff-u.min;
+    let pct,cls;
+    if(diff>=25){pct=Math.min(96,68+Math.floor(diff*.6));cls='hi';}
+    else if(diff>=10){pct=Math.min(67,38+diff*2);cls='md';}
+    else{pct=Math.max(6,diff*4+6);cls='lo';}
+    return `<div class="res-card">
+      <div class="donut ${cls}">${pct}%</div>
+      <div class="rc">
+        <div class="rc-top"><span class="rc-code">${spec.code}</span><span class="rc-q">${qLabel}</span></div>
+        <div class="rc-nm">${spec.name}</div>
+        <div class="rc-u">${u.id} — ${u.short} · 📍 ${u.city}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('gr-res').style.display='block';
+  document.getElementById('gr-res').scrollIntoView({behavior:'smooth'});
+  toast(`${eligible.length} университет табылды! 🎯`);
+}
+
+function sv(id){
+  ['v-ph','v-otp','v-em','v-google','v-reg'].forEach(v=>document.getElementById(v).style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+// SMS арқылы кіру
+let confirmationResult=null;
+let recaptchaVerifier=null;
+
+function doSMS(){
+  const ph=document.getElementById('ph').value;
+  if(!ph||ph.length<10){toast('Нөмірді дұрыс енгізіңіз!');return;}
+  if(!recaptchaVerifier){
+    recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
+  }
+  const phone='+7'+ph;
+  toast('📱 SMS жіберілуде...');
+  auth.signInWithPhoneNumber(phone,recaptchaVerifier)
+    .then(result=>{
+      confirmationResult=result;
+      document.getElementById('ph-s').textContent=ph;
+      sv('v-otp');
+      document.getElementById('o1').focus();
+      toast('📱 SMS жіберілді!');
+    })
+    .catch(err=>{
+      toast('Қате: '+err.message);
+      recaptchaVerifier=null;
+    });
+}
+
+function doVerify(){
+  const c=['o1','o2','o3','o4','o5','o6'].map(i=>document.getElementById(i)?document.getElementById(i).value:'').join('');
+  const code=['o1','o2','o3','o4'].map(i=>document.getElementById(i).value).join('');
+  if(code.length<4){toast('4 санды толық енгізіңіз!');return;}
+  if(!confirmationResult){toast('Алдымен SMS жіберіңіз!');return;}
+  toast('Тексерілуде...');
+  confirmationResult.confirm(code)
+    .then(()=>enterApp())
+    .catch(()=>toast('Код қате! Қайта енгізіңіз.'));
+}
+
+// Google арқылы кіру
+function doGoogle(){
+  const provider=new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(()=>enterApp())
+    .catch(err=>toast('Google қате: '+err.message));
+}
+
+// Email арқылы кіру
+function doEmail(){
+  const email=document.getElementById('em-email').value;
+  const pass=document.getElementById('em-pass').value;
+  if(!email||!pass){toast('Email мен парольді енгізіңіз!');return;}
+  toast('Кірілуде...');
+  auth.signInWithEmailAndPassword(email,pass)
+    .then(()=>enterApp())
+    .catch(()=>{
+      auth.createUserWithEmailAndPassword(email,pass)
+        .then(()=>enterApp())
+        .catch(err=>toast('Қате: '+err.message));
+    });
+}
+
+// Тіркелу
+function doRegister(){
+  const email=document.getElementById('reg-email').value;
+  const pass=document.getElementById('reg-pass').value;
+  if(!email||!pass){toast('Барлық өрістерді толтырыңыз!');return;}
+  toast('Тіркелуде...');
+  auth.createUserWithEmailAndPassword(email,pass)
+    .then(()=>enterApp())
+    .catch(err=>toast('Қате: '+err.message));
+}
+function enterApp(){
+  document.getElementById('auth').style.display='none';
+  document.getElementById('app').style.display='block';
+  rSpecs();rUnis();
+  toast('Strix.kz-ге қош келдіңіз! 🎉');
+}
+
+// GEMINI AI
+const GEMINI_KEY='AIzaSyCkLkQvJ3XUDwgDPI3VwowMQKQpwVjCAXw';
+let aiHistory=[];
+let currentImgBase64=null;
+let currentImgType=null;
+
+function previewImg(input){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    currentImgBase64=e.target.result.split(',')[1];
+    currentImgType=file.type;
+    document.getElementById('prev-img').src=e.target.result;
+    document.getElementById('img-preview').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImg(){
+  currentImgBase64=null;
+  currentImgType=null;
+  document.getElementById('img-preview').style.display='none';
+  document.getElementById('ai-img').value='';
+}
+
+function addMsg(text,isUser){
+  const div=document.createElement('div');
+  div.style.cssText=`max-width:85%;padding:12px 15px;border-radius:${isUser?'18px 18px 4px 18px':'18px 18px 18px 4px'};background:${isUser?'linear-gradient(135deg,#4B5EFF,#7B6FFF)':'#F2F4FF'};color:${isUser?'#fff':'var(--tx)'};align-self:${isUser?'flex-end':'flex-start'};font-size:.88rem;line-height:1.55;white-space:pre-wrap`;
+  div.textContent=text;
+  document.getElementById('ai-messages').appendChild(div);
+  div.scrollIntoView({behavior:'smooth'});
+  return div;
+}
+
+async function sendAI(){
+  const inp=document.getElementById('ai-inp');
+  const text=inp.value.trim();
+  if(!text&&!currentImgBase64)return;
+
+  const userText=text||(currentImgBase64?'Суретті талда':'');
+  addMsg(userText,true);
+  inp.value='';
+  inp.style.height='auto';
+
+  const thinkDiv=addMsg('⏳ Жауап дайындалуда...',false);
+
+  // Gemini API-ге сұрау
+  const parts=[];
+  if(currentImgBase64){
+    parts.push({inlineData:{mimeType:currentImgType,data:currentImgBase64}});
+  }
+  if(text) parts.push({text});
+  if(!text&&currentImgBase64) parts.push({text:'Осы суретті қазақша түсіндір немесе сұраққа жауап бер.'});
+
+  clearImg();
+
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system_instruction:{parts:[{text:'Сен Strix.kz сайтының AI көмекшісісің. Қазақстан білім жүйесі, ҰБТ, мамандықтар, университеттер туралы сұрақтарға қазақша жауап бер. Сурет жіберілсе — суреттегі мәтінді оқып, сұрақтарға жауап бер.'}]},
+        contents:[...aiHistory,{role:'user',parts}]
+      })
+    });
+    const data=await res.json();
+    const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'Қате болды, қайта көріңіз.';
+    thinkDiv.textContent=reply;
+    aiHistory.push({role:'user',parts:[{text:userText}]});
+    aiHistory.push({role:'model',parts:[{text:reply}]});
+    if(aiHistory.length>20) aiHistory=aiHistory.slice(-20);
+  }catch(e){
+    thinkDiv.textContent='Интернет қосылымын тексеріңіз.';
+  }
+}
+function nav(pgId,navId){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.bn').forEach(n=>n.classList.remove('on'));
+  document.getElementById(pgId).classList.add('on');
+  if(navId)document.getElementById(navId).classList.add('on');
+  window.scrollTo(0,0);
+}
+function toast(msg){
+  const el=document.getElementById('t-el');
+  document.getElementById('t-msg').textContent=msg;
+  el.classList.add('on');
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('on'),2800);
+}
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('out');
+    setTimeout(()=>{document.getElementById('splash').style.display='none';document.getElementById('auth').style.display='block';},500);
+  },2300);
+});
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('ph').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,10);});
+});
+</script>
+</body>
+</html>
