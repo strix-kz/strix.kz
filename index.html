@@ -766,13 +766,27 @@ function sv(id){
 // SMS арқылы кіру
 let confirmationResult=null;
 let recaptchaVerifier=null;
+let recaptchaReady=false;
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('out');
+    setTimeout(()=>{
+      document.getElementById('splash').style.display='none';
+      document.getElementById('auth').style.display='block';
+      // reCAPTCHA бір рет жасалады
+      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{
+        size:'invisible',
+        callback:()=>{recaptchaReady=true;}
+      });
+      recaptchaVerifier.render();
+    },500);
+  },2300);
+});
 
 function doSMS(){
   const ph=document.getElementById('ph').value;
   if(!ph||ph.length<10){toast('Нөмірді дұрыс енгізіңіз!');return;}
-  if(!recaptchaVerifier){
-    recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
-  }
   const phone='+7'+ph;
   toast('📱 SMS жіберілуде...');
   auth.signInWithPhoneNumber(phone,recaptchaVerifier)
@@ -785,7 +799,7 @@ function doSMS(){
     })
     .catch(err=>{
       toast('Қате: '+err.message);
-      recaptchaVerifier=null;
+      recaptchaVerifier.render();
     });
 }
 
@@ -930,12 +944,6 @@ function toast(msg){
   clearTimeout(el._t);
   el._t=setTimeout(()=>el.classList.remove('on'),2800);
 }
-window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    document.getElementById('splash').classList.add('out');
-    setTimeout(()=>{document.getElementById('splash').style.display='none';document.getElementById('auth').style.display='block';},500);
-  },2300);
-});
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('ph').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,10);});
 });
