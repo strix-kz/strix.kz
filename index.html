@@ -768,13 +768,16 @@ window.addEventListener('load',()=>{
     document.getElementById('splash').classList.add('out');
     setTimeout(()=>{
       document.getElementById('splash').style.display='none';
-      document.getElementById('auth').style.display='block';
-      // reCAPTCHA бір рет жасалады
-      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{
-        size:'invisible',
-        callback:()=>{recaptchaReady=true;}
+      // Бұрын кірген болса автоматты кіреді
+      auth.onAuthStateChanged(user=>{
+        if(user){
+          enterApp();
+        } else {
+          document.getElementById('auth').style.display='block';
+          recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
+          recaptchaVerifier.render();
+        }
       });
-      recaptchaVerifier.render();
     },500);
   },2300);
 });
@@ -843,14 +846,32 @@ function doRegister(){
     .catch(err=>toast('Қате: '+err.message));
 }
 function enterApp(){
+  const user=auth.currentUser;
   document.getElementById('auth').style.display='none';
   document.getElementById('app').style.display='block';
   rSpecs();rUnis();
+  // Аватар жаңарту
+  if(user){
+    const name=user.displayName||user.email||'?';
+    const initials=name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    document.querySelector('.t-av').textContent=initials;
+  }
   toast('Strix.kz-ге қош келдіңіз! 🎉');
 }
 
+// Аккаунт сақталуы — автоматты кіру
+auth.onAuthStateChanged(user=>{
+  if(user){
+    // Бұрын кірген — автоматты кіреді
+    if(document.getElementById('splash').style.display==='none'||
+       document.getElementById('auth').style.display==='block'){
+      enterApp();
+    }
+  }
+});
+
 // GEMINI AI
-const GEMINI_KEY='AIzaSyCkLkQvJ3XUDwgDPI3VwowMQKQpwVjCAXw';
+const GEMINI_KEY='AIzaSyBruX87VoEEpRkpvmZKXnh5UbfH-D2AS_c';
 let aiHistory=[];
 let currentImgBase64=null;
 let currentImgType=null;
