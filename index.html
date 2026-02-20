@@ -390,20 +390,23 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
   </div>
 
   <!-- AI ЧАТ БЕТІ -->
-  <div class="pg" id="pg-ai" style="padding-bottom:140px;min-height:100vh">
-    <div class="sec">🤖 AI Көмекші</div>
-    <div class="sec-s">Сұрағыңызды жазыңыз немесе сурет жіберіңіз — AI жауап береді</div>
+  <div class="pg" id="pg-ai" style="padding-bottom:140px;min-height:100vh;background:var(--bg)">
+    <div style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);padding:20px 18px 24px;margin-bottom:0">
+      <div style="font-size:1.1rem;font-weight:800;color:#fff">🤖 AI Көмекші</div>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.8);margin-top:4px">ҰБТ, мамандық, грант туралы сұраңыз</div>
+    </div>
 
-    <div id="ai-messages" style="padding:0 16px;display:flex;flex-direction:column;gap:12px;min-height:300px"></div>
-
-    <div style="position:fixed;bottom:60px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--br);padding:10px 14px;display:flex;gap:8px;align-items:flex-end">
-      <label for="ai-img" style="cursor:pointer;font-size:1.4rem;padding:8px">📷</label>
-      <input type="file" id="ai-img" accept="image/*" style="display:none" onchange="previewImg(this)">
-      <div style="flex:1">
-        <div id="img-preview" style="display:none;margin-bottom:6px"><img id="prev-img" style="height:60px;border-radius:8px;object-fit:cover"><span onclick="clearImg()" style="cursor:pointer;margin-left:6px;color:var(--rd)">✕</span></div>
-        <textarea id="ai-inp" placeholder="Сұрақ жазыңыз..." style="width:100%;border:2px solid var(--br);border-radius:12px;padding:10px 13px;font-family:'Inter',sans-serif;font-size:.88rem;resize:none;outline:none;max-height:100px;overflow-y:auto" rows="1" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAI()}"></textarea>
+    <div id="ai-messages" style="padding:16px;display:flex;flex-direction:column;gap:10px">
+      <div style="background:#fff;border-radius:16px;padding:14px 16px;font-size:.86rem;color:var(--mu);line-height:1.6;box-shadow:var(--sh)">
+        👋 Сәлем! Мен Strix.kz AI көмекшісімін.<br>ҰБТ, мамандық таңдау, грант, университет туралы кез келген сұрағыңызды қойыңыз!
       </div>
-      <button onclick="sendAI()" style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:12px;padding:11px 16px;font-size:1rem;cursor:pointer">➤</button>
+    </div>
+
+    <div style="position:fixed;bottom:58px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--br);padding:10px 14px;display:flex;gap:8px;align-items:center;box-shadow:0 -2px 12px rgba(0,0,0,.06)">
+      <label for="ai-img" style="cursor:pointer;font-size:1.3rem;flex-shrink:0">📷</label>
+      <input type="file" id="ai-img" accept="image/*" style="display:none" onchange="previewImg(this)">
+      <input id="ai-inp" type="text" placeholder="Сұрақ жазыңыз..." style="flex:1;border:2px solid var(--br);border-radius:22px;padding:10px 16px;font-family:'Inter',sans-serif;font-size:.88rem;outline:none;background:var(--bg)" onkeydown="if(event.key==='Enter'){sendAI()}">
+      <button onclick="sendAI()" style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1rem;cursor:pointer;flex-shrink:0">➤</button>
     </div>
   </div>
 </div>
@@ -889,17 +892,14 @@ async function sendAI(){
   const userText=text||(currentImgBase64?'Суретті талда':'');
   addMsg(userText,true);
   inp.value='';
-  inp.style.height='auto';
 
   const thinkDiv=addMsg('⏳ Жауап дайындалуда...',false);
 
-  // Gemini API-ге сұрау
   const parts=[];
   if(currentImgBase64){
-    parts.push({inlineData:{mimeType:currentImgType,data:currentImgBase64}});
+    parts.push({inline_data:{mime_type:currentImgType,data:currentImgBase64}});
   }
-  if(text) parts.push({text});
-  if(!text&&currentImgBase64) parts.push({text:'Осы суретті қазақша түсіндір немесе сұраққа жауап бер.'});
+  parts.push({text:'Сен Strix.kz AI көмекшісісің. Қазақша жауап бер. Сұрақ: '+(text||'Суретті талда')});
 
   clearImg();
 
@@ -908,18 +908,14 @@ async function sendAI(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        system_instruction:{parts:[{text:'Сен Strix.kz сайтының AI көмекшісісің. Қазақстан білім жүйесі, ҰБТ, мамандықтар, университеттер туралы сұрақтарға қазақша жауап бер. Сурет жіберілсе — суреттегі мәтінді оқып, сұрақтарға жауап бер.'}]},
-        contents:[...aiHistory,{role:'user',parts}]
+        contents:[{role:'user',parts}]
       })
     });
     const data=await res.json();
-    const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'Қате болды, қайта көріңіз.';
+    const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'Жауап алынбады, қайта көріңіз.';
     thinkDiv.textContent=reply;
-    aiHistory.push({role:'user',parts:[{text:userText}]});
-    aiHistory.push({role:'model',parts:[{text:reply}]});
-    if(aiHistory.length>20) aiHistory=aiHistory.slice(-20);
   }catch(e){
-    thinkDiv.textContent='Интернет қосылымын тексеріңіз.';
+    thinkDiv.textContent='Интернет қосылымын тексеріңіз: '+e.message;
   }
 }
 function nav(pgId,navId){
