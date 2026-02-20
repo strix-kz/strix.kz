@@ -386,7 +386,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <div class="bn" id="n-specs" onclick="nav('pg-specs','n-specs')"><div class="bn-ic">🎓</div><span>Мамандықтар</span><div class="bn-dot"></div></div>
     <div class="bn" id="n-unis" onclick="nav('pg-unis','n-unis')"><div class="bn-ic">🏛️</div><span>ЖОО-лар</span><div class="bn-dot"></div></div>
     <div class="bn" id="n-grant" onclick="nav('pg-grant','n-grant')"><div class="bn-ic">📊</div><span>Грант</span><div class="bn-dot"></div></div>
-    <div class="bn" id="n-ai" onclick="nav('pg-ai','n-ai')"><div class="bn-ic">🤖</div><span>AI</span><div class="bn-dot"></div></div>
+    <div class="bn" id="n-ai" onclick="nav('pg-ai','n-ai')"><div class="bn-ic" style="font-size:.7rem;font-weight:900;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent">AI</div><span>AI</span><div class="bn-dot"></div></div>
   </div>
 
   <!-- AI ЧАТ БЕТІ -->
@@ -899,23 +899,25 @@ async function sendAI(){
   if(currentImgBase64){
     parts.push({inline_data:{mime_type:currentImgType,data:currentImgBase64}});
   }
-  parts.push({text:'Сен Strix.kz AI көмекшісісің. Қазақша жауап бер. Сұрақ: '+(text||'Суретті талда')});
+  parts.push({text:'Қазақша жауап бер. Сұрақ: '+(text||'Суретті талда')});
 
   clearImg();
 
   try{
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,{
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),15000);
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        contents:[{role:'user',parts}]
-      })
+      body:JSON.stringify({contents:[{role:'user',parts}]}),
+      signal:controller.signal
     });
+    clearTimeout(timeout);
     const data=await res.json();
-    const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'Жауап алынбады, қайта көріңіз.';
+    const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'Жауап алынбады.';
     thinkDiv.textContent=reply;
   }catch(e){
-    thinkDiv.textContent='Интернет қосылымын тексеріңіз: '+e.message;
+    thinkDiv.textContent=e.name==='AbortError'?'Уақыт өтіп кетті, қайта жіберіңіз.':'Қате: '+e.message;
   }
 }
 function nav(pgId,navId){
