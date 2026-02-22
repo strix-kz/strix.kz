@@ -174,14 +174,24 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .footer{text-align:center;padding:14px;font-size:.7rem;color:var(--mu);background:#fff;border-top:1px solid var(--br);margin-top:6px}
 .footer strong{color:var(--tx)}.footer a{color:var(--p);font-weight:700;text-decoration:none}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.08);opacity:1}}
 .empty{text-align:center;padding:40px;color:var(--mu);font-size:.87rem}
 </style>
 </head>
 <body>
 
 <div id="splash">
-  <div class="s-logo">Strix<span>.kz</span></div>
-  <div class="s-sub">Білім навигаторы</div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+    <div style="position:relative;width:80px;height:80px">
+      <div style="position:absolute;inset:0;border-radius:22px;background:rgba(255,255,255,.15);animation:pulse 1.5s infinite"></div>
+      <div style="position:absolute;inset:8px;border-radius:16px;background:rgba(255,255,255,.2);animation:pulse 1.5s .3s infinite"></div>
+      <div style="position:absolute;inset:16px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center">
+        <span style="font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent">S</span>
+      </div>
+    </div>
+    <div class="s-logo">Strix<span>.kz</span></div>
+    <div class="s-sub">Білім навигаторы 🇰🇿</div>
+  </div>
   <div class="s-bar"><div class="s-prog"></div></div>
 </div>
 
@@ -391,25 +401,41 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 
   <!-- AI ЧАТ БЕТІ -->
   <div class="pg" id="pg-ai" style="padding-bottom:140px;min-height:100vh;background:#F5F6FF">
-    <div style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);padding:20px 18px 28px">
-      <div style="font-size:1.2rem;font-weight:800;color:#fff">✨ AI Көмекші</div>
-      <div style="font-size:.82rem;color:rgba(255,255,255,.85);margin-top:5px">ҰБТ • Мамандық • Грант • Университет</div>
-    </div>
-
-    <div id="ai-messages" style="padding:16px;display:flex;flex-direction:column;gap:10px">
-      <div style="background:#fff;border-radius:18px 18px 18px 4px;padding:14px 16px;font-size:.86rem;color:#444;line-height:1.65;box-shadow:0 2px 12px rgba(75,94,255,.1);max-width:85%">
-        👋 Сәлем! Мен <b>Strix.kz AI</b> көмекшісімін.<br><br>
-        Маған кез келген сұрақ қойыңыз:<br>
-        🎓 ҰБТ дайындығы<br>
-        🏛️ Университет таңдау<br>
-        📊 Грант мүмкіндіктері<br>
-        💼 Мамандық кеңесі
+    <div style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);padding:18px 18px 22px;position:sticky;top:56px;z-index:10">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:1.1rem;font-weight:800;color:#fff">✨ AI Көмекші</div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.8);margin-top:3px">ҰБТ • Мамандық • Грант • Заң • Қаржы</div>
+        </div>
+        <button onclick="clearChat()" style="background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 13px;border-radius:20px;font-size:.75rem;font-weight:700;cursor:pointer">🗑 Тазалау</button>
       </div>
     </div>
 
-    <div style="position:fixed;bottom:58px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #E8EBFF;padding:12px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 -4px 20px rgba(75,94,255,.08)">
-      <input id="ai-inp" type="text" placeholder="Сұрағыңызды жазыңыз..." style="flex:1;border:2px solid #E8EBFF;border-radius:24px;padding:11px 18px;font-family:'Inter',sans-serif;font-size:.88rem;outline:none;background:#F8F9FF;transition:.2s" onfocus="this.style.borderColor='#4B5EFF'" onblur="this.style.borderColor='#E8EBFF'" onkeydown="if(event.key==='Enter'){sendAI()}">
-      <button onclick="sendAI()" style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:1.1rem;cursor:pointer;flex-shrink:0;box-shadow:0 4px 12px rgba(75,94,255,.4)">➤</button>
+    <div id="ai-messages" style="padding:16px;display:flex;flex-direction:column;gap:10px">
+      <div style="background:#fff;border-radius:18px 18px 18px 4px;padding:14px 16px;font-size:.86rem;color:#444;line-height:1.65;box-shadow:0 2px 12px rgba(75,94,255,.1);max-width:88%">
+        👋 Сәлем! Мен <b>Strix.kz AI</b> көмекшісімін.<br><br>
+        Маған кез келген сұрақ қойыңыз:<br>
+        🎓 ҰБТ дайындығы мен кеңестер<br>
+        🏛️ Университет таңдау<br>
+        📊 Грант мүмкіндіктері<br>
+        💼 Мамандық кеңесі<br>
+        📷 Сурет немесе файл жіберіңіз!
+      </div>
+    </div>
+
+    <div id="img-preview-bar" style="display:none;padding:8px 14px;background:#fff;border-top:1px solid #E8EBFF">
+      <div style="display:flex;align-items:center;gap:10px">
+        <img id="prev-img" style="height:52px;border-radius:10px;object-fit:cover">
+        <span id="prev-file-name" style="font-size:.8rem;color:#666;flex:1"></span>
+        <button onclick="clearImg()" style="background:#EF4444;color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:.8rem;cursor:pointer">✕</button>
+      </div>
+    </div>
+
+    <div style="position:fixed;bottom:58px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #E8EBFF;padding:10px 12px;display:flex;gap:8px;align-items:center;box-shadow:0 -4px 20px rgba(75,94,255,.08)">
+      <label for="ai-img" style="cursor:pointer;background:#F0F2FF;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0">📷</label>
+      <input type="file" id="ai-img" accept="image/*,.pdf,.txt,.doc,.docx" style="display:none" onchange="previewFile(this)">
+      <input id="ai-inp" type="text" placeholder="Сұрағыңызды жазыңыз..." style="flex:1;border:2px solid #E8EBFF;border-radius:24px;padding:10px 16px;font-family:'Inter',sans-serif;font-size:.88rem;outline:none;background:#F8F9FF;transition:.2s" onfocus="this.style.borderColor='#4B5EFF'" onblur="this.style.borderColor='#E8EBFF'" onkeydown="if(event.key==='Enter'){sendAI()}">
+      <button onclick="sendAI()" id="ai-send-btn" style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:1rem;cursor:pointer;flex-shrink:0;box-shadow:0 4px 12px rgba(75,94,255,.4);transition:.2s">➤</button>
     </div>
   </div>
 </div>
@@ -853,12 +879,12 @@ function enterApp(){
   document.getElementById('auth').style.display='none';
   document.getElementById('app').style.display='block';
   rSpecs();rUnis();
-  // Аватар жаңарту
   if(user){
     const name=user.displayName||user.email||'?';
     const initials=name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
     document.querySelector('.t-av').textContent=initials;
   }
+  loadChat();
   toast('Strix.kz-ге қош келдіңіз! 🎉');
 }
 
@@ -878,16 +904,59 @@ const GROQ_KEY='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';
 let aiHistory=[];
 let currentImgBase64=null;
 let currentImgType=null;
+let currentFileName=null;
 
-function previewImg(input){
+// Чатты localStorage-тан жүктеу
+function loadChat(){
+  try{
+    const saved=localStorage.getItem('strix_chat');
+    if(saved){
+      const msgs=JSON.parse(saved);
+      msgs.forEach(m=>addMsg(m.text,m.isUser,false));
+      aiHistory=JSON.parse(localStorage.getItem('strix_history')||'[]');
+    }
+  }catch(e){}
+}
+
+// Чатты сақтау
+function saveChat(text,isUser){
+  try{
+    const saved=JSON.parse(localStorage.getItem('strix_chat')||'[]');
+    saved.push({text,isUser});
+    if(saved.length>50) saved.splice(0,saved.length-50);
+    localStorage.setItem('strix_chat',JSON.stringify(saved));
+    localStorage.setItem('strix_history',JSON.stringify(aiHistory));
+  }catch(e){}
+}
+
+// Чатты тазалау
+function clearChat(){
+  localStorage.removeItem('strix_chat');
+  localStorage.removeItem('strix_history');
+  aiHistory=[];
+  const msgs=document.getElementById('ai-messages');
+  msgs.innerHTML=`<div style="background:#fff;border-radius:18px 18px 18px 4px;padding:14px 16px;font-size:.86rem;color:#444;line-height:1.65;box-shadow:0 2px 12px rgba(75,94,255,.1);max-width:88%">
+    👋 Сәлем! Мен <b>Strix.kz AI</b> көмекшісімін. Кез келген сұрақ қойыңыз! 😊
+  </div>`;
+  toast('Чат тазаланды!');
+}
+
+function previewFile(input){
   const file=input.files[0];
   if(!file)return;
+  currentFileName=file.name;
   const reader=new FileReader();
   reader.onload=e=>{
     currentImgBase64=e.target.result.split(',')[1];
     currentImgType=file.type;
-    document.getElementById('prev-img').src=e.target.result;
-    document.getElementById('img-preview').style.display='block';
+    if(file.type.startsWith('image/')){
+      document.getElementById('prev-img').src=e.target.result;
+      document.getElementById('prev-img').style.display='block';
+    } else {
+      document.getElementById('prev-img').style.display='none';
+    }
+    document.getElementById('prev-file-name').textContent=file.name;
+    document.getElementById('img-preview-bar').style.display='block';
   };
   reader.readAsDataURL(file);
 }
@@ -895,29 +964,47 @@ function previewImg(input){
 function clearImg(){
   currentImgBase64=null;
   currentImgType=null;
-  document.getElementById('img-preview').style.display='none';
+  currentFileName=null;
+  document.getElementById('img-preview-bar').style.display='none';
   document.getElementById('ai-img').value='';
 }
 
-function addMsg(text,isUser){
+function addMsg(text,isUser,doSave=true){
   const div=document.createElement('div');
-  div.style.cssText=`max-width:85%;padding:12px 15px;border-radius:${isUser?'18px 18px 4px 18px':'18px 18px 18px 4px'};background:${isUser?'linear-gradient(135deg,#4B5EFF,#7B6FFF)':'#fff'};color:${isUser?'#fff':'var(--tx)'};align-self:${isUser?'flex-end':'flex-start'};font-size:.88rem;line-height:1.55;white-space:pre-wrap;box-shadow:0 2px 8px rgba(0,0,0,.08)`;
+  div.style.cssText=`max-width:88%;padding:12px 15px;border-radius:${isUser?'18px 18px 4px 18px':'18px 18px 18px 4px'};background:${isUser?'linear-gradient(135deg,#4B5EFF,#7B6FFF)':'#fff'};color:${isUser?'#fff':'#333'};align-self:${isUser?'flex-end':'flex-start'};font-size:.87rem;line-height:1.6;white-space:pre-wrap;box-shadow:0 2px 10px rgba(0,0,0,.07)`;
   div.textContent=text;
   document.getElementById('ai-messages').appendChild(div);
   div.scrollIntoView({behavior:'smooth'});
+  if(doSave) saveChat(text,isUser);
   return div;
 }
 
 async function sendAI(){
   const inp=document.getElementById('ai-inp');
   const text=inp.value.trim();
-  if(!text)return;
+  if(!text&&!currentImgBase64)return;
 
-  addMsg(text,true);
+  const userText=text||(currentFileName?`📎 ${currentFileName}`:'');
+  addMsg(userText,true);
   inp.value='';
-  aiHistory.push({role:'user',content:text});
 
-  const thinkDiv=addMsg('⏳ Жауап дайындалуда...',false);
+  const thinkDiv=addMsg('⏳ Жауап дайындалуда...',false,false);
+
+  const messages=[
+    {role:'system',content:'Сен Strix.kz сайтының AI көмекшісісің. Қазақстан білім жүйесі, ҰБТ, мамандықтар, университеттер, грант, заң, қаржы туралы сұрақтарға қазақша жауап бер. Нақты және пайдалы жауаптар бер.'},
+    ...aiHistory
+  ];
+
+  if(currentImgBase64&&currentImgType.startsWith('image/')){
+    messages.push({role:'user',content:[
+      {type:'image_url',image_url:{url:`data:${currentImgType};base64,${currentImgBase64}`}},
+      {type:'text',text:text||'Осы суретті қазақша талда және түсіндір.'}
+    ]});
+  } else {
+    messages.push({role:'user',content:text});
+  }
+
+  clearImg();
 
   try{
     const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
@@ -927,19 +1014,19 @@ async function sendAI(){
         'Authorization':'Bearer '+GROQ_KEY
       },
       body:JSON.stringify({
-        model:'llama-3.3-70b-versatile',
-        messages:[
-          {role:'system',content:'Сен Strix.kz сайтының AI көмекшісісің. Қазақстан білім жүйесі, ҰБТ, мамандықтар, университеттер, грант туралы сұрақтарға қазақша жауап бер. Қысқа және нақты жауап бер.'},
-          ...aiHistory
-        ],
-        max_tokens:1024
+        model:currentImgBase64?'llama-4-scout-17b-16e-instruct':'llama-3.3-70b-versatile',
+        messages,
+        max_tokens:1500
       })
     });
     const data=await res.json();
     const reply=data.choices?.[0]?.message?.content||'Жауап алынбады.';
     thinkDiv.textContent=reply;
+    saveChat(reply,false);
+    aiHistory.push({role:'user',content:userText});
     aiHistory.push({role:'assistant',content:reply});
     if(aiHistory.length>20) aiHistory=aiHistory.slice(-20);
+    localStorage.setItem('strix_history',JSON.stringify(aiHistory));
   }catch(e){
     thinkDiv.textContent='Қате: '+e.message;
   }
