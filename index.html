@@ -31,6 +31,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .s-bar{width:56px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin-top:44px;overflow:hidden}
 .s-prog{height:100%;background:#fff;border-radius:4px;animation:prog 2.2s ease forwards}
 @keyframes prog{to{width:100%}}
+.ai-typing{display:flex;align-items:center;justify-content:center;padding:14px 18px;background:#fff;border-radius:18px 18px 18px 4px;box-shadow:0 2px 10px rgba(0,0,0,.07);align-self:flex-start;max-width:88%}
+.ai-pulse-wrap{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center}
+.ai-pulse-ring{position:absolute;width:100%;height:100%;border-radius:50%;background:rgba(75,94,255,.15);animation:aiPulse 1.6s ease-out infinite}
+.ai-pulse-ring:nth-child(2){animation-delay:.4s;background:rgba(75,94,255,.1)}
+.ai-pulse-ring:nth-child(3){animation-delay:.8s;background:rgba(75,94,255,.06)}
+.ai-pulse-icon{position:relative;z-index:1;width:26px;height:26px;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.72rem;font-weight:900;letter-spacing:-.5px}
+@keyframes aiPulse{0%{transform:scale(.7);opacity:.8}100%{transform:scale(1.8);opacity:0}}
 #auth{display:none;min-height:100vh;background:#fff}
 .a-top{background:linear-gradient(150deg,#4B5EFF,#7B6FFF);padding:52px 22px 68px;position:relative;overflow:hidden}
 .a-top::before{content:'';position:absolute;width:280px;height:280px;background:rgba(255,255,255,.07);border-radius:50%;right:-60px;top:-80px}
@@ -244,7 +251,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       <div class="a-p">Google аккаунтыңызды таңдаңыз</div>
       <div style="background:#F8F9FF;border-radius:14px;padding:14px;margin-bottom:14px;border:2px solid var(--br);cursor:pointer;display:flex;align-items:center;gap:12px" onclick="enterApp()">
         <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0">G</div>
-        <div><div style="font-weight:700;font-size:.88rem">Google аккаунтымен жалғастыру</div><div style="font-size:.75rem;color:var(--mu)">yourname@gmail.com</div></div>
+        <div><div style="font-weight:700;font-size:.88rem">Google аккаунтымен жалғастыру</div><div style="font-size:.75rem;color:var(--mu)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0970667c7b6768646c496e64686065276a6664">[email&#160;protected]</a></div></div>
         <div style="margin-left:auto;color:#C8CFE0">›</div>
       </div>
       <div class="demo-box">⚡ Демо режим — жоғарыдағы аккаунтты басыңыз</div>
@@ -460,7 +467,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 
 <div class="toast" id="t-el"><span id="t-msg"></span></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════════════════ МАМАНДЫҚТАР ═══════════════════
 const SPECS = [
   // Биология — География (B001–B009, B054–B058)
@@ -988,7 +995,11 @@ async function sendAI(){
   addMsg(userText,true);
   inp.value='';
 
-  const thinkDiv=addMsg('⏳ Жауап дайындалуда...',false,false);
+  const thinkDiv=document.createElement('div');
+  thinkDiv.className='ai-typing';
+  thinkDiv.innerHTML=`<div class="ai-pulse-wrap"><div class="ai-pulse-ring"></div><div class="ai-pulse-ring"></div><div class="ai-pulse-ring"></div><div class="ai-pulse-icon">S</div></div>`;
+  document.getElementById('ai-messages').appendChild(thinkDiv);
+  thinkDiv.scrollIntoView({behavior:'smooth'});
 
   const messages=[
     {role:'system',content:'Сен Strix.kz сайтының AI көмекшісісің. Қазақстан білім жүйесі, ҰБТ, мамандықтар, университеттер, грант, заң, қаржы туралы сұрақтарға қазақша жауап бер. Нақты және пайдалы жауаптар бер.'},
@@ -1021,6 +1032,8 @@ async function sendAI(){
     });
     const data=await res.json();
     const reply=data.choices?.[0]?.message?.content||'Жауап алынбады.';
+    thinkDiv.className='';
+    thinkDiv.style.cssText=`max-width:88%;padding:12px 15px;border-radius:18px 18px 18px 4px;background:#fff;color:#333;align-self:flex-start;font-size:.87rem;line-height:1.6;white-space:pre-wrap;box-shadow:0 2px 10px rgba(0,0,0,.07)`;
     thinkDiv.textContent=reply;
     saveChat(reply,false);
     aiHistory.push({role:'user',content:userText});
@@ -1028,6 +1041,8 @@ async function sendAI(){
     if(aiHistory.length>20) aiHistory=aiHistory.slice(-20);
     localStorage.setItem('strix_history',JSON.stringify(aiHistory));
   }catch(e){
+    thinkDiv.className='';
+    thinkDiv.style.cssText=`max-width:88%;padding:12px 15px;border-radius:18px 18px 18px 4px;background:#fff;color:#333;align-self:flex-start;font-size:.87rem;line-height:1.6;white-space:pre-wrap;box-shadow:0 2px 10px rgba(0,0,0,.07)`;
     thinkDiv.textContent='Қате: '+e.message;
   }
 }
@@ -1044,11 +1059,4 @@ function toast(msg){
   document.getElementById('t-msg').textContent=msg;
   el.classList.add('on');
   clearTimeout(el._t);
-  el._t=setTimeout(()=>el.classList.remove('on'),2800);
-}
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('ph').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,10);});
-});
-</script>
-</body>
-</html>
+  el._t=setTimeout(()=>el.classLis
