@@ -32,12 +32,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-hei
 .s-prog{height:100%;background:#fff;border-radius:4px;animation:prog 2.2s ease forwards}
 @keyframes prog{to{width:100%}}
 .ai-typing{display:flex;align-items:center;justify-content:center;padding:14px 18px;background:#fff;border-radius:18px 18px 18px 4px;box-shadow:0 2px 10px rgba(0,0,0,.07);align-self:flex-start;max-width:88%}
-.ai-pulse-wrap{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center}
-.ai-pulse-ring{position:absolute;width:100%;height:100%;border-radius:50%;background:rgba(75,94,255,.15);animation:aiPulse 1.6s ease-out infinite}
-.ai-pulse-ring:nth-child(2){animation-delay:.4s;background:rgba(75,94,255,.1)}
+.ai-pulse-wrap{position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.ai-pulse-ring{position:absolute;width:100%;height:100%;border-radius:12px;background:rgba(75,94,255,.18);animation:aiPulse 1.6s ease-out infinite}
+.ai-pulse-ring:nth-child(2){animation-delay:.4s;background:rgba(75,94,255,.11)}
 .ai-pulse-ring:nth-child(3){animation-delay:.8s;background:rgba(75,94,255,.06)}
-.ai-pulse-icon{position:relative;z-index:1;width:26px;height:26px;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.72rem;font-weight:900;letter-spacing:-.5px}
-@keyframes aiPulse{0%{transform:scale(.7);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+.ai-pulse-icon{position:relative;z-index:1;width:28px;height:28px;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.78rem;font-weight:900}
+@keyframes aiPulse{0%{transform:scale(.75);opacity:.9}100%{transform:scale(1.9);opacity:0}}
 #auth{display:none;min-height:100vh;background:#fff}
 .a-top{background:linear-gradient(150deg,#4B5EFF,#7B6FFF);padding:52px 22px 68px;position:relative;overflow:hidden}
 .a-top::before{content:'';position:absolute;width:280px;height:280px;background:rgba(255,255,255,.07);border-radius:50%;right:-60px;top:-80px}
@@ -197,7 +197,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       </div>
     </div>
     <div class="s-logo">Strix<span>.kz</span></div>
-    <div class="s-sub">Білім навигаторы 🇰🇿</div>
   </div>
   <div class="s-bar"><div class="s-prog"></div></div>
 </div>
@@ -207,7 +206,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <div class="a-logo">Strix<span>.kz</span></div>
     <div class="a-sl">Мамандық таңда · ЖОО тап · Грант жеңіп ал</div>
     <div class="a-chips">
-      <span class="a-chip">🎓 600+ мамандық</span>
+      <span class="a-chip">🎓 500+ мамандық</span>
       <span class="a-chip">🏛️ 130+ ЖОО</span>
       <span class="a-chip">📊 Грант есеп</span>
       <span class="a-chip">🧭 Профориентация</span>
@@ -251,7 +250,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       <div class="a-p">Google аккаунтыңызды таңдаңыз</div>
       <div style="background:#F8F9FF;border-radius:14px;padding:14px;margin-bottom:14px;border:2px solid var(--br);cursor:pointer;display:flex;align-items:center;gap:12px" onclick="enterApp()">
         <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0">G</div>
-        <div><div style="font-weight:700;font-size:.88rem">Google аккаунтымен жалғастыру</div><div style="font-size:.75rem;color:var(--mu)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0970667c7b6768646c496e64686065276a6664">[email&#160;protected]</a></div></div>
+        <div><div style="font-weight:700;font-size:.88rem">Google аккаунтымен жалғастыру</div><div style="font-size:.75rem;color:var(--mu)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f38a9c86819d929e96b3949e929a9fdd909c9e">[email&#160;protected]</a></div></div>
         <div style="margin-left:auto;color:#C8CFE0">›</div>
       </div>
       <div class="demo-box">⚡ Демо режим — жоғарыдағы аккаунтты басыңыз</div>
@@ -404,6 +403,42 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <div class="bn" id="n-unis" onclick="nav('pg-unis','n-unis')"><div class="bn-ic">🏛️</div><span>ЖОО-лар</span><div class="bn-dot"></div></div>
     <div class="bn" id="n-grant" onclick="nav('pg-grant','n-grant')"><div class="bn-ic">📊</div><span>Грант</span><div class="bn-dot"></div></div>
     <div class="bn" id="n-ai" onclick="nav('pg-ai','n-ai')"><div class="bn-ic" style="font-size:.7rem;font-weight:900;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent">AI</div><span>AI</span><div class="bn-dot"></div></div>
+    <div class="bn" id="n-profile" onclick="nav('pg-profile','n-profile')"><div class="bn-ic">👤</div><span>Профиль</span><div class="bn-dot"></div></div>
+  </div>
+
+  <!-- ПРОФИЛЬ & НАСТРОЙКА -->
+  <div class="pg" id="pg-profile" style="padding-bottom:80px">
+    <div style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);padding:32px 20px 48px;text-align:center;position:relative">
+      <div id="prof-av" style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.25);border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:900;color:#fff;margin:0 auto 12px">?</div>
+      <div id="prof-name" style="font-size:1.1rem;font-weight:800;color:#fff">—</div>
+      <div id="prof-email" style="font-size:.8rem;color:rgba(255,255,255,.75);margin-top:4px">—</div>
+    </div>
+    <div style="margin:-22px 16px 0;background:#fff;border-radius:18px;padding:18px;box-shadow:0 4px 20px rgba(75,94,255,.1)">
+      <div style="font-size:.95rem;font-weight:800;margin-bottom:14px">⚙️ Параметрлер</div>
+      <div onclick="editName()" style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #F0F2FF;cursor:pointer">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.1rem">✏️</span><span style="font-size:.88rem;font-weight:600">Атын өзгерту</span></div>
+        <span style="color:#C8CFE0">›</span>
+      </div>
+      <div onclick="changePass()" style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #F0F2FF;cursor:pointer">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.1rem">🔐</span><span style="font-size:.88rem;font-weight:600">Парольді өзгерту</span></div>
+        <span style="color:#C8CFE0">›</span>
+      </div>
+      <div onclick="toggleTheme()" style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #F0F2FF;cursor:pointer">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.1rem">🌙</span><span style="font-size:.88rem;font-weight:600">Қараңғы режим</span></div>
+        <div id="theme-tog" style="width:42px;height:24px;background:#E4E7FF;border-radius:12px;position:relative;transition:.2s"><div style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#8B96A9;transition:.2s" id="theme-knob"></div></div>
+      </div>
+      <div onclick="clearChat()" style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #F0F2FF;cursor:pointer">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.1rem">🗑</span><span style="font-size:.88rem;font-weight:600">AI чатты тазалау</span></div>
+        <span style="color:#C8CFE0">›</span>
+      </div>
+      <div onclick="showAbout()" style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;cursor:pointer">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.1rem">ℹ️</span><span style="font-size:.88rem;font-weight:600">Strix.kz туралы</span></div>
+        <span style="color:#C8CFE0">›</span>
+      </div>
+    </div>
+    <div style="margin:14px 16px">
+      <button onclick="doLogout()" style="width:100%;padding:14px;background:#FFF0F0;color:#EF4444;border:none;border-radius:13px;font-size:.93rem;font-weight:700;cursor:pointer">🚪 Шығу</button>
+    </div>
   </div>
 
   <!-- AI ЧАТ БЕТІ -->
@@ -440,7 +475,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 
     <div style="position:fixed;bottom:58px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #E8EBFF;padding:10px 12px;display:flex;gap:8px;align-items:center;box-shadow:0 -4px 20px rgba(75,94,255,.08)">
       <label for="ai-img" style="cursor:pointer;background:#F0F2FF;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0">📷</label>
-      <input type="file" id="ai-img" accept="image/*,.pdf,.txt,.doc,.docx" style="display:none" onchange="previewFile(this)">
+      <input type="file" id="ai-img" accept="image/*" style="display:none" onchange="previewFile(this)">
       <input id="ai-inp" type="text" placeholder="Сұрағыңызды жазыңыз..." style="flex:1;border:2px solid #E8EBFF;border-radius:24px;padding:10px 16px;font-family:'Inter',sans-serif;font-size:.88rem;outline:none;background:#F8F9FF;transition:.2s" onfocus="this.style.borderColor='#4B5EFF'" onblur="this.style.borderColor='#E8EBFF'" onkeydown="if(event.key==='Enter'){sendAI()}">
       <button onclick="sendAI()" id="ai-send-btn" style="background:linear-gradient(135deg,#4B5EFF,#7B6FFF);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:1rem;cursor:pointer;flex-shrink:0;box-shadow:0 4px 12px rgba(75,94,255,.4);transition:.2s">➤</button>
     </div>
@@ -577,6 +612,136 @@ const SPECS = [
   {code:'B064',name:'География және тарих мұғалімі',subj:'География — Тарих',unis:30,min:73,grants:100},
   {code:'B064b',name:'Туризм және өлкетану',subj:'География — Тарих',unis:22,min:72,grants:80},
   {code:'B064c',name:'Геоэкология',subj:'География — Тарих',unis:14,min:74,grants:55},
+  // Биология — География (extra)
+  {code:'B200',name:'Экологиялық менеджмент',subj:'Биология — География',unis:18,min:76,grants:65},
+  {code:'B201',name:'Жер ресурстарын басқару',subj:'Биология — География',unis:12,min:75,grants:50},
+  {code:'B202',name:'Орман шаруашылығы',subj:'Биология — География',unis:15,min:73,grants:55},
+  {code:'B203',name:'Балық шаруашылығы',subj:'Биология — География',unis:10,min:72,grants:45},
+  {code:'B204',name:'Аңшылықтану',subj:'Биология — География',unis:8,min:71,grants:35},
+  {code:'B205',name:'Табиғатты қорғау',subj:'Биология — География',unis:14,min:74,grants:52},
+  {code:'B206',name:'Су ресурстары',subj:'Биология — География',unis:11,min:75,grants:48},
+  {code:'B207',name:'Молекулялық биология',subj:'Биология — География',unis:14,min:82,grants:60},
+  // Математика — Физика (extra)
+  {code:'B300',name:'Қаржылық математика',subj:'Математика — Физика',unis:22,min:88,grants:95},
+  {code:'B301',name:'Статистика',subj:'Математика — Физика',unis:30,min:84,grants:110},
+  {code:'B302',name:'Инженерлік механика',subj:'Математика — Физика',unis:20,min:84,grants:80},
+  {code:'B303',name:'Геофизика',subj:'Математика — Физика',unis:12,min:80,grants:55},
+  {code:'B304',name:'Аспап жасау',subj:'Математика — Физика',unis:14,min:82,grants:58},
+  {code:'B305',name:'Биомедициналық инженерия',subj:'Математика — Физика',unis:10,min:88,grants:60},
+  {code:'B306',name:'Нанотехнология',subj:'Математика — Физика',unis:8,min:90,grants:55},
+  {code:'B307',name:'Ядролық технологиялар',subj:'Математика — Физика',unis:5,min:92,grants:50},
+  {code:'B308',name:'Мұнай-газ ісі',subj:'Математика — Физика',unis:18,min:84,grants:90},
+  {code:'B309',name:'Металлургия',subj:'Математика — Физика',unis:14,min:80,grants:60},
+  {code:'B310',name:'Азаматтық авиация',subj:'Математика — Физика',unis:8,min:88,grants:60},
+  {code:'B311',name:'Жылу энергетикасы',subj:'Математика — Физика',unis:16,min:80,grants:62},
+  {code:'B312',name:'Баламалы энергетика',subj:'Математика — Физика',unis:12,min:82,grants:58},
+  {code:'B313',name:'Банк ісі',subj:'Математика — Физика',unis:35,min:84,grants:140},
+  {code:'B314',name:'Сақтандыру ісі',subj:'Математика — Физика',unis:22,min:82,grants:90},
+  {code:'B315',name:'Халықаралық экономика',subj:'Математика — Физика',unis:30,min:88,grants:130},
+  {code:'B316',name:'Бизнес-администрлеу',subj:'Математика — Физика',unis:40,min:84,grants:160},
+  {code:'B317',name:'Кәсіпкерлік',subj:'Математика — Физика',unis:35,min:80,grants:140},
+  {code:'B318',name:'Туризм менеджменті',subj:'Математика — Физика',unis:28,min:78,grants:110},
+  {code:'B319',name:'Қонақ үй ісі',subj:'Математика — Физика',unis:24,min:78,grants:95},
+  {code:'B320',name:'Көлік логистикасы',subj:'Математика — Физика',unis:20,min:80,grants:80},
+  {code:'B321',name:'Автомобиль транспорты',subj:'Математика — Физика',unis:18,min:76,grants:65},
+  {code:'B322',name:'Темір жол транспорты',subj:'Математика — Физика',unis:12,min:78,grants:55},
+  {code:'B323',name:'Инженерлік физика',subj:'Математика — Физика',unis:15,min:86,grants:70},
+  {code:'B324',name:'Газ-мұнай инженериясы',subj:'Математика — Физика',unis:16,min:86,grants:70},
+  {code:'B325',name:'Тау-кен металлургиясы',subj:'Математика — Физика',unis:12,min:80,grants:55},
+  {code:'B326',name:'Химия технологиясы',subj:'Математика — Физика',unis:20,min:82,grants:75},
+  {code:'B327',name:'Мемлекеттік аудит',subj:'Математика — Физика',unis:18,min:84,grants:80},
+  {code:'B328',name:'Есеп және қаржы',subj:'Математика — Физика',unis:45,min:80,grants:190},
+  // Химия — Биология (extra)
+  {code:'B400',name:'Молекулалық медицина',subj:'Химия — Биология',unis:8,min:108,grants:80},
+  {code:'B401',name:'Педиатрия',subj:'Химия — Биология',unis:10,min:106,grants:150},
+  {code:'B402',name:'Биохимия',subj:'Химия — Биология',unis:18,min:84,grants:70},
+  {code:'B403',name:'Генетика',subj:'Химия — Биология',unis:12,min:86,grants:65},
+  {code:'B404',name:'Микробиология',subj:'Химия — Биология',unis:16,min:82,grants:70},
+  {code:'B405',name:'Иммунология',subj:'Химия — Биология',unis:10,min:88,grants:60},
+  {code:'B406',name:'Вирусология',subj:'Химия — Биология',unis:8,min:90,grants:55},
+  {code:'B407',name:'Эпидемиология',subj:'Химия — Биология',unis:10,min:88,grants:60},
+  {code:'B408',name:'Санитария және гигиена',subj:'Химия — Биология',unis:12,min:84,grants:65},
+  {code:'B409',name:'Медициналық биофизика',subj:'Химия — Биология',unis:8,min:90,grants:55},
+  {code:'B410',name:'Медициналық химия',subj:'Химия — Биология',unis:10,min:88,grants:60},
+  {code:'B411',name:'Ортопедия',subj:'Химия — Биология',unis:8,min:110,grants:100},
+  {code:'B412',name:'Тамақтану және диетология',subj:'Химия — Биология',unis:14,min:80,grants:60},
+  {code:'B413',name:'Спорттық медицина',subj:'Химия — Биология',unis:10,min:78,grants:50},
+  {code:'B414',name:'Өсімдік өсіру',subj:'Химия — Биология',unis:14,min:74,grants:55},
+  {code:'B415',name:'Топырақтану',subj:'Химия — Биология',unis:12,min:74,grants:50},
+  {code:'B416',name:'Бағбандық',subj:'Химия — Биология',unis:10,min:72,grants:45},
+  // Қазақ тілі — Тарих (extra)
+  {code:'B500',name:'Археология',subj:'Қазақ тілі — Тарих',unis:10,min:76,grants:45},
+  {code:'B501',name:'Этнология',subj:'Қазақ тілі — Тарих',unis:8,min:74,grants:40},
+  {code:'B502',name:'Антропология',subj:'Қазақ тілі — Тарих',unis:8,min:74,grants:38},
+  {code:'B503',name:'Музеетану',subj:'Қазақ тілі — Тарих',unis:10,min:72,grants:42},
+  {code:'B504',name:'Мұрағаттану',subj:'Қазақ тілі — Тарих',unis:8,min:72,grants:38},
+  {code:'B505',name:'Іс жүргізу',subj:'Қазақ тілі — Тарих',unis:25,min:78,grants:95},
+  {code:'B506',name:'Қоғамдық-саяси ғылымдар',subj:'Қазақ тілі — Тарих',unis:15,min:78,grants:58},
+  {code:'B507',name:'Конституциялық құқық',subj:'Қазақ тілі — Тарих',unis:18,min:88,grants:80},
+  {code:'B508',name:'Қылмыстық процесс',subj:'Қазақ тілі — Тарих',unis:22,min:88,grants:90},
+  {code:'B509',name:'Адвокатура',subj:'Қазақ тілі — Тарих',unis:18,min:90,grants:80},
+  {code:'B510',name:'Нотариат',subj:'Қазақ тілі — Тарих',unis:15,min:86,grants:65},
+  {code:'B511',name:'Прокуратура',subj:'Қазақ тілі — Тарих',unis:12,min:92,grants:60},
+  {code:'B512',name:'Таможня ісі',subj:'Қазақ тілі — Тарих',unis:10,min:86,grants:55},
+  {code:'B513',name:'Дінтану',subj:'Қазақ тілі — Тарих',unis:10,min:76,grants:50},
+  {code:'B514',name:'Философия',subj:'Қазақ тілі — Тарих',unis:15,min:78,grants:60},
+  {code:'B515',name:'Мәдениеттану',subj:'Қазақ тілі — Тарих',unis:18,min:76,grants:70},
+  {code:'B516',name:'Кітапханатану',subj:'Қазақ тілі — Тарих',unis:14,min:72,grants:55},
+  // Орыс тілі — Дүниежүзілік тарих (extra)
+  {code:'B600',name:'Испан тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:8,min:82,grants:38},
+  {code:'B601',name:'Жапон тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:6,min:84,grants:35},
+  {code:'B602',name:'Корей тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:6,min:84,grants:35},
+  {code:'B603',name:'Араб тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:6,min:82,grants:35},
+  {code:'B604',name:'Парсы тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:4,min:80,grants:28},
+  {code:'B605',name:'Түрік тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:6,min:80,grants:32},
+  {code:'B606',name:'Халықаралық бизнес',subj:'Орыс тілі — Дүниежүзілік тарих',unis:20,min:88,grants:85},
+  {code:'B607',name:'Тіл білімі (лингвистика)',subj:'Орыс тілі — Дүниежүзілік тарих',unis:20,min:82,grants:80},
+  {code:'B608',name:'Шетел тілі мұғалімі',subj:'Орыс тілі — Дүниежүзілік тарих',unis:40,min:80,grants:150},
+  {code:'B609',name:'Аудармашы (синхронды)',subj:'Орыс тілі — Дүниежүзілік тарих',unis:12,min:88,grants:55},
+  {code:'B610',name:'Халықаралық журналистика',subj:'Орыс тілі — Дүниежүзілік тарих',unis:14,min:84,grants:70},
+  // Шығармашылық (extra)
+  {code:'B700',name:'Сән дизайны',subj:'Шығармашылық',unis:14,min:80,grants:48},
+  {code:'B701',name:'Анимация және 3D графика',subj:'Шығармашылық',unis:14,min:82,grants:52},
+  {code:'B702',name:'Ойын жасау (Game Design)',subj:'Шығармашылық',unis:10,min:80,grants:45},
+  {code:'B703',name:'Фото өнері',subj:'Шығармашылық',unis:10,min:70,grants:38},
+  {code:'B704',name:'Графика дизайны',subj:'Шығармашылық',unis:16,min:78,grants:58},
+  {code:'B705',name:'Веб-дизайн',subj:'Шығармашылық',unis:14,min:78,grants:52},
+  {code:'B706',name:'UX/UI дизайн',subj:'Шығармашылық',unis:12,min:80,grants:50},
+  {code:'B707',name:'Видеография',subj:'Шығармашылық',unis:10,min:72,grants:38},
+  {code:'B708',name:'Мерекелік оқиғаларды ұйымдастыру',subj:'Шығармашылық',unis:12,min:70,grants:42},
+  {code:'B709',name:'Кескіндеме',subj:'Шығармашылық',unis:12,min:78,grants:35},
+  {code:'B710',name:'Мүсін өнері',subj:'Шығармашылық',unis:8,min:78,grants:25},
+  {code:'B711',name:'Декоративтік-қолданбалы өнер',subj:'Шығармашылық',unis:14,min:76,grants:40},
+  {code:'B712',name:'Хореография',subj:'Шығармашылық',unis:10,min:70,grants:40},
+  {code:'B713',name:'Театр өнері',subj:'Шығармашылық',unis:8,min:72,grants:35},
+  {code:'B714',name:'Кино және теледидар режиссурасы',subj:'Шығармашылық',unis:6,min:80,grants:30},
+  {code:'B715',name:'Музыка өнері',subj:'Шығармашылық',unis:12,min:72,grants:45},
+  {code:'B716',name:'Цирк өнері',subj:'Шығармашылық',unis:4,min:68,grants:20},
+  // Математика — Информатика (extra)
+  {code:'B800',name:'Блокчейн технологиялары',subj:'Математика — Информатика',unis:8,min:92,grants:60},
+  {code:'B801',name:'Үлкен деректер (Big Data)',subj:'Математика — Информатика',unis:12,min:92,grants:75},
+  {code:'B802',name:'Машиналық оқыту',subj:'Математика — Информатика',unis:10,min:94,grants:70},
+  {code:'B803',name:'Компьютерлік желілер',subj:'Математика — Информатика',unis:25,min:86,grants:100},
+  {code:'B804',name:'Бұлтты технологиялар',subj:'Математика — Информатика',unis:15,min:88,grants:80},
+  {code:'B805',name:'Мобильді қолданбалар',subj:'Математика — Информатика',unis:18,min:88,grants:85},
+  {code:'B806',name:'Деректер базасы',subj:'Математика — Информатика',unis:22,min:84,grants:90},
+  {code:'B807',name:'Интернет заттары (IoT)',subj:'Математика — Информатика',unis:12,min:88,grants:68},
+  {code:'B808',name:'Робототехника',subj:'Математика — Информатика',unis:14,min:90,grants:75},
+  {code:'B809',name:'Компьютерлік графика',subj:'Математика — Информатика',unis:16,min:84,grants:70},
+  {code:'B810',name:'IT-менеджмент',subj:'Математика — Информатика',unis:20,min:86,grants:85},
+  {code:'B811',name:'Телекоммуникациялық технологиялар',subj:'Математика — Информатика',unis:18,min:84,grants:78},
+  // Физика — Математика (extra)
+  {code:'B900',name:'Лазерлік физика',subj:'Физика — Математика',unis:6,min:90,grants:45},
+  {code:'B901',name:'Астрофизика',subj:'Физика — Математика',unis:4,min:92,grants:38},
+  {code:'B902',name:'Техникалық физика',subj:'Физика — Математика',unis:10,min:84,grants:55},
+  {code:'B903',name:'Оптика',subj:'Физика — Математика',unis:6,min:88,grants:42},
+  // География — Тарих (extra)
+  {code:'B950',name:'Картография',subj:'География — Тарих',unis:8,min:74,grants:38},
+  {code:'B951',name:'Геоинформатика',subj:'География — Тарих',unis:10,min:76,grants:45},
+  {code:'B952',name:'Климатология',subj:'География — Тарих',unis:8,min:75,grants:38},
+  {code:'B953',name:'Демография',subj:'География — Тарих',unis:10,min:74,grants:40},
+  {code:'B954',name:'Өлкетану',subj:'География — Тарих',unis:12,min:72,grants:45},
+  {code:'B955',name:'Экологиялық туризм',subj:'География — Тарих',unis:10,min:71,grants:42},
 ];
 
 // ═══════════════════ ЖОО-ЛАР ═══════════════════
@@ -657,18 +822,50 @@ const UNIS = [
   {id:'200',short:'АМУ',name:'Арал мемлекеттік университеті',city:'Арал',c1:'065f46',c2:'2dd4bf',specs:20,students:1800,min:62},
   // Қаскелең
   {id:'210',short:'АТУ',name:'Алматы технологиялық университеті',city:'Алматы',c1:'7c3aed',c2:'c084fc',specs:35,students:7000,min:80},
+  // Алматы (extra)
+  {id:'211',short:'МАБ',name:'Международная Академия Бизнеса',city:'Алматы',c1:'0c4a6e',c2:'0ea5e9',specs:20,students:4500,min:78},
+  {id:'212',short:'КазАТК',name:'Қазақ академиялық теміржол кезеңі',city:'Алматы',c1:'7f1d1d',c2:'dc2626',specs:25,students:5500,min:72},
+  {id:'213',short:'АӨКУ',name:'Алматы өңірлік коммуникациялар университеті',city:'Алматы',c1:'164e63',c2:'22d3ee',specs:18,students:3500,min:70},
+  {id:'214',short:'ҚазСА',name:'Қазақстан спорт және туризм академиясы',city:'Алматы',c1:'166534',c2:'22c55e',specs:10,students:2500,min:65},
+  {id:'215',short:'КазГАСА',name:'Қазақ мемлекеттік сәулет-құрылыс академиясы',city:'Алматы',c1:'9a3412',c2:'f97316',specs:22,students:3800,min:82},
+  {id:'216',short:'ҚазКСА',name:'Қазақ ұлттық консерваториясы',city:'Алматы',c1:'4a044e',c2:'a21caf',specs:8,students:1500,min:70},
+  {id:'217',short:'ҚазХТА',name:'Қазақ хореография академиясы',city:'Алматы',c1:'831843',c2:'ec4899',specs:5,students:800,min:66},
+  // Астана (extra)
+  {id:'220',short:'ҚарМУ',name:'Қазақстан-Ресей медицина университеті',city:'Астана',c1:'7f1d1d',c2:'ef4444',specs:8,students:2500,min:106},
+  {id:'221',short:'ҚазНПУ',name:'Назарбаев Зияткерлік мектебі мұғалімдер',city:'Астана',c1:'1e40af',c2:'3b82f6',specs:10,students:2000,min:88},
+  {id:'222',short:'БГПА',name:'Болашақ мемлекеттік педагогика академиясы',city:'Астана',c1:'15803d',c2:'16a34a',specs:30,students:4500,min:72},
+  {id:'223',short:'ЕГУ',name:'Еуразия гуманитарлық институты',city:'Астана',c1:'1e3a5f',c2:'2563eb',specs:25,students:3500,min:70},
+  {id:'224',short:'ҚМЭУ',name:'Қазақстан мемлекеттік энергетика университеті',city:'Астана',c1:'854d0e',c2:'eab308',specs:18,students:3000,min:78},
+  // Шымкент (extra)
+  {id:'230',short:'ОҚУ',name:'Оңтүстік Қазақстан университеті',city:'Шымкент',c1:'166534',c2:'16a34a',specs:80,students:10000,min:70},
+  {id:'231',short:'ОҚМФА',name:'Оңтүстік Қазақстан медицина фармация академиясы',city:'Шымкент',c1:'9f1239',c2:'f43f5e',specs:8,students:3000,min:100},
+  {id:'232',short:'МКТУ',name:'М.Х.Дулати атындағы тараз мемлекеттік',city:'Шымкент',c1:'1a4731',c2:'4ade80',specs:60,students:7000,min:68},
+  // Қарағанды (extra)
+  {id:'240',short:'АК',name:'Академия Кайнар',city:'Қарағанды',c1:'1e3a5f',c2:'60a5fa',specs:30,students:4000,min:68},
+  {id:'241',short:'ҚИНТТУ',name:'Қарағанды индустриялық университеті',city:'Қарағанды',c1:'7c3aed',c2:'a78bfa',specs:40,students:5500,min:70},
+  // Басқа қалалар
+  {id:'250',short:'АГИ',name:'Ақмола гуманитарлық-экономикалық институты',city:'Кокшетау',c1:'065f46',c2:'34d399',specs:22,students:2500,min:64},
+  {id:'251',short:'ШҚГУ',name:'Шығыс Қазақстан гуманитарлық институты',city:'Өскемен',c1:'7c2d12',c2:'ea580c',specs:18,students:2000,min:64},
+  {id:'252',short:'ТарМУ',name:'Тараз мемлекеттік педагогикалық университеті',city:'Тараз',c1:'4c1d95',c2:'7c3aed',specs:35,students:4500,min:65},
+  {id:'253',short:'ЖТУ',name:'Жетісу технологиялық университеті',city:'Талдықорған',c1:'1c4966',c2:'0ea5e9',specs:20,students:2500,min:64},
+  {id:'254',short:'БҚМПУ',name:'Батыс Қазақстан мемлекеттік медицинская академиясы',city:'Орал',c1:'be123c',c2:'f43f5e',specs:6,students:2000,min:100},
+  {id:'255',short:'ҚызМУ',name:'Қызылорда "Болашақ" университеті',city:'Қызылорда',c1:'1a4731',c2:'16a34a',specs:28,students:3500,min:65},
+  {id:'256',short:'АтМУ',name:'Атырау мемлекеттік университеті',city:'Атырау',c1:'854d0e',c2:'ca8a04',specs:30,students:4000,min:66},
+  {id:'257',short:'ПМПУ',name:'Павлодар педагогикалық университеті',city:'Павлодар',c1:'0c4a6e',c2:'0891b2',specs:25,students:3200,min:65},
+  {id:'258',short:'ҚстМУ',name:'Қостанай мемлекеттік педагогикалық университеті',city:'Қостанай',c1:'166534',c2:'22c55e',specs:22,students:2800,min:64},
+  {id:'259',short:'ПетМУ',name:'Петропавл гуманитарлық-техникалық университеті',city:'Петропавл',c1:'1e3a5f',c2:'3b82f6',specs:20,students:2500,min:64},
 ];
 
 const subj2codes = {
-  'Биология — География':['B001','B002','B003','B054','B055','B056','B057','B058','B059'],
-  'Математика — Физика':['B050','B051','B065','B070','B071','B073a','B074a','B075a','B076a','B094','B095','B096','B097','B098','B099','B110','B111','B112','B113','B114','B115'],
-  'Химия — Биология':['B052','B053','B080','B081','B082','B083','B084','B085','B086','B087','B088','B089','B089b'],
-  'Қазақ тілі — Тарих':['B060','B062','B090','B091','B092','B093','B120','B121','B122','B125','B126','B127','B128'],
-  'Орыс тілі — Дүниежүзілік тарих':['B061','B063','B123','B124','B130','B131','B132','B133'],
-  'Шығармашылық':['B004','B005','B006','B007','B100','B101','B101b','B101c','B102','B103','B103b','B104','B105','B106','B107','B108','B109'],
-  'Математика — Информатика':['B072','B072b','B073c','B074c','B075c','B076c','B077c','B078c','B079c','B079d'],
-  'Физика — Математика':['B068','B068b','B068c','B068d'],
-  'География — Тарих':['B064','B064b','B064c'],
+  'Биология — География':['B001','B002','B003','B054','B055','B056','B057','B058','B059','B200','B201','B202','B203','B204','B205','B206','B207'],
+  'Математика — Физика':['B050','B051','B065','B070','B071','B073a','B074a','B075a','B076a','B094','B095','B096','B097','B098','B099','B110','B111','B112','B113','B114','B115','B300','B301','B302','B303','B304','B305','B306','B307','B308','B309','B310','B311','B312','B313','B314','B315','B316','B317','B318','B319','B320','B321','B322','B323','B324','B325','B326','B327','B328'],
+  'Химия — Биология':['B052','B053','B080','B081','B082','B083','B084','B085','B086','B087','B088','B089','B089b','B400','B401','B402','B403','B404','B405','B406','B407','B408','B409','B410','B411','B412','B413','B414','B415','B416'],
+  'Қазақ тілі — Тарих':['B060','B062','B090','B091','B092','B093','B120','B121','B122','B125','B126','B127','B128','B500','B501','B502','B503','B504','B505','B506','B507','B508','B509','B510','B511','B512','B513','B514','B515','B516'],
+  'Орыс тілі — Дүниежүзілік тарих':['B061','B063','B123','B124','B130','B131','B132','B133','B600','B601','B602','B603','B604','B605','B606','B607','B608','B609','B610'],
+  'Шығармашылық':['B004','B005','B006','B007','B100','B101','B101b','B101c','B102','B103','B103b','B104','B105','B106','B107','B108','B109','B700','B701','B702','B703','B704','B705','B706','B707','B708','B709','B710','B711','B712','B713','B714','B715','B716'],
+  'Математика — Информатика':['B072','B072b','B073c','B074c','B075c','B076c','B077c','B078c','B079c','B079d','B800','B801','B802','B803','B804','B805','B806','B807','B808','B809','B810','B811','B812','B813'],
+  'Физика — Математика':['B068','B068b','B068c','B068d','B900','B901','B902','B903'],
+  'География — Тарих':['B064','B064b','B064c','B950','B951','B952','B953','B954','B955'],
 };
 
 let sf='',uf='';
@@ -887,9 +1084,12 @@ function enterApp(){
   document.getElementById('app').style.display='block';
   rSpecs();rUnis();
   if(user){
-    const name=user.displayName||user.email||'?';
+    const name=user.displayName||user.email||'Қолданушы';
     const initials=name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
     document.querySelector('.t-av').textContent=initials;
+    document.getElementById('prof-av').textContent=initials;
+    document.getElementById('prof-name').textContent=user.displayName||name;
+    document.getElementById('prof-email').textContent=user.email||'—';
   }
   loadChat();
   toast('Strix.kz-ге қош келдіңіз! 🎉');
@@ -1042,12 +1242,71 @@ async function sendAI(){
     localStorage.setItem('strix_history',JSON.stringify(aiHistory));
   }catch(e){
     thinkDiv.className='';
-    thinkDiv.style.cssText=`max-width:88%;padding:12px 15px;border-radius:18px 18px 18px 4px;background:#fff;color:#333;align-self:flex-start;font-size:.87rem;line-height:1.6;white-space:pre-wrap;box-shadow:0 2px 10px rgba(0,0,0,.07)`;
+    thinkDiv.style.cssText=`max-width:88%;padding:12px 15px;border-radius:18px 18px 18px 4px;background:#fff;color:#EF4444;align-self:flex-start;font-size:.87rem;line-height:1.6;white-space:pre-wrap;box-shadow:0 2px 10px rgba(0,0,0,.07)`;
     thinkDiv.textContent='Қате: '+e.message;
   }
 }
 
-function nav(pgId,navId){
+function doLogout(){
+  auth.signOut().then(()=>{
+    document.getElementById('app').style.display='none';
+    document.getElementById('auth').style.display='block';
+    sv('v-ph');
+    toast('Сәтті шықтыңыз!');
+  });
+}
+
+let darkMode=false;
+function toggleTheme(){
+  darkMode=!darkMode;
+  const knob=document.getElementById('theme-knob');
+  const tog=document.getElementById('theme-tog');
+  if(darkMode){
+    document.body.style.background='#1A1A2E';
+    document.body.style.color='#E4E7FF';
+    tog.style.background='#4B5EFF';
+    knob.style.background='#fff';
+    knob.style.left='21px';
+    toast('Қараңғы режим қосылды 🌙');
+  } else {
+    document.body.style.background='';
+    document.body.style.color='';
+    tog.style.background='#E4E7FF';
+    knob.style.background='#8B96A9';
+    knob.style.left='3px';
+    toast('Жарық режим қосылды ☀️');
+  }
+}
+
+function editName(){
+  const newName=prompt('Жаңа атыңызды енгізіңіз:');
+  if(!newName)return;
+  const user=auth.currentUser;
+  if(user){
+    user.updateProfile({displayName:newName}).then(()=>{
+      document.getElementById('prof-name').textContent=newName;
+      const initials=newName.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+      document.querySelector('.t-av').textContent=initials;
+      document.getElementById('prof-av').textContent=initials;
+      toast('Аты өзгертілді! ✅');
+    });
+  }
+}
+
+function changePass(){
+  const user=auth.currentUser;
+  if(!user){toast('Алдымен кіріңіз!');return;}
+  const email=user.email;
+  if(!email){toast('Email арқылы кіру қажет!');return;}
+  auth.sendPasswordResetEmail(email).then(()=>{
+    toast('Пароль өзгерту сілтемесі жіберілді! 📧');
+  }).catch(err=>toast('Қате: '+err.message));
+}
+
+function showAbout(){
+  toast('Strix.kz v2.0 — Bilim Navigator 🇰🇿');
+}
+
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.bn').forEach(n=>n.classList.remove('on'));
   document.getElementById(pgId).classList.add('on');
