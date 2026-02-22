@@ -195,6 +195,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
   <div class="s-bar"><div class="s-prog"></div></div>
 </div>
 
+<div id="recaptcha-container"></div>
 <div id="auth">
   <div class="a-top">
     <div class="a-logo">Strix<span>.kz</span></div>
@@ -1682,14 +1683,27 @@ window.addEventListener('load',()=>{
     document.getElementById('splash').classList.add('out');
     setTimeout(()=>{
       document.getElementById('splash').style.display='none';
-      // Бұрын кірген болса автоматты кіреді
+      // Firebase auth күтуге timeout қосу
+      let authResolved=false;
+      const authTimeout=setTimeout(()=>{
+        if(!authResolved){
+          authResolved=true;
+          document.getElementById('auth').style.display='block';
+        }
+      },3000); // 3 секунд күтеді, содан кейін login экранын көрсетеді
+
       auth.onAuthStateChanged(user=>{
+        if(authResolved) return;
+        authResolved=true;
+        clearTimeout(authTimeout);
         if(user){
           enterApp();
         } else {
           document.getElementById('auth').style.display='block';
-          recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
-          recaptchaVerifier.render();
+          try{
+            recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
+            recaptchaVerifier.render();
+          }catch(e){}
         }
       });
     },500);
