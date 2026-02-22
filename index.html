@@ -175,14 +175,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 .footer{text-align:center;padding:14px;font-size:.7rem;color:var(--mu);background:#fff;border-top:1px solid var(--br);margin-top:6px}
 .footer strong{color:var(--tx)}.footer a{color:var(--p);font-weight:700;text-decoration:none}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.08);opacity:1}}
-@keyframes glow-ring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.18);opacity:.15}}
-@keyframes glow-ring2{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.32);opacity:.08}}
-.ai-thinking{display:flex;align-items:flex-start;padding:4px 0}
-.ai-thinking-inner{position:relative;width:56px;height:56px;display:flex;align-items:center;justify-content:center}
-.ai-thinking-inner .ring1{position:absolute;inset:-10px;border-radius:20px;background:rgba(75,94,255,.2);animation:glow-ring 1.4s ease-in-out infinite}
-.ai-thinking-inner .ring2{position:absolute;inset:-20px;border-radius:28px;background:rgba(123,111,255,.12);animation:glow-ring2 1.4s .35s ease-in-out infinite}
-.ai-thinking-inner .s-box{width:56px;height:56px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(75,94,255,.3)}
-.ai-thinking-inner .s-letter{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .empty{text-align:center;padding:40px;color:var(--mu);font-size:.87rem}
 </style>
 </head>
@@ -198,7 +190,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       </div>
     </div>
     <div class="s-logo">Strix<span>.kz</span></div>
-
+    <div class="s-sub">Білім навигаторы 🇰🇿</div>
   </div>
   <div class="s-bar"><div class="s-prog"></div></div>
 </div>
@@ -216,15 +208,15 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
   </div>
   <div class="a-card">
     <div id="v-ph">
-      <div class="a-h2">Strix.kz-ге кіріңіз</div>
-      <div class="a-p">Google аккаунтыңызбен тіркеліп, жеке профиліңізді жасаңыз</div>
-      <button class="btn-p" onclick="doGoogle()" style="display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:16px">
+      <div class="a-h2">Кіру</div>
+      <div class="a-p">Аккаунтыңызбен кіріңіз</div>
+      <button class="btn-p" onclick="doGoogle()" style="display:flex;align-items:center;justify-content:center;gap:9px">
         <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#fff" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.34-8.16 2.34-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-        Google арқылы кіру / Тіркелу
+        Google арқылы кіру
       </button>
-      <div style="background:#EEF0FF;border-radius:12px;padding:12px 14px;font-size:.81rem;color:#4B5EFF;text-align:center;font-weight:600">
-        🔒 Google аккаунтыңыз арқылы қауіпсіз кіріңіз
-      </div>
+      <div class="or-r"><div class="or-l"></div><span class="or-t">немесе</span><div class="or-l"></div></div>
+      <button class="btn-w" onclick="sv('v-em')">✉️ &nbsp;Email арқылы кіру</button>
+      <div class="a-sw">Аккаунт жоқ па? <a onclick="sv('v-reg')">Тіркелу</a></div>
     </div>
     <div id="v-otp" style="display:none">
       <div class="a-h2">Код енгізу 🔐</div>
@@ -252,7 +244,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       <div class="a-p">Google аккаунтыңызды таңдаңыз</div>
       <div style="background:#F8F9FF;border-radius:14px;padding:14px;margin-bottom:14px;border:2px solid var(--br);cursor:pointer;display:flex;align-items:center;gap:12px" onclick="enterApp()">
         <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4B5EFF,#7B6FFF);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0">G</div>
-        <div><div style="font-weight:700;font-size:.88rem">Google аккаунтымен жалғастыру</div><div style="font-size:.75rem;color:var(--mu)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4930263c3b2728242c092e24282025672a2624">[email&#160;protected]</a></div></div>
+        <div><div style="font-weight:700;font-size:.88rem">Google аккаунтымен жалғастыру</div><div style="font-size:.75rem;color:var(--mu)">yourname@gmail.com</div></div>
         <div style="margin-left:auto;color:#C8CFE0">›</div>
       </div>
       <div class="demo-box">⚡ Демо режим — жоғарыдағы аккаунтты басыңыз</div>
@@ -468,7 +460,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 
 <div class="toast" id="t-el"><span id="t-msg"></span></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ═══════════════════ МАМАНДЫҚТАР ═══════════════════
 const SPECS = [
   // Биология — География (B001–B009, B054–B058)
@@ -578,68 +570,6 @@ const SPECS = [
   {code:'B064',name:'География және тарих мұғалімі',subj:'География — Тарих',unis:30,min:73,grants:100},
   {code:'B064b',name:'Туризм және өлкетану',subj:'География — Тарих',unis:22,min:72,grants:80},
   {code:'B064c',name:'Геоэкология',subj:'География — Тарих',unis:14,min:74,grants:55},
-  // Математика — Физика (қосымша)
-  {code:'B116',name:'Теміржол көлігі',subj:'Математика — Физика',unis:12,min:80,grants:65},
-  {code:'B117',name:'Авиация техникасы',subj:'Математика — Физика',unis:8,min:85,grants:60},
-  {code:'B119',name:'Автомобиль көлігі',subj:'Математика — Физика',unis:20,min:76,grants:80},
-  {code:'B119b',name:'Жол-көлік кешені',subj:'Математика — Физика',unis:16,min:74,grants:65},
-  {code:'B119c',name:'Геодезия және картография',subj:'Математика — Физика',unis:14,min:78,grants:60},
-  {code:'B200',name:'Экономикалық статистика',subj:'Математика — Физика',unis:25,min:84,grants:110},
-  {code:'B204',name:'Банк ісі',subj:'Математика — Физика',unis:30,min:84,grants:130},
-  {code:'B207',name:'Туристік бизнес',subj:'Математика — Физика',unis:22,min:74,grants:85},
-  {code:'B208',name:'Мейрамхана ісі және қонақ үй бизнесі',subj:'Математика — Физика',unis:20,min:72,grants:80},
-  {code:'B209',name:'Іскерлік басқару (Business Administration)',subj:'Математика — Физика',unis:35,min:86,grants:160},
-  {code:'B210',name:'Жобалық менеджмент',subj:'Математика — Физика',unis:20,min:84,grants:95},
-  {code:'B211',name:'HR менеджмент',subj:'Математика — Физика',unis:18,min:80,grants:80},
-  {code:'B212',name:'Салық және салық салу',subj:'Математика — Физика',unis:22,min:80,grants:95},
-  {code:'B213',name:'Кеден ісі',subj:'Математика — Физика',unis:18,min:80,grants:85},
-  {code:'B253',name:'Жаңартылатын энергетика',subj:'Математика — Физика',unis:14,min:84,grants:80},
-  {code:'B255',name:'Жылу энергетикасы',subj:'Математика — Физика',unis:14,min:80,grants:70},
-  {code:'B262',name:'Электромеханика',subj:'Математика — Физика',unis:18,min:80,grants:80},
-  {code:'B263',name:'Автоматика және басқару жүйелері',subj:'Математика — Физика',unis:20,min:84,grants:90},
-  {code:'B265',name:'Телекоммуникациялық технологиялар',subj:'Математика — Физика',unis:20,min:84,grants:90},
-  {code:'B267',name:'Транспорттық логистика',subj:'Математика — Физика',unis:20,min:78,grants:85},
-  // Химия — Биология (қосымша)
-  {code:'B089c',name:'Балық шаруашылығы',subj:'Химия — Биология',unis:10,min:72,grants:50},
-  {code:'B089d',name:'Орман шаруашылығы',subj:'Химия — Биология',unis:8,min:70,grants:40},
-  {code:'B089e',name:'Жер пайдалану және жер кадастрі',subj:'Химия — Биология',unis:14,min:74,grants:60},
-  {code:'B089g',name:'Экологиялық менеджмент және аудит',subj:'Химия — Биология',unis:12,min:76,grants:55},
-  {code:'B089m',name:'Акушерлік іс',subj:'Химия — Биология',unis:15,min:82,grants:80},
-  {code:'B220',name:'Медициналық-профилактикалық іс',subj:'Химия — Биология',unis:12,min:96,grants:110},
-  {code:'B221',name:'Педиатрия',subj:'Химия — Биология',unis:14,min:104,grants:160},
-  {code:'B227',name:'Лаборант-диагностика',subj:'Химия — Биология',unis:16,min:78,grants:90},
-  // Қазақ тілі — Тарих (қосымша)
-  {code:'B128e',name:'Әлеуметтану',subj:'Қазақ тілі — Тарих',unis:20,min:78,grants:80},
-  {code:'B128f',name:'Психология',subj:'Қазақ тілі — Тарих',unis:35,min:80,grants:140},
-  {code:'B128i',name:'Педагогика мен психология (мектепке дейінгі)',subj:'Қазақ тілі — Тарих',unis:28,min:73,grants:100},
-  {code:'B128j',name:'Арнайы педагогика',subj:'Қазақ тілі — Тарих',unis:18,min:72,grants:70},
-  {code:'B230',name:'Қылмыстық заң',subj:'Қазақ тілі — Тарих',unis:30,min:86,grants:130},
-  {code:'B232',name:'Халықаралық заң',subj:'Қазақ тілі — Тарих',unis:18,min:92,grants:100},
-  {code:'B240',name:'Логопедия',subj:'Қазақ тілі — Тарих',unis:18,min:73,grants:75},
-  // Орыс тілі — Дүниежүзілік тарих (қосымша)
-  {code:'B134',name:'Кәрістану',subj:'Орыс тілі — Дүниежүзілік тарих',unis:6,min:82,grants:35},
-  {code:'B135',name:'Жапонтану',subj:'Орыс тілі — Дүниежүзілік тарих',unis:7,min:82,grants:40},
-  {code:'B136',name:'Арабтану',subj:'Орыс тілі — Дүниежүзілік тарих',unis:8,min:80,grants:45},
-  {code:'B139',name:'Испан тілі мен әдебиеті',subj:'Орыс тілі — Дүниежүзілік тарих',unis:8,min:81,grants:40},
-  // Математика — Информатика (қосымша)
-  {code:'B079e',name:'Ақпараттық-коммуникациялық технологиялар',subj:'Математика — Информатика',unis:30,min:82,grants:130},
-  {code:'B079h',name:'Цифрлық технологиялар және инновациялар',subj:'Математика — Информатика',unis:18,min:88,grants:95},
-  {code:'B079i',name:'Робототехника',subj:'Математика — Информатика',unis:15,min:90,grants:90},
-  {code:'B079j',name:'Интернет заттар (IoT)',subj:'Математика — Информатика',unis:12,min:88,grants:80},
-  {code:'B079k',name:'Blockchain технологиялары',subj:'Математика — Информатика',unis:10,min:90,grants:75},
-  {code:'B079l',name:'Ойын индустриясы (Game Development)',subj:'Математика — Информатика',unis:8,min:88,grants:60},
-  // Шығармашылық (қосымша)
-  {code:'B109f',name:'Тележурналистика',subj:'Шығармашылық',unis:12,min:78,grants:55},
-  {code:'B109g',name:'PR және жарнама',subj:'Шығармашылық',unis:20,min:76,grants:80},
-  {code:'B109h',name:'Медиакоммуникациялар',subj:'Шығармашылық',unis:15,min:78,grants:65},
-  {code:'B109c',name:'Цифрлық өнер',subj:'Шығармашылық',unis:10,min:76,grants:40},
-  // Физика — Математика (қосымша)
-  {code:'B068e',name:'Радиофизика және электроника',subj:'Физика — Математика',unis:8,min:84,grants:55},
-  {code:'B068h',name:'Медициналық физика',subj:'Физика — Математика',unis:8,min:88,grants:50},
-  // Биология — География (қосымша)
-  {code:'B059b',name:'Гидрология',subj:'Биология — География',unis:10,min:74,grants:45},
-  {code:'B059c',name:'Метеорология',subj:'Биология — География',unis:8,min:76,grants:40},
-  {code:'B059f',name:'Геодезия',subj:'Биология — География',unis:14,min:76,grants:60},
 ];
 
 // ═══════════════════ ЖОО-ЛАР ═══════════════════
@@ -796,8 +726,8 @@ function rUnis(q=''){
         <div class="uc-city">📍 ${u.city}</div>
         <div class="uc-sts">
           <div class="uc-st"><strong>${u.specs}+</strong><span>Мамандық</span></div>
-          <div class="uc-st"><strong>${u.min}</strong><span>ҰБТ мин.балл</span></div>
-          <div class="uc-st"><strong>${Math.round(u.students*0.07)}</strong><span>Грант квота</span></div>
+          <div class="uc-st"><strong>${u.min}</strong><span>Мин.балл</span></div>
+          <div class="uc-st"><strong>${u.students.toLocaleString()}</strong><span>Студент</span></div>
         </div>
       </div>
     </div>`).join('');
@@ -873,6 +803,8 @@ window.addEventListener('load',()=>{
           enterApp();
         } else {
           document.getElementById('auth').style.display='block';
+          recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
+          recaptchaVerifier.render();
         }
       });
     },500);
@@ -1056,11 +988,7 @@ async function sendAI(){
   addMsg(userText,true);
   inp.value='';
 
-  const thinkDiv=document.createElement('div');
-  thinkDiv.className='ai-thinking';
-  thinkDiv.innerHTML=`<div class="ai-thinking-inner"><div class="ring2"></div><div class="ring1"></div><div class="s-box"><span class="s-letter">S</span></div></div>`;
-  document.getElementById('ai-messages').appendChild(thinkDiv);
-  thinkDiv.scrollIntoView({behavior:'smooth'});
+  const thinkDiv=addMsg('⏳ Жауап дайындалуда...',false,false);
 
   const messages=[
     {role:'system',content:'Сен Strix.kz сайтының AI көмекшісісің. Қазақстан білім жүйесі, ҰБТ, мамандықтар, университеттер, грант, заң, қаржы туралы сұрақтарға қазақша жауап бер. Нақты және пайдалы жауаптар бер.'},
@@ -1093,21 +1021,14 @@ async function sendAI(){
     });
     const data=await res.json();
     const reply=data.choices?.[0]?.message?.content||'Жауап алынбады.';
-    const replyDiv=document.createElement('div');
-    replyDiv.style.cssText=`max-width:88%;padding:12px 15px;border-radius:18px 18px 18px 4px;background:#fff;color:#333;align-self:flex-start;font-size:.87rem;line-height:1.6;white-space:pre-wrap;box-shadow:0 2px 10px rgba(0,0,0,.07)`;
-    replyDiv.textContent=reply;
-    thinkDiv.replaceWith(replyDiv);
-    replyDiv.scrollIntoView({behavior:'smooth'});
+    thinkDiv.textContent=reply;
     saveChat(reply,false);
     aiHistory.push({role:'user',content:userText});
     aiHistory.push({role:'assistant',content:reply});
     if(aiHistory.length>20) aiHistory=aiHistory.slice(-20);
     localStorage.setItem('strix_history',JSON.stringify(aiHistory));
   }catch(e){
-    const errDiv=document.createElement('div');
-    errDiv.style.cssText=`max-width:88%;padding:12px 15px;border-radius:18px 18px 18px 4px;background:#fff;color:#e11d48;font-size:.87rem;box-shadow:0 2px 10px rgba(0,0,0,.07)`;
-    errDiv.textContent='Қате: '+e.message;
-    thinkDiv.replaceWith(errDiv);
+    thinkDiv.textContent='Қате: '+e.message;
   }
 }
 
@@ -1123,4 +1044,11 @@ function toast(msg){
   document.getElementById('t-msg').textContent=msg;
   el.classList.add('on');
   clearTimeout(el._t);
-  el._t=setTimeout(()=>el.classLis
+  el._t=setTimeout(()=>el.classList.remove('on'),2800);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('ph').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,10);});
+});
+</script>
+</body>
+</html>
