@@ -1586,7 +1586,7 @@ function localRegister(name,email,pass){
 }
 function doGoogleLogin(){
   if(window._fbReady&&window._fbAuth&&window._fbGoogleProvider){
-    window._fbSignInWithPopup(window._fbAuth,window._fbGoogleProvider).then(result=>{const u=result.user;loginUser({name:u.displayName||'Google User',email:u.email,avatar:(u.displayName||'G')[0].toUpperCase(),uid:u.uid});}).catch(err=>showToast('Google: '+err.message));
+    window._fbSignInWithRedirect(window._fbAuth,window._fbGoogleProvider).catch(err=>showToast('Google: '+err.message));
   } else {
     showToast(t('googleDemoMsg'));
     setTimeout(()=>loginUser({name:'Google Пайдаланушы',email:'google@strix.kz',avatar:'G'}),1000);
