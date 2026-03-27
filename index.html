@@ -9,7 +9,7 @@
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyA8kTHiIIJXQeRZtIIb2v-f02XHiJyVL08",
@@ -29,6 +29,8 @@
     window._fbAuth = auth;
     window._fbGoogleProvider = googleProvider;
     window._fbSignInWithPopup = signInWithPopup;
+    window._fbSignInWithRedirect = signInWithRedirect;
+    window._fbGetRedirectResult = getRedirectResult;
     window._fbCreateUser = createUserWithEmailAndPassword;
     window._fbSignIn = signInWithEmailAndPassword;
     window._fbSignOut = signOut;
@@ -1947,20 +1949,12 @@ function localRegister(name, email, pass) {
 
 function doGoogleLogin() {
   if(window._fbReady && window._fbAuth && window._fbGoogleProvider) {
-    window._fbSignInWithPopup(window._fbAuth, window._fbGoogleProvider)
-      .then(cred => {
-        const u = cred.user;
-        loginUser({name: u.displayName||'Google User', email: u.email, avatar: (u.displayName||'G')[0].toUpperCase(), uid: u.uid});
-      })
+    // Redirect әдісі — телефон браузерлерінде жақсы жұмыс жасайды
+    window._fbSignInWithRedirect(window._fbAuth, window._fbGoogleProvider)
       .catch(err => {
-        // If popup blocked or config error, use demo
-        showToast(t('googleDemoMsg'));
-        setTimeout(() => {
-          loginUser({name:'Google Пайдаланушы', email:'google@strix.kz', avatar:'G'});
-        }, 1500);
+        showToast('Google кіру қатесі: ' + err.message);
       });
   } else {
-    // Demo mode
     showToast(t('googleDemoMsg'));
     setTimeout(() => {
       loginUser({name:'Google Пайдаланушы', email:'google@strix.kz', avatar:'G'});
@@ -2581,6 +2575,20 @@ document.addEventListener('click', e => {
     if(btn) btn.textContent = '☀️';
     const toggle = document.getElementById('darkToggle');
     if(toggle) toggle.checked = true;
+  }
+
+  // Check Google redirect result first
+  if(window._fbReady && window._fbGetRedirectResult && window._fbAuth) {
+    window._fbGetRedirectResult(window._fbAuth)
+      .then(result => {
+        if(result && result.user) {
+          const u = result.user;
+          loginUser({name: u.displayName||'Google User', email: u.email, avatar: (u.displayName||'G')[0].toUpperCase(), uid: u.uid});
+        }
+      })
+      .catch(err => {
+        console.warn('Redirect result error:', err.message);
+      });
   }
 
   // Restore session
