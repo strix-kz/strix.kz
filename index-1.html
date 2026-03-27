@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Strix — ҰБТ + AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  const firebaseConfig = {
+    apiKey:"AIzaSyBSd2R35KGCr6XulxSmoL48Q1Ej11n6yTU",
+    authDomain:"strix-kz.firebaseapp.com",projectId:"strix-kz",
+    storageBucket:"strix-kz.firebasestorage.app",
+    messagingSenderId:"914224931230",
+    appId:"1:914224931230:web:3781b1720c93690382b68f"
+  };
+  try {
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+    window._fbAuth=auth; window._fbGoogleProvider=googleProvider;
+    window._fbSignInWithPopup=signInWithPopup; window._fbSignInWithRedirect=signInWithRedirect;
+    window._fbGetRedirectResult=getRedirectResult; window._fbCreateUser=createUserWithEmailAndPassword;
+    window._fbSignIn=signInWithEmailAndPassword; window._fbSignOut=signOut;
+    window._fbUpdateProfile=updateProfile; window._fbOnAuthStateChanged=onAuthStateChanged;
+    window._fbReady=true;
+  } catch(e){ window._fbReady=false; }
+</script>
+
+<style>
+/* ===== CLAUDE-LIKE COLOR SYSTEM ===== */
+:root {
+  --bg: #f5f4ef;
+  --bg2: #ffffff;
+  --bg3: #eeecea;
+  --card: #ffffff;
+  --card2: #f0eeea;
+  --border: rgba(0,0,0,0.07);
+  --text: #1a1915;
+  --text2: #2d2c28;
+  --text3: #8a887e;
+  --accent: #c96e3a;
+  --accent2: #e0823f;
+  --accent-soft: rgba(201,110,58,0.1);
+  --accent-softer: rgba(201,110,58,0.06);
+  --green: #1a7a3c;
+  --green-soft: rgba(26,122,60,0.1);
+  --red: #c0392b;
+  --red-soft: rgba(192,57,43,0.1);
+  --yellow: #b7860d;
+  --separator: rgba(0,0,0,0.07);
+  --nav-bg: rgba(245,244,239,0.94);
+  --nav-border: rgba(0,0,0,0.06);
+  --blur: blur(20px);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow: 0 4px 20px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+}
+[data-theme="dark"] {
+  --bg: #1a1915;
+  --bg2: #211f1b;
+  --bg3: #2a2824;
+  --card: #242220;
+  --card2: #2a2824;
+  --border: rgba(255,255,255,0.07);
+  --text: #f0ede6;
+  --text2: #d4d0c8;
+  --text3: #7a7870;
+  --accent: #e07840;
+  --accent2: #f08a50;
+  --accent-soft: rgba(224,120,64,0.15);
+  --accent-softer: rgba(224,120,64,0.08);
+  --green: #22a04e;
+  --green-soft: rgba(34,160,78,0.15);
+  --red: #e05040;
+  --red-soft: rgba(224,80,64,0.15);
+  --separator: rgba(255,255,255,0.06);
+  --nav-bg: rgba(26,25,21,0.94);
+  --nav-border: rgba(255,255,255,0.05);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.3);
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes slideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
+@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes dotBounce { 0%,80%,100%{transform:translateY(0);opacity:0.4} 40%{transform:translateY(-5px);opacity:1} }
+@keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+
+/* ===== BASE COMPONENTS ===== */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.btn-primary {
+  width:100%; padding:14px 20px;
+  background: var(--text);
+  color: var(--bg);
+  border:none; border-radius: var(--radius);
+  font-size:15px; font-weight:600;
+  cursor:pointer; font-family:inherit;
+  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: -0.01em;
+}
+.btn-primary:active { opacity:0.85; transform:scale(0.99); }
+
+.btn-secondary {
+  width:100%; padding:13px 20px;
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size:15px; font-weight:500;
+  cursor:pointer; font-family:inherit;
+  transition: all 0.15s;
+  display: flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-secondary:active { background: var(--card2); }
+
+.input-field {
+  width:100%; padding:13px 14px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size:15px; font-family:inherit;
+  color: var(--text); outline:none;
+  transition: border-color 0.2s;
+}
+.input-field:focus { border-color: var(--accent); }
+.input-field::placeholder { color: var(--text3); }
+
+.label { display:block; font-size:12px; font-weight:600; color:var(--text3); margin-bottom:6px; letter-spacing:0.03em; }
+
+.row-item {
+  display:flex; align-items:center;
+  padding:14px 16px;
+  border-bottom:1px solid var(--separator);
+  cursor:pointer; transition:background 0.1s; gap:12px;
+}
+.row-item:last-child { border-bottom:none; }
+.row-item:active { background:var(--bg3); }
+
+.row-icon {
+  width:34px; height:34px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:16px;
+}
+.row-label { flex:1; font-size:15px; font-weight:400; color:var(--text); }
+.row-arrow { color:var(--text3); font-size:13px; }
+
+.badge {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:3px 10px; border-radius:20px;
+  font-size:11px; font-weight:600; letter-spacing:0.02em;
+}
+.badge-accent { background:var(--accent-soft); color:var(--accent); }
+.badge-green { background:var(--green-soft); color:var(--green); }
+.badge-red { background:var(--red-soft); color:var(--red); }
+
+.section-label {
+  font-size:11px; font-weight:700; color:var(--text3);
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:14px 16px 8px;
+}
+
+/* ===== TOGGLE ===== */
+.toggle { position:relative; width:48px; height:28px; flex-shrink:0; }
+.toggle input { opacity:0; width:0; height:0; }
+.toggle-slider {
+  position:absolute; inset:0;
+  background: var(--border); border-radius:28px;
+  transition:background 0.25s; cursor:pointer;
+  border: 1.5px solid var(--border);
+}
+.toggle-slider::before {
+  content:''; position:absolute;
+  width:22px; height:22px; left:2px; top:1px;
+  background:#fff; border-radius:50%;
+  transition:transform 0.25s;
+  box-shadow:0 1px 4px rgba(0,0,0,0.2);
+}
+.toggle input:checked + .toggle-slider { background:var(--green); border-color:var(--green); }
+.toggle input:checked + .toggle-slider::before { transform:translateX(20px); }
+
+/* ===== LANG SWITCHER ===== */
+.lang-sw { display:flex; gap:2px; background:var(--card2); border-radius:8px; padding:2px; }
+.lang-btn {
+  padding:5px 10px; border:none; border-radius:6px;
+  font-size:12px; font-weight:600; cursor:pointer;
+  font-family:inherit; color:var(--text3); background:transparent;
+  transition:all 0.15s;
+}
+.lang-btn.active { background:var(--card); color:var(--accent); box-shadow:var(--shadow-sm); }
+
+/* ===== TOP NAV ===== */
+.top-nav {
+  position:sticky; top:0; z-index:100;
+  background:var(--nav-bg);
+  backdrop-filter:var(--blur); -webkit-backdrop-filter:var(--blur);
+  border-bottom:1px solid var(--nav-border);
+  padding:12px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  min-height:56px; transition:background 0.3s;
+}
+.nav-brand { display:flex; align-items:center; gap:9px; }
+.nav-logo-box {
+  width:32px; height:32px; border-radius:9px;
+  background:var(--text); color:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:800; flex-shrink:0;
+  letter-spacing:-0.03em;
+}
+.nav-brand-name { font-size:18px; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+.nav-right { display:flex; align-items:center; gap:8px; }
+.nav-icon-btn {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--card2); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--text);
+  transition:background 0.15s;
+}
+.nav-icon-btn:active { opacity:0.7; }
+.nav-avatar {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--text); color:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; cursor:pointer; flex-shrink:0;
+}
+
+/* ===== AUTH ===== */
+.auth-overlay {
+  position:fixed; inset:0; z-index:1000;
+  background:var(--bg);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:24px; animation:fadeIn 0.3s ease;
+}
+.auth-box { width:100%; max-width:360px; animation:slideUp 0.35s ease; }
+.auth-logo-wrap { text-align:center; margin-bottom:32px; }
+.auth-logo-big {
+  width:72px; height:72px; border-radius:20px;
+  background:var(--text); color:var(--bg);
+  margin:0 auto 14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:30px; font-weight:800; letter-spacing:-0.03em;
+  animation:float 3s ease-in-out infinite;
+}
+.auth-title { font-size:26px; font-weight:800; color:var(--text); letter-spacing:-0.02em; }
+.auth-sub { font-size:14px; color:var(--text3); margin-top:5px; }
+.auth-tabs {
+  display:flex; background:var(--card2);
+  border-radius:10px; padding:3px; margin-bottom:22px;
+}
+.auth-tab {
+  flex:1; padding:9px; border:none; border-radius:8px;
+  font-size:14px; font-weight:600;
+  cursor:pointer; font-family:inherit; color:var(--text3);
+  background:transparent; transition:all 0.2s;
+}
+.auth-tab.active { background:var(--card); color:var(--text); box-shadow:var(--shadow-sm); }
+
+.form-group { margin-bottom:12px; }
+.google-btn {
+  width:100%; padding:13px;
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:var(--radius); font-size:15px; font-weight:500;
+  cursor:pointer; font-family:inherit; color:var(--text);
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  transition:all 0.15s; margin-top:4px;
+}
+.google-btn:active { background:var(--card2); }
+.auth-divider {
+  text-align:center; color:var(--text3); font-size:13px; margin:14px 0;
+  position:relative;
+}
+.auth-divider::before,.auth-divider::after {
+  content:''; position:absolute; top:50%; width:42%; height:1px; background:var(--separator);
+}
+.auth-divider::before{left:0;} .auth-divider::after{right:0;}
+
+/* ===== APP ===== */
+.app { display:none; min-height:100vh; }
+.app.show { display:block; }
+.page { display:none; min-height:100vh; animation:fadeIn 0.2s ease; }
+.page.show { display:block; }
+
+/* ===== HOME ===== */
+.hero {
+  background:var(--text);
+  padding:28px 20px 42px;
+  position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute;
+  width:280px; height:280px; border-radius:50%;
+  background:rgba(255,255,255,0.04);
+  right:-60px; top:-80px;
+}
+.hero-title {
+  font-size:28px; font-weight:800; color:var(--bg);
+  line-height:1.2; letter-spacing:-0.03em; margin-bottom:10px;
+  position:relative; z-index:1;
+}
+.hero-sub {
+  font-size:14px; color:rgba(245,244,239,0.65);
+  line-height:1.55; position:relative; z-index:1;
+}
+.home-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; padding:16px;
+  margin-top:-18px; position:relative; z-index:2;
+}
+.home-card {
+  background:var(--card); border-radius:var(--radius-lg);
+  padding:16px; box-shadow:var(--shadow);
+  cursor:pointer; border:1px solid var(--border);
+  transition:transform 0.15s, box-shadow 0.15s;
+  position:relative; overflow:hidden;
+}
+.home-card:active { transform:scale(0.97); }
+.home-card.full { grid-column:1/-1; }
+.home-card.dark {
+  background:var(--text); border-color:transparent;
+}
+.home-card-icon { font-size:26px; margin-bottom:8px; display:block; }
+.home-card-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+.home-card.dark .home-card-title { color:var(--bg); }
+.home-card-sub { font-size:12px; color:var(--text3); font-weight:500; }
+.home-card.dark .home-card-sub { color:rgba(245,244,239,0.55); }
+.ai-badge {
+  position:absolute; top:12px; right:12px;
+  background:rgba(255,255,255,0.15);
+  border-radius:6px; padding:3px 8px;
+  font-size:11px; font-weight:700; color:rgba(255,255,255,0.9); letter-spacing:0.05em;
+}
+
+/* ===== SEARCH ===== */
+.search-wrap-sticky {
+  padding:12px 16px 6px;
+  position:sticky; top:56px; z-index:90; background:var(--bg);
+}
+.search-inner { position:relative; }
+.search-ico {
+  position:absolute; left:12px; top:50%; transform:translateY(-50%);
+  color:var(--text3); pointer-events:none; font-size:15px;
+}
+.search-input {
+  width:100%; padding:11px 14px 11px 38px;
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:var(--radius); font-size:15px; font-family:inherit;
+  color:var(--text); outline:none; transition:border-color 0.2s;
+}
+.search-input:focus { border-color:var(--accent); }
+.search-input::placeholder { color:var(--text3); }
+
+/* ===== CHIPS ===== */
+.chips-row { display:flex; gap:6px; overflow-x:auto; padding:8px 16px 10px; }
+.chips-row::-webkit-scrollbar { display:none; }
+.chip {
+  padding:7px 14px; border-radius:20px;
+  border:1.5px solid var(--border); background:var(--card);
+  font-size:12px; font-weight:600; color:var(--text3);
+  white-space:nowrap; cursor:pointer; font-family:inherit;
+  flex-shrink:0; transition:all 0.15s;
+}
+.chip.active { background:var(--text); border-color:var(--text); color:var(--bg); }
+.chip:active { opacity:0.75; }
+
+/* ===== SPECIALTY LIST ===== */
+.spec-list { padding:0 16px 100px; }
+.spec-item {
+  display:flex; align-items:center; gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid var(--separator);
+  cursor:pointer; transition:opacity 0.1s;
+}
+.spec-item:last-child { border-bottom:none; }
+.spec-item:active { opacity:0.7; }
+.spec-code-tag {
+  background:var(--accent-softer); color:var(--accent);
+  border-radius:7px; padding:4px 8px;
+  font-size:11px; font-weight:700; flex-shrink:0;
+  min-width:48px; text-align:center; letter-spacing:0.01em;
+}
+.spec-info { flex:1; min-width:0; }
+.spec-name { font-size:14px; font-weight:600; color:var(--text); margin-bottom:2px; }
+.spec-subject { font-size:12px; color:var(--text3); font-weight:500; }
+.spec-score { font-size:14px; font-weight:700; color:var(--accent); text-align:right; white-space:nowrap; }
+.spec-score-label { font-size:11px; color:var(--text3); text-align:right; }
+
+/* ===== GRANT PAGE ===== */
+.grant-header {
+  background:var(--text);
+  padding:20px; margin:16px; border-radius:var(--radius-xl);
+  color:var(--bg);
+}
+.grant-header-title { font-size:18px; font-weight:800; margin-bottom:4px; letter-spacing:-0.02em; }
+.grant-header-sub { font-size:13px; opacity:0.55; }
+
+.quota-card { background:var(--card); border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border); }
+.quota-row {
+  display:flex; align-items:center;
+  padding:13px 16px; border-bottom:1px solid var(--separator);
+  cursor:pointer; gap:12px; transition:background 0.1s;
+}
+.quota-row:last-child { border-bottom:none; }
+.quota-row:active { background:var(--bg3); }
+.quota-check {
+  width:22px; height:22px; border-radius:6px;
+  border:1.5px solid var(--border); background:var(--card2);
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; flex-shrink:0;
+}
+.quota-check.on { background:var(--text); border-color:var(--text); }
+.quota-check.on::after { content:'✓'; color:var(--bg); font-size:12px; font-weight:800; }
+.quota-lbl { flex:1; font-size:14px; color:var(--text); }
+.quota-pts { font-size:13px; color:var(--green); font-weight:700; }
+
+.slider-section { padding:0 16px 20px; }
+.slider-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.slider-lbl { font-size:15px; font-weight:600; color:var(--text); }
+.score-pill {
+  background:var(--text); color:var(--bg);
+  border-radius:10px; padding:5px 14px;
+  font-size:20px; font-weight:800; min-width:58px; text-align:center;
+  letter-spacing:-0.02em;
+}
+input[type="range"].slider {
+  width:100%; height:5px; border-radius:3px;
+  background:linear-gradient(to right, var(--text) var(--pct,71%), var(--card2) var(--pct,71%));
+  outline:none; cursor:pointer; -webkit-appearance:none;
+}
+input[type="range"].slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:26px; height:26px; border-radius:50%;
+  background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.2), 0 0 0 2px var(--text);
+  cursor:pointer; transition:transform 0.1s;
+}
+input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); }
+
+/* ===== RESULTS ===== */
+.back-btn {
+  display:flex; align-items:center; gap:4px;
+  background:none; border:none; color:var(--accent);
+  font-size:15px; font-weight:500; cursor:pointer;
+  font-family:inherit; padding:12px 16px;
+}
+.result-item {
+  display:flex; gap:14px; padding:14px 16px;
+  border-bottom:1px solid var(--separator); cursor:pointer;
+  transition:background 0.1s;
+}
+.result-item:active { background:var(--bg3); }
+.donut-wrap { position:relative; width:60px; height:60px; flex-shrink:0; }
+.donut-wrap svg { width:60px; height:60px; }
+.donut-center {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:800;
+}
+.result-info { flex:1; min-width:0; }
+.result-code { font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+.result-subj { font-size:12px; color:var(--text3); margin-bottom:5px; }
+.result-meta { font-size:12px; font-weight:600; }
+.result-unis { font-size:11px; color:var(--text3); margin-top:4px; }
+
+/* ===== UNI RESULTS (after specialty selection in grant page) ===== */
+.uni-result-section { margin-top:12px; }
+.uni-result-header {
+  font-size:11px; font-weight:700; color:var(--text3);
+  letter-spacing:0.06em; text-transform:uppercase;
+  padding:12px 16px 6px;
+}
+.uni-result-card {
+  display:flex; align-items:center; gap:12px;
+  padding:11px 16px;
+  border-bottom:1px solid var(--separator);
+}
+.uni-result-card:last-child { border-bottom:none; }
+.uni-abbr {
+  width:42px; height:42px; border-radius:10px;
+  background:var(--accent-softer); color:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; letter-spacing:-0.03em;
+  flex-shrink:0; text-align:center;
+}
+.uni-res-info { flex:1; }
+.uni-res-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:2px; }
+.uni-res-meta { font-size:12px; color:var(--text3); }
+.uni-grant-info { text-align:right; flex-shrink:0; }
+.uni-min-score { font-size:14px; font-weight:700; color:var(--accent); }
+.uni-grant-cnt { font-size:11px; color:var(--text3); }
+
+/* ===== SHEET ===== */
+.sheet-overlay {
+  position:fixed; inset:0; z-index:900;
+  background:rgba(0,0,0,0.45); backdrop-filter:blur(4px);
+  display:none; align-items:flex-end;
+}
+.sheet-overlay.open { display:flex; animation:fadeIn 0.2s; }
+.sheet {
+  background:var(--bg2); border-radius:22px 22px 0 0;
+  width:100%; max-height:85vh; overflow-y:auto;
+  padding:0 20px 40px;
+  transform:translateY(100%);
+  transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.sheet-overlay.open .sheet { transform:translateY(0); }
+.sheet-handle { width:34px; height:4px; background:var(--border); border-radius:2px; margin:12px auto 18px; }
+
+/* ===== AI PAGE ===== */
+.ai-page { display:none; flex-direction:column; height:100vh; background:var(--bg); }
+.ai-page.show { display:flex; }
+.ai-topbar {
+  background:var(--nav-bg); backdrop-filter:var(--blur);
+  border-bottom:1px solid var(--nav-border);
+  padding:10px 16px; display:flex; align-items:center; gap:10px;
+  flex-shrink:0; min-height:58px;
+}
+.ai-back { display:flex; align-items:center; gap:2px; background:none; border:none; color:var(--accent); font-size:15px; cursor:pointer; font-family:inherit; padding:6px; }
+.ai-logo-box {
+  width:40px; height:40px; border-radius:50%;
+  background:var(--text); color:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; font-weight:800; cursor:pointer; flex-shrink:0;
+  animation:float 3s ease-in-out infinite;
+}
+.ai-logo-box.thinking { animation:spin 0.6s linear infinite; }
+.ai-topbar-info { flex:1; }
+.ai-topbar-name { font-size:15px; font-weight:700; color:var(--text); }
+.ai-topbar-status { font-size:12px; color:var(--text3); display:flex; align-items:center; gap:4px; }
+.status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+.ai-topbar-btns { display:flex; gap:6px; }
+.ai-btn { width:34px; height:34px; border-radius:50%; background:var(--card2); border:none; color:var(--text); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+.ai-msgs { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; scroll-behavior:smooth; }
+.ai-msgs::-webkit-scrollbar { width:4px; }
+.ai-msgs::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+.msg { animation:msgIn 0.2s ease; max-width:84%; }
+.msg.user { align-self:flex-end; }
+.msg.ai { align-self:flex-start; }
+.msg-bubble {
+  padding:11px 15px; border-radius:18px;
+  font-size:15px; line-height:1.5; font-weight:400;
+}
+.msg.user .msg-bubble {
+  background:var(--text); color:var(--bg);
+  border-radius:18px 18px 4px 18px;
+}
+.msg.ai .msg-bubble {
+  background:var(--card); color:var(--text);
+  border-radius:18px 18px 18px 4px;
+  box-shadow:var(--shadow-sm); border:1px solid var(--border);
+}
+.msg-time { font-size:11px; color:var(--text3); margin-top:4px; padding:0 4px; }
+.msg.user .msg-time { text-align:right; }
+.msg-image { max-width:200px; border-radius:12px; display:block; margin-bottom:6px; }
+
+.typing-bubble {
+  display:none; align-self:flex-start;
+  background:var(--card); border-radius:18px 18px 18px 4px;
+  padding:13px 16px; gap:4px; align-items:center;
+  border:1px solid var(--border);
+}
+.typing-bubble.show { display:flex; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--text3); }
+.dot:nth-child(1){animation:dotBounce 1.2s ease-in-out infinite 0s;}
+.dot:nth-child(2){animation:dotBounce 1.2s ease-in-out infinite 0.2s;}
+.dot:nth-child(3){animation:dotBounce 1.2s ease-in-out infinite 0.4s;}
+
+.ai-empty {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:40px 24px; text-align:center; gap:14px;
+}
+.ai-empty-logo {
+  width:72px; height:72px; border-radius:20px;
+  background:var(--text); color:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  font-size:28px; font-weight:800;
+  animation:float 3s ease-in-out infinite;
+  letter-spacing:-0.03em;
+}
+.ai-empty-title { font-size:20px; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+.ai-empty-sub { font-size:14px; color:var(--text3); line-height:1.6; max-width:280px; }
+
+.quick-prompts { display:flex; gap:7px; overflow-x:auto; padding:0 16px 10px; }
+.quick-prompts::-webkit-scrollbar { display:none; }
+.qprompt {
+  padding:8px 14px; background:var(--card); border:1px solid var(--border);
+  border-radius:20px; font-size:13px; font-weight:500; color:var(--text);
+  white-space:nowrap; cursor:pointer; font-family:inherit; flex-shrink:0;
+  transition:all 0.15s;
+}
+.qprompt:active { background:var(--card2); transform:scale(0.97); }
+
+.ai-input-wrap {
+  background:var(--nav-bg); backdrop-filter:var(--blur);
+  border-top:1px solid var(--nav-border); padding:10px 16px 22px; flex-shrink:0;
+}
+.file-preview-row { display:flex; gap:7px; overflow-x:auto; padding-bottom:8px; margin-bottom:8px; }
+.file-preview-row::-webkit-scrollbar { display:none; }
+.file-preview-item {
+  position:relative; flex-shrink:0; background:var(--card2);
+  border-radius:10px; padding:6px 10px; display:flex; align-items:center;
+  gap:5px; font-size:12px; color:var(--text); font-weight:600;
+}
+.file-remove {
+  position:absolute; top:-5px; right:-5px; width:17px; height:17px;
+  border-radius:50%; background:var(--red); border:none; color:#fff;
+  font-size:9px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.file-prev-img { width:44px; height:44px; border-radius:8px; object-fit:cover; }
+.input-row { display:flex; align-items:flex-end; gap:9px; }
+.input-box {
+  flex:1; background:var(--card); border-radius:22px;
+  display:flex; align-items:flex-end; gap:6px; padding:9px 13px;
+  border:1.5px solid var(--border);
+}
+.input-box:focus-within { border-color:var(--accent); }
+.input-box textarea {
+  flex:1; border:none; outline:none; font-size:15px; font-family:inherit;
+  resize:none; max-height:120px; min-height:22px;
+  background:transparent; color:var(--text); line-height:1.45;
+}
+.input-box textarea::placeholder { color:var(--text3); }
+.attach-btn {
+  width:28px; height:28px; border-radius:50%; background:transparent; border:none;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:15px; flex-shrink:0; color:var(--text3);
+}
+.send-btn {
+  width:44px; height:44px; border-radius:50%; background:var(--text); border:none;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:all 0.2s; color:var(--bg);
+}
+.send-btn:active { transform:scale(0.93); }
+.send-btn:disabled { opacity:0.4; cursor:not-allowed; }
+.attach-menu {
+  display:none; position:fixed; bottom:88px; left:16px;
+  background:var(--card); border-radius:var(--radius-lg); padding:8px;
+  box-shadow:var(--shadow-lg); z-index:300; border:1px solid var(--border); min-width:176px;
+}
+.attach-menu.show { display:block; animation:slideUp 0.15s ease; }
+.attach-menu-btn {
+  display:flex; align-items:center; gap:10px; padding:11px 13px; border:none;
+  background:transparent; cursor:pointer; font-family:inherit; font-size:14px;
+  font-weight:500; color:var(--text); width:100%; border-radius:9px; transition:background 0.1s;
+}
+.attach-menu-btn:active { background:var(--card2); }
+
+/* ===== CONV DRAWER ===== */
+.conv-drawer { position:fixed; inset:0; z-index:500; display:none; animation:fadeIn 0.2s; }
+.conv-drawer.open { display:block; }
+.conv-bg { position:absolute; inset:0; background:rgba(0,0,0,0.45); backdrop-filter:blur(2px); }
+.conv-panel {
+  position:absolute; left:0; top:0; bottom:0; width:80%; max-width:290px;
+  background:var(--bg2); border-radius:0 20px 20px 0;
+  display:flex; flex-direction:column;
+  transform:translateX(-100%); transition:transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+  box-shadow:var(--shadow-lg);
+}
+.conv-drawer.open .conv-panel { transform:translateX(0); }
+.conv-head {
+  padding:18px 16px 12px; border-bottom:1px solid var(--separator);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.conv-head-title { font-size:16px; font-weight:700; color:var(--text); }
+.conv-new { padding:7px 13px; background:var(--text); border:none; border-radius:9px; color:var(--bg); font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
+.conv-list { flex:1; overflow-y:auto; padding:6px; }
+.conv-item {
+  padding:11px; border-radius:11px; cursor:pointer;
+  display:flex; align-items:center; gap:9px; margin-bottom:2px; transition:background 0.1s;
+}
+.conv-item:active { background:var(--card2); }
+.conv-item.active { background:var(--accent-softer); }
+.conv-item-title { font-size:13px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.conv-item-prev { font-size:11px; color:var(--text3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px; }
+.conv-item-time { font-size:10px; color:var(--text3); flex-shrink:0; }
+.conv-del { width:24px; height:24px; border-radius:7px; background:var(--red-soft); border:none; color:var(--red); font-size:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; flex-shrink:0; }
+.conv-item:hover .conv-del { opacity:1; }
+
+/* ===== BOTTOM NAV — Financial App Style ===== */
+.bottom-nav {
+  position:fixed; bottom:0; left:0; right:0;
+  background:var(--nav-bg); backdrop-filter:var(--blur);
+  border-top:1px solid var(--nav-border);
+  display:flex; padding:8px 8px 20px;
+  z-index:100; gap:4px; align-items:center;
+}
+.nav-tab {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; gap:4px; cursor:pointer;
+  padding:8px 4px; border:none; background:transparent;
+  font-family:inherit; transition:all 0.2s; border-radius:12px;
+}
+.nav-tab:active { opacity:0.6; transform:scale(0.94); }
+.nav-tab svg { width:22px; height:22px; transition:all 0.2s; }
+.nav-tab svg path, .nav-tab svg rect, .nav-tab svg circle, .nav-tab svg polyline, .nav-tab svg line {
+  stroke:var(--text3); transition:stroke 0.2s;
+}
+.nav-tab.active svg path, .nav-tab.active svg rect, .nav-tab.active svg circle,
+.nav-tab.active svg polyline, .nav-tab.active svg line { stroke:var(--accent); }
+.nav-tab-label { font-size:10px; font-weight:600; color:var(--text3); transition:color 0.2s; }
+.nav-tab.active .nav-tab-label { color:var(--accent); }
+
+/* Center AI tab — pill style */
+.nav-tab-center {
+  flex:1.4;
+  background:var(--text) !important;
+  border-radius:22px !important;
+  padding:9px 6px !important;
+  gap:3px !important;
+}
+.nav-tab-center .nav-tab-label { color:rgba(245,244,239,0.85) !important; font-weight:700; }
+.nav-tab-center .nav-ai-chip {
+  background:rgba(255,255,255,0.15);
+  border-radius:6px; padding:3px 8px;
+  font-size:11px; font-weight:800; color:rgba(255,255,255,0.9);
+  letter-spacing:0.05em;
+}
+.nav-tab-center:active { opacity:0.8; transform:scale(0.96) !important; }
+
+/* ===== UNIVERSITIES PAGE ===== */
+.uni-card {
+  display:flex; align-items:center; gap:12px;
+  padding:13px 16px; cursor:pointer;
+  border-bottom:1px solid var(--separator);
+  transition:background 0.1s;
+}
+.uni-card:active { background:var(--bg3); }
+.uni-abbr-box {
+  width:44px; height:44px; border-radius:11px;
+  background:var(--accent-softer); color:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; letter-spacing:-0.02em;
+  flex-shrink:0; text-align:center; line-height:1.2;
+}
+.uni-info-col { flex:1; min-width:0; }
+.uni-name { font-size:14px; font-weight:600; color:var(--text); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.uni-city { font-size:12px; color:var(--accent); font-weight:500; }
+.uni-type { font-size:11px; color:var(--text3); margin-top:1px; }
+.uni-rank { font-size:12px; color:var(--text3); font-weight:600; white-space:nowrap; text-align:right; }
+.uni-grant-badge {
+  background:var(--green-soft); color:var(--green);
+  border-radius:8px; padding:3px 8px;
+  font-size:11px; font-weight:700; white-space:nowrap; text-align:center;
+  margin-top:3px;
+}
+
+/* ===== PROFILE ===== */
+.profile-hero { text-align:center; padding:28px 20px 22px; }
+.profile-av {
+  width:76px; height:76px; border-radius:50%;
+  background:var(--text); color:var(--bg);
+  margin:0 auto 12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:28px; font-weight:700;
+}
+.profile-name { font-size:20px; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+.profile-email { font-size:14px; color:var(--text3); margin-top:3px; }
+
+.logout-btn {
+  margin:16px 16px 100px; width:calc(100% - 32px); padding:14px;
+  background:var(--red-soft); border:1.5px solid rgba(192,57,43,0.15);
+  border-radius:var(--radius); color:var(--red); font-size:15px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:all 0.15s;
+}
+.logout-btn:active { background:rgba(192,57,43,0.2); }
+
+/* ===== HISTORY ===== */
+.history-strip { display:flex; gap:9px; overflow-x:auto; padding:0 16px 4px; }
+.history-strip::-webkit-scrollbar { display:none; }
+.history-card {
+  min-width:140px; background:var(--card);
+  border-radius:var(--radius); padding:11px;
+  border:1px solid var(--border); flex-shrink:0;
+}
+.h-lbl { font-size:11px; color:var(--text3); margin-bottom:3px; }
+.h-val { font-size:15px; font-weight:700; color:var(--text); }
+.h-sub { font-size:11px; color:var(--text3); margin-top:2px; }
+
+/* ===== TOAST ===== */
+.toast {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-8px);
+  background:var(--text); color:var(--bg);
+  padding:11px 18px; border-radius:10px;
+  font-size:13px; font-weight:600;
+  z-index:9999; opacity:0;
+  transition:opacity 0.25s, transform 0.25s;
+  pointer-events:none; white-space:nowrap; box-shadow:var(--shadow-lg);
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ===== MARKDOWN ===== */
+.msg-bubble p { margin-bottom:8px; }
+.msg-bubble p:last-child { margin-bottom:0; }
+.msg-bubble strong { font-weight:700; }
+.msg-bubble ul, .msg-bubble ol { padding-left:18px; margin:6px 0; }
+.msg-bubble li { margin-bottom:3px; }
+.msg-bubble code {
+  background:var(--accent-softer); color:var(--accent);
+  padding:2px 6px; border-radius:4px; font-size:13px; font-family:'Courier New',monospace;
+}
+.msg-bubble pre { background:var(--bg3); padding:12px; border-radius:10px; overflow-x:auto; margin:8px 0; font-size:13px; }
+.msg-bubble h3 { font-size:14px; font-weight:700; margin:8px 0 4px; }
+
+/* SCROLLBAR */
+* { scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+</style>
+</head>
+<body>
+
+<!-- ===== AUTH ===== -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <div class="auth-logo-wrap">
+      <div class="auth-logo-big">S</div>
+      <div class="auth-title">Strix</div>
+      <div class="auth-sub" id="authSubtitle">ҰБТ-ға дайындық платформасы</div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+      <div class="lang-sw">
+        <button class="lang-btn active" onclick="setLang('kk',this)">ҚАЗ</button>
+        <button class="lang-btn" onclick="setLang('ru',this)">РУС</button>
+        <button class="lang-btn" onclick="setLang('en',this)">ENG</button>
+      </div>
+    </div>
+    <div class="auth-tabs" style="margin-bottom:20px;">
+      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')"><span data-i18n="login">Кіру</span></button>
+      <button class="auth-tab" id="tabReg" onclick="switchTab('register')"><span data-i18n="register">Тіркелу</span></button>
+    </div>
+    <div id="loginForm">
+      <div class="form-group">
+        <label class="label" data-i18n="email">ЭЛЕКТРОНДЫҚ ПОШТА</label>
+        <input class="input-field" type="email" id="loginEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label class="label" data-i18n="password">ҚҰПИЯ СӨЗ</label>
+        <input class="input-field" type="password" id="loginPass" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" onclick="doLogin()" style="margin-bottom:12px;"><span data-i18n="login">Кіру</span></button>
+      <div class="auth-divider"><span data-i18n="or">немесе</span></div>
+      <button class="btn-secondary" onclick="doGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span data-i18n="googleLogin">Google арқылы кіру</span>
+      </button>
+    </div>
+    <div id="registerForm" style="display:none">
+      <div class="form-group">
+        <label class="label" data-i18n="fullName">АТЫ-ЖӨНІ</label>
+        <input class="input-field" type="text" id="regName" placeholder="Атыңызды жазыңыз">
+      </div>
+      <div class="form-group">
+        <label class="label" data-i18n="email">ЭЛЕКТРОНДЫҚ ПОШТА</label>
+        <input class="input-field" type="email" id="regEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label class="label" data-i18n="password">ҚҰПИЯ СӨЗ</label>
+        <input class="input-field" type="password" id="regPass" placeholder="Кемінде 6 символ">
+      </div>
+      <button class="btn-primary" onclick="doRegister()" style="margin-bottom:12px;"><span data-i18n="register">Тіркелу</span></button>
+      <div class="auth-divider"><span data-i18n="or">немесе</span></div>
+      <button class="btn-secondary" onclick="doGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span data-i18n="googleRegister">Google арқылы тіркелу</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="app" id="mainApp">
+
+  <!-- CONV DRAWER -->
+  <div class="conv-drawer" id="convDrawer">
+    <div class="conv-bg" onclick="closeConvDrawer()"></div>
+    <div class="conv-panel">
+      <div class="conv-head">
+        <span class="conv-head-title">Әңгімелер</span>
+        <button class="conv-new" onclick="newConversation()">+ Жаңа</button>
+      </div>
+      <div class="conv-list" id="convList"></div>
+    </div>
+  </div>
+
+  <!-- ===== HOME PAGE ===== -->
+  <div class="page show" id="homePage">
+    <div class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-logo-box">S</div>
+        <span class="nav-brand-name">Strix</span>
+      </div>
+      <div class="nav-right">
+        <button class="nav-icon-btn" onclick="toggleDark()" id="themeBtn">🌙</button>
+        <div class="lang-sw" style="display:none" id="homeLang">
+          <button class="lang-btn active" onclick="setLang('kk',this)">ҚАЗ</button>
+          <button class="lang-btn" onclick="setLang('ru',this)">РУС</button>
+          <button class="lang-btn" onclick="setLang('en',this)">ENG</button>
+        </div>
+        <div class="nav-avatar" id="navAvatar" onclick="goPage('profile')">А</div>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-title" data-i18n="heroTitle">ҰБТ-ҒА ДАЙЫНДЫҚ<br>ПЕН ГРАНТ<br>МҮМКІНДІКТЕРІ</div>
+      <div class="hero-sub" data-i18n="heroSub">AI кеңесші, мамандықтар, гранттар және университеттер — бәрі бір жерде</div>
+    </div>
+    <div class="home-grid">
+      <div class="home-card" onclick="goPage('specialties')">
+        <span class="home-card-icon">📚</span>
+        <div class="home-card-title" data-i18n="specialties">Мамандықтар</div>
+        <div class="home-card-sub">32+ мамандық</div>
+      </div>
+      <div class="home-card" onclick="goPage('grant')">
+        <span class="home-card-icon">🎯</span>
+        <div class="home-card-title" data-i18n="grantCalc">Грант Калькулятор</div>
+        <div class="home-card-sub" data-i18n="findChance">Мүмкіндікті тап</div>
+      </div>
+      <div class="home-card" onclick="goPage('unis')">
+        <span class="home-card-icon">🏛</span>
+        <div class="home-card-title" data-i18n="universities">Университеттер</div>
+        <div class="home-card-sub">25+ ЖОО</div>
+      </div>
+      <div class="home-card dark full" onclick="goPage('ai')">
+        <div class="ai-badge">AI</div>
+        <span class="home-card-icon">✦</span>
+        <div class="home-card-title" data-i18n="aiAssistant">Strix AI Кеңесші</div>
+        <div class="home-card-sub" data-i18n="aiDesc">Кез келген сұрағыңызға жауап береді</div>
+      </div>
+    </div>
+    <div style="padding:0 16px;margin-bottom:100px;">
+      <div class="section-label" data-i18n="news">ЖАҢАЛЫҚТАР</div>
+      <div class="card">
+        <div class="row-item" onclick="goPage('grant')">
+          <div class="row-icon" style="background:rgba(201,110,58,0.1);">🎯</div>
+          <span class="row-label" data-i18n="newsGrant">2025 ҰБТ грант санаулары жаңартылды</span>
+          <span class="row-arrow">›</span>
+        </div>
+        <div class="row-item" onclick="goPage('ai')">
+          <div class="row-icon" style="background:var(--bg3);">✦</div>
+          <span class="row-label" data-i18n="newsAI">AI кеңесші кез келген тілде жауап береді</span>
+          <span class="row-arrow">›</span>
+        </div>
+        <div class="row-item" onclick="goPage('unis')">
+          <div class="row-icon" style="background:var(--green-soft);">🏛</div>
+          <span class="row-label" data-i18n="newsUni">25 университет деректері қосылды</span>
+          <span class="row-arrow">›</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SPECIALTIES PAGE ===== -->
+  <div class="page" id="specialtiesPage">
+    <div class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-logo-box">S</div>
+        <span class="nav-brand-name" data-i18n="specialties">Мамандықтар</span>
+      </div>
+      <div class="nav-avatar" onclick="goPage('profile')" id="specAvatar">А</div>
+    </div>
+    <div class="search-wrap-sticky">
+      <div class="search-inner">
+        <span class="search-ico">⌕</span>
+        <input class="search-input" id="specSearch" placeholder="Іздеу..." oninput="renderSpecialties()">
+      </div>
+    </div>
+    <div class="chips-row" id="specChips">
+      <button class="chip active" onclick="setSpecFilter('',this)" data-i18n="all">Барлығы</button>
+      <button class="chip" onclick="setSpecFilter('informatics-math',this)">IT</button>
+      <button class="chip" onclick="setSpecFilter('biology-chemistry',this)">Медицина</button>
+      <button class="chip" onclick="setSpecFilter('physics-math',this)">Физика</button>
+      <button class="chip" onclick="setSpecFilter('geography-history',this)">Тарих</button>
+      <button class="chip" onclick="setSpecFilter('history-english',this)">Аударма</button>
+      <button class="chip" onclick="setSpecFilter('geography-biology',this)">Биология</button>
+      <button class="chip" onclick="setSpecFilter('creative',this)">Шығармашылық</button>
+      <button class="chip" onclick="setSpecFilter('law-history',this)">Заң</button>
+      <button class="chip" onclick="setSpecFilter('math-geography',this)">Экономика</button>
+    </div>
+    <div class="spec-list" id="specList"></div>
+  </div>
+
+  <!-- ===== GRANT PAGE ===== -->
+  <div class="page" id="grantPage">
+    <div class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-logo-box">S</div>
+        <span class="nav-brand-name" data-i18n="grant">Грант</span>
+      </div>
+      <div class="nav-avatar" onclick="goPage('profile')" id="grantAvatar">А</div>
+    </div>
+    <div class="grant-header">
+      <div class="grant-header-title" data-i18n="grantCalc">Грант Калькулятор</div>
+      <div class="grant-header-sub" data-i18n="grantDesc">Балыңызды енгізіңіз — грант мүмкіндігін тексеріңіз</div>
+    </div>
+    <div style="padding:14px 0 6px;">
+      <div class="section-label" data-i18n="history">ТАРИХ</div>
+      <div class="history-strip" id="resultHistory">
+        <div style="font-size:13px;color:var(--text3);padding:4px 0;" data-i18n="noResults">Әлі нәтиже жоқ</div>
+      </div>
+    </div>
+    <div style="padding:0 16px 12px;">
+      <div class="section-label" style="padding:8px 0 8px;" data-i18n="subjectFilter">ПӘНДЕР</div>
+      <div class="card" style="margin-bottom:14px;">
+        <select id="grantSubjectFilter" style="width:100%;padding:13px 14px;background:transparent;border:none;font-size:15px;font-family:inherit;color:var(--text);outline:none;cursor:pointer;appearance:none;" onchange="updateSubjectHint()">
+          <option value="" data-i18n="allSubjects">Барлық пәндер</option>
+          <option value="informatics-math">Информатика – Математика</option>
+          <option value="biology-chemistry">Биология – Химия</option>
+          <option value="physics-math">Физика – Математика</option>
+          <option value="geography-history">География – Дүниежүзі тарихы</option>
+          <option value="history-english">Дүниежүзі тарихы – Ағылшын</option>
+          <option value="geography-biology">География – Биология</option>
+          <option value="math-geography">Математика – География</option>
+          <option value="kazakh">Қазақ тілі – Әдебиет</option>
+          <option value="russian">Орыс тілі – Әдебиет</option>
+          <option value="geography-english">География – Ағылшын</option>
+          <option value="law-history">Құқық – Дүниежүзі тарихы</option>
+          <option value="physics-chemistry">Физика – Химия</option>
+          <option value="creative">Шығармашылық</option>
+        </select>
+      </div>
+      <div class="section-label" style="padding:0 0 8px;" data-i18n="quotas">КВОТА</div>
+      <div class="quota-card" style="margin-bottom:14px;">
+        <div class="quota-row" onclick="toggleQuota(this,'rural')">
+          <div class="quota-check" data-val="rural"></div>
+          <span class="quota-lbl" data-i18n="quotaRural">Ауылдық квота</span>
+          <span class="quota-pts">+10</span>
+        </div>
+        <div class="quota-row" onclick="toggleQuota(this,'multilarge')">
+          <div class="quota-check" data-val="multilarge"></div>
+          <span class="quota-lbl" data-i18n="quotaMulti">Көпбалалы отбасы</span>
+          <span class="quota-pts">+10</span>
+        </div>
+        <div class="quota-row" onclick="toggleQuota(this,'incomplete')">
+          <div class="quota-check" data-val="incomplete"></div>
+          <span class="quota-lbl" data-i18n="quotaIncomplete">Толық емес отбасы</span>
+          <span class="quota-pts">+10</span>
+        </div>
+        <div class="quota-row" onclick="toggleQuota(this,'serpin')">
+          <div class="quota-check" data-val="serpin"></div>
+          <span class="quota-lbl">Серпін квотасы</span>
+          <span class="quota-pts">+10</span>
+        </div>
+        <div class="quota-row" onclick="toggleQuota(this,'disabled')">
+          <div class="quota-check" data-val="disabled"></div>
+          <span class="quota-lbl" data-i18n="quotaDisabled">Мүгедектігі бар</span>
+          <span class="quota-pts">+10</span>
+        </div>
+        <div class="quota-row" onclick="toggleQuota(this,'orphan')">
+          <div class="quota-check" data-val="orphan"></div>
+          <span class="quota-lbl" data-i18n="quotaOrphan">Жетім балалар</span>
+          <span class="quota-pts">+10</span>
+        </div>
+      </div>
+    </div>
+    <div class="slider-section">
+      <div class="slider-top">
+        <span class="slider-lbl" data-i18n="yourScore">Сіздің балыңыз</span>
+        <span class="score-pill" id="scoreBubble">100</span>
+      </div>
+      <input type="range" class="slider" min="0" max="140" value="100" id="grantSlider" oninput="updateScore(this.value)" style="--pct:71.4%">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:8px;">
+        <span>0</span><span>35</span><span>70</span><span>105</span><span>140</span>
+      </div>
+    </div>
+    <div style="padding:0 16px 100px;">
+      <button class="btn-primary" onclick="calculateGrant()" data-i18n="calculate">Мүмкіндікті анықтау</button>
+    </div>
+  </div>
+
+  <!-- ===== RESULTS PAGE ===== -->
+  <div class="page" id="resultsPage">
+    <div class="top-nav">
+      <button class="back-btn" onclick="goPage('grant')">‹ <span data-i18n="grant">Грант</span></button>
+    </div>
+    <div style="padding:0 0 100px;" id="resultsContent"></div>
+  </div>
+
+  <!-- ===== AI CHAT PAGE ===== -->
+  <div class="page ai-page" id="aiPage">
+    <div class="ai-topbar">
+      <button class="ai-back" onclick="goPage('home')">‹ <span data-i18n="back">Артқа</span></button>
+      <div class="ai-logo-box" id="aiOrb" onclick="cycleOrbColor()">S</div>
+      <div class="ai-topbar-info">
+        <div class="ai-topbar-name">Strix AI</div>
+        <div class="ai-topbar-status">
+          <span class="status-dot"></span>
+          <span id="aiStatusText" data-i18n="ready">Дайын</span>
+        </div>
+      </div>
+      <div class="ai-topbar-btns">
+        <button class="ai-btn" onclick="openConvDrawer()">☰</button>
+        <button class="ai-btn" onclick="newConversation()">✏️</button>
+      </div>
+    </div>
+    <div class="ai-msgs" id="aiMessages"></div>
+    <div class="typing-bubble" id="typingBubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="ai-input-wrap">
+      <div class="quick-prompts" id="quickPromptsRow">
+        <button class="qprompt" onclick="usePrompt('ҰБТ-ға қалай дайындалу керек?')">ҰБТ дайындық</button>
+        <button class="qprompt" onclick="usePrompt('Грант алу үшін қанша балл керек?')">Грант балы</button>
+        <button class="qprompt" onclick="usePrompt('IT мамандықтары туралы айт')">IT мамандық</button>
+        <button class="qprompt" onclick="usePrompt('Медицина бағытына түсу үшін не істеу керек?')">Медицина</button>
+        <button class="qprompt" onclick="usePrompt('Қазақстанның ең жақсы университеттері')">Үздік ЖОО</button>
+        <button class="qprompt" onclick="usePrompt('Python программалау тілін қалай үйренуге болады?')">Python</button>
+      </div>
+      <div class="file-preview-row" id="filePreviewRow" style="display:none;"></div>
+      <div class="input-row">
+        <div class="input-box">
+          <button class="attach-btn" onclick="toggleAttachMenu()">⊕</button>
+          <textarea id="aiTextarea" rows="1" placeholder="Сұрақ жазыңыз..." onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        </div>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M22 2L11 13" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="attach-menu" id="attachMenu">
+      <button class="attach-menu-btn" onclick="document.getElementById('imgInput').click();closeAttachMenu()">📷 <span data-i18n="sendPhoto">Фото жіберу</span></button>
+      <button class="attach-menu-btn" onclick="document.getElementById('fileInput2').click();closeAttachMenu()">📄 <span data-i18n="sendFile">Файл жіберу</span></button>
+    </div>
+    <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="handleImage(event)">
+    <input type="file" id="fileInput2" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleFile(event)">
+  </div>
+
+  <!-- ===== UNIVERSITIES PAGE ===== -->
+  <div class="page" id="unisPage">
+    <div class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-logo-box">S</div>
+        <span class="nav-brand-name" data-i18n="universities">Университеттер</span>
+      </div>
+      <div class="nav-avatar" onclick="goPage('profile')" id="unisAvatar">А</div>
+    </div>
+    <div class="search-wrap-sticky">
+      <div class="search-inner">
+        <span class="search-ico">⌕</span>
+        <input class="search-input" id="uniSearch" oninput="renderUnis()" placeholder="Іздеу...">
+      </div>
+    </div>
+    <div class="chips-row" id="uniChips">
+      <button class="chip active" onclick="setUniFilter('',this)" data-i18n="all">Барлығы</button>
+      <button class="chip" onclick="setUniFilter('IT',this)">IT</button>
+      <button class="chip" onclick="setUniFilter('Медициналық',this)">Медицина</button>
+      <button class="chip" onclick="setUniFilter('Техникалық',this)">Техника</button>
+      <button class="chip" onclick="setUniFilter('Классикалық',this)">Классикалық</button>
+      <button class="chip" onclick="setUniFilter('Педагогикалық',this)">Педагогика</button>
+      <button class="chip" onclick="setUniFilter('Заң',this)">Заң</button>
+      <button class="chip" onclick="setUniFilter('Бизнес',this)">Бизнес</button>
+    </div>
+    <div style="padding:0 0 100px;" id="uniList"></div>
+  </div>
+
+  <!-- ===== PROFILE PAGE ===== -->
+  <div class="page" id="profilePage">
+    <div class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-logo-box">S</div>
+        <span class="nav-brand-name" data-i18n="profile">Профиль</span>
+      </div>
+    </div>
+    <div class="profile-hero">
+      <div class="profile-av" id="profileAvatar">А</div>
+      <div class="profile-name" id="profileName">Пайдаланушы</div>
+      <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="384d4b5d4a784b4c4a5140165342">[email&#160;protected]</a></div>
+    </div>
+    <div style="padding:0 16px;">
+      <div class="section-label" data-i18n="settings">БАПТАУЛАР</div>
+      <div class="card" style="margin-bottom:14px;">
+        <div class="row-item">
+          <div class="row-icon" style="background:var(--bg3);font-size:16px;">🌙</div>
+          <span class="row-label" data-i18n="darkMode">Қараңғы режим</span>
+          <label class="toggle">
+            <input type="checkbox" id="darkToggle" onchange="toggleDark()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="row-item" style="cursor:default;">
+          <div class="row-icon" style="background:var(--bg3);font-size:16px;">🌐</div>
+          <span class="row-label" data-i18n="language">Тіл</span>
+          <div class="lang-sw">
+            <button class="lang-btn active" onclick="setLangAll('kk',this)">ҚАЗ</button>
+            <button class="lang-btn" onclick="setLangAll('ru',this)">РУС</button>
+            <button class="lang-btn" onclick="setLangAll('en',this)">ENG</button>
+          </div>
+        </div>
+        <div class="row-item" onclick="goPage('ai')">
+          <div class="row-icon" style="background:var(--text);color:var(--bg);font-size:13px;font-weight:800;border-radius:9px;">S</div>
+          <span class="row-label" data-i18n="aiChat">Strix AI Чат</span>
+          <span class="row-arrow">›</span>
+        </div>
+        <div class="row-item" onclick="showToast(t('comingSoon'))">
+          <div class="row-icon" style="background:rgba(201,110,58,0.1);font-size:16px;">🔔</div>
+          <span class="row-label" data-i18n="notifications">Хабарландырулар</span>
+          <span class="row-arrow">›</span>
+        </div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()" data-i18n="logout">Шығу</button>
+  </div>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <div class="bottom-nav" id="bottomNav">
+    <button class="nav-tab active" id="nav-home" onclick="goPage('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <div class="nav-tab-label" data-i18n="home">Басты</div>
+    </button>
+    <button class="nav-tab" id="nav-specialties" onclick="goPage('specialties')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+      <div class="nav-tab-label" data-i18n="specialties">Мамандық</div>
+    </button>
+    <button class="nav-tab nav-tab-center" id="nav-ai" onclick="goPage('ai')">
+      <div class="nav-ai-chip">AI</div>
+      <div class="nav-tab-label">Strix AI</div>
+    </button>
+    <button class="nav-tab" id="nav-grant" onclick="goPage('grant')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+      </svg>
+      <div class="nav-tab-label" data-i18n="grant">Грант</div>
+    </button>
+    <button class="nav-tab" id="nav-unis" onclick="goPage('unis')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+      </svg>
+      <div class="nav-tab-label">ЖОО</div>
+    </button>
+    <button class="nav-tab" id="nav-profile" onclick="goPage('profile')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      </svg>
+      <div class="nav-tab-label" data-i18n="profile">Профиль</div>
+    </button>
+  </div>
+
+</div>
+
+<!-- SPECIALTY SHEET -->
+<div class="sheet-overlay" id="specSheet" onclick="closeSpecSheet(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div id="specSheetContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== i18n =====
+const LANGS = {
+  kk: {
+    login:'Кіру',register:'Тіркелу',email:'Электрондық пошта',password:'Құпия сөз',
+    or:'немесе',googleLogin:'Google арқылы кіру',googleRegister:'Google арқылы тіркелу',
+    fullName:'Аты-жөні',
+    heroTitle:'ҰБТ-ҒА ДАЙЫНДЫҚ\nПЕН ГРАНТ\nМҮМКІНДІКТЕРІ',
+    heroSub:'AI кеңесші, мамандықтар, гранттар және университеттер — бәрі бір жерде',
+    specialties:'Мамандықтар',grantCalc:'Грант Калькулятор',findChance:'Мүмкіндікті тап',
+    universities:'Университеттер',aiAssistant:'Strix AI Кеңесші',
+    aiDesc:'Кез келген сұрағыңызға жауап береді',
+    news:'ЖАҢАЛЫҚТАР',newsGrant:'2025 ҰБТ грант санаулары жаңартылды',
+    newsAI:'AI кеңесші кез келген тілде жауап береді',
+    newsUni:'25 университет деректері қосылды',
+    all:'Барлығы',grant:'Грант',
+    grantDesc:'Балыңызды енгізіңіз — грант мүмкіндігін тексеріңіз',
+    history:'ТАРИХ',subjectFilter:'ПӘНДЕР',allSubjects:'Барлық пәндер',
+    quotas:'КВОТА',quotaRural:'Ауылдық квота',quotaMulti:'Көпбалалы отбасы',
+    quotaIncomplete:'Толық емес отбасы',quotaDisabled:'Мүгедектігі бар',
+    quotaOrphan:'Жетім балалар',yourScore:'Сіздің балыңыз',
+    calculate:'Мүмкіндікті анықтау',noResults:'Әлі нәтиже жоқ',
+    back:'Артқа',ready:'Дайын',thinking:'Ойлануда...',
+    sendPhoto:'Фото жіберу',sendFile:'Файл жіберу',
+    conversations:'Әңгімелер',newChat:'+ Жаңа',noChats:'Әлі әңгіме жоқ',
+    profile:'Профиль',settings:'БАПТАУЛАР',darkMode:'Қараңғы режим',
+    language:'Тіл',aiChat:'Strix AI Чат',notifications:'Хабарландырулар',logout:'Шығу',
+    home:'Басты',comingSoon:'Жақын арада!',
+    aiPlaceholder:'Сұрақ жазыңыз...',
+    authSubtitle:'ҰБТ-ға дайындық платформасы',
+    emptyTitle:'Strix AI',
+    emptySub:'Кез келген сұрағыңызды жазыңыз!\nҰБТ, мамандықтар, ғылым, технология, тіл үйрену.',
+    greetLogin:'Қош келдіңіз, ',byeMsg:'Шықтыңыз',wrongCreds:'Email немесе құпия сөз қате!',
+    fillAll:'Барлық өрістерді толтырыңыз!',passMin:'Кем дегенде 6 символ!',
+    emailTaken:'Бұл email тіркелген!',noMatch:'Сәйкес мамандық жоқ',
+    googleDemoMsg:'Google Firebase — demo режімі',
+    ubtGen:'ҰБТ Тесті',ubtGenDesc:'Таңдамалы тест жаса',
+    minScore:'Мин. балл',grantCount:'Грант саны',
+    eligible:'Балыңыз жетеді',notEligible:'Балыңыз жетпейді',
+    matchedUnis:'Сәйкес университеттер',
+  },
+  ru: {
+    login:'Войти',register:'Зарегистрироваться',email:'Электронная почта',password:'Пароль',
+    or:'или',googleLogin:'Войти через Google',googleRegister:'Зарегистрироваться через Google',
+    fullName:'Полное имя',
+    heroTitle:'ПОДГОТОВКА К ЕНТ\nИ ВОЗМОЖНОСТИ\nПОЛУЧЕНИЯ ГРАНТА',
+    heroSub:'AI помощник, специальности, гранты и университеты — всё в одном месте',
+    specialties:'Специальности',grantCalc:'Грант Калькулятор',findChance:'Найти шанс',
+    universities:'Университеты',aiAssistant:'Strix AI Помощник',
+    aiDesc:'Отвечает на любой ваш вопрос',
+    news:'НОВОСТИ',newsGrant:'Данные грантов ЕНТ 2025 обновлены',
+    newsAI:'AI помощник отвечает на любом языке',
+    newsUni:'Добавлены данные 25 университетов',
+    all:'Все',grant:'Грант',
+    grantDesc:'Введите балл — проверьте шансы на грант',
+    history:'ИСТОРИЯ',subjectFilter:'ПРЕДМЕТЫ',allSubjects:'Все предметы',
+    quotas:'КВОТЫ',quotaRural:'Сельская квота',quotaMulti:'Многодетная семья',
+    quotaIncomplete:'Неполная семья',quotaDisabled:'С инвалидностью',
+    quotaOrphan:'Дети-сироты',yourScore:'Ваш балл',
+    calculate:'Определить возможность',noResults:'Результатов пока нет',
+    back:'Назад',ready:'Готов',thinking:'Думаю...',
+    sendPhoto:'Отправить фото',sendFile:'Отправить файл',
+    conversations:'Чаты',newChat:'+ Новый',noChats:'Чатов пока нет',
+    profile:'Профиль',settings:'НАСТРОЙКИ',darkMode:'Тёмный режим',
+    language:'Язык',aiChat:'Чат Strix AI',notifications:'Уведомления',logout:'Выйти',
+    home:'Главная',comingSoon:'Скоро!',
+    aiPlaceholder:'Напишите вопрос...',
+    authSubtitle:'Платформа подготовки к ЕНТ',
+    emptyTitle:'Strix AI',
+    emptySub:'Задайте любой вопрос!\nЕНТ, специальности, наука, технологии, языки.',
+    greetLogin:'Добро пожаловать, ',byeMsg:'Вы вышли',wrongCreds:'Неверный email или пароль!',
+    fillAll:'Заполните все поля!',passMin:'Минимум 6 символов!',
+    emailTaken:'Email уже зарегистрирован!',noMatch:'Подходящих специальностей нет',
+    googleDemoMsg:'Google Firebase — demo режим',
+    ubtGen:'ЕНТ Тест',ubtGenDesc:'Создать тест',
+    minScore:'Мин. балл',grantCount:'Кол-во грантов',
+    eligible:'Балл достаточен',notEligible:'Балл недостаточен',
+    matchedUnis:'Подходящие университеты',
+  },
+  en: {
+    login:'Sign In',register:'Sign Up',email:'Email address',password:'Password',
+    or:'or',googleLogin:'Continue with Google',googleRegister:'Sign up with Google',
+    fullName:'Full name',
+    heroTitle:'ENT EXAM PREP\nAND GRANT\nOPPORTUNITIES',
+    heroSub:'AI assistant, specialties, grants and universities — all in one place',
+    specialties:'Specialties',grantCalc:'Grant Calculator',findChance:'Find your chance',
+    universities:'Universities',aiAssistant:'Strix AI Assistant',
+    aiDesc:'Answers any question you have',
+    news:'NEWS',newsGrant:'2025 ENT grant data updated',
+    newsAI:'AI assistant answers in any language',
+    newsUni:'Data for 25 universities added',
+    all:'All',grant:'Grant',
+    grantDesc:'Enter your score — check your grant chances',
+    history:'HISTORY',subjectFilter:'SUBJECTS',allSubjects:'All subjects',
+    quotas:'QUOTAS',quotaRural:'Rural quota',quotaMulti:'Large family',
+    quotaIncomplete:'Single-parent family',quotaDisabled:'With disability',
+    quotaOrphan:'Orphans',yourScore:'Your score',
+    calculate:'Check my chances',noResults:'No results yet',
+    back:'Back',ready:'Ready',thinking:'Thinking...',
+    sendPhoto:'Send photo',sendFile:'Send file',
+    conversations:'Chats',newChat:'+ New',noChats:'No chats yet',
+    profile:'Profile',settings:'SETTINGS',darkMode:'Dark mode',
+    language:'Language',aiChat:'Strix AI Chat',notifications:'Notifications',logout:'Sign Out',
+    home:'Home',comingSoon:'Coming soon!',
+    aiPlaceholder:'Type your question...',
+    authSubtitle:'ENT exam preparation platform',
+    emptyTitle:'Strix AI',
+    emptySub:'Ask me anything!\nENT exams, specialties, science, technology, languages.',
+    greetLogin:'Welcome, ',byeMsg:'Signed out',wrongCreds:'Wrong email or password!',
+    fillAll:'Please fill all fields!',passMin:'At least 6 characters!',
+    emailTaken:'Email already registered!',noMatch:'No matching specialties',
+    googleDemoMsg:'Google Firebase — demo mode',
+    ubtGen:'ENT Test',ubtGenDesc:'Generate test',
+    minScore:'Min score',grantCount:'Grant slots',
+    eligible:'Score is sufficient',notEligible:'Score not enough',
+    matchedUnis:'Matching universities',
+  }
+};
+let currentLang='kk';
+function t(k){return(LANGS[currentLang]&&LANGS[currentLang][k])||LANGS.kk[k]||k;}
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n; if(el.tagName==='OPTION') return;
+    el.textContent=t(k);
+  });
+  const ta=document.getElementById('aiTextarea'); if(ta) ta.placeholder=t('aiPlaceholder');
+  const as=document.getElementById('authSubtitle'); if(as) as.textContent=t('authSubtitle');
+}
+function setLang(lang,btn){
+  currentLang=lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  applyLang();
+}
+function setLangAll(lang,btn){setLang(lang,btn);}
+
+// ===== DARK MODE =====
+let isDark=false;
+function toggleDark(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  localStorage.setItem('strix_dark',isDark);
+  const btn=document.getElementById('themeBtn'); if(btn) btn.textContent=isDark?'☀️':'🌙';
+  const toggle=document.getElementById('darkToggle'); if(toggle) toggle.checked=isDark;
+}
+if(localStorage.getItem('strix_dark')==='true'){isDark=true;document.documentElement.setAttribute('data-theme','dark');}
+
+// ===== DATA =====
+const universities = [
+  {id:'nu',name:'Назарбаев Университеті',short:'НУ',city:'Астана',type:'Зерттеу',rank:1,grantScore:110},
+  {id:'kbtu',name:'Қазақстан-Британ техникалық университеті',short:'КБТУ',city:'Алматы',type:'Техникалық',rank:2,grantScore:105},
+  {id:'iitu',name:'Халықаралық ақпараттық технологиялар университеті',short:'ХАТУ',city:'Алматы',type:'IT',rank:3,grantScore:99},
+  {id:'aitu',name:'Astana IT University',short:'AITU',city:'Астана',type:'IT',rank:4,grantScore:95},
+  {id:'kaznu',name:'Әл-Фараби атындағы ҚазҰУ',short:'ҚазҰУ',city:'Алматы',type:'Классикалық',rank:5,grantScore:80},
+  {id:'kazntu',name:'Қ.Сәтбаев атындағы ҚазҰТЗУ',short:'Сәтбаев',city:'Алматы',type:'Техникалық',rank:6,grantScore:75},
+  {id:'enu',name:'Л.Н.Гумилев атындағы ЕҰУ',short:'ЕҰУ',city:'Астана',type:'Классикалық',rank:7,grantScore:75},
+  {id:'kimep',name:'КИМЭП Университеті',short:'КИМЭП',city:'Алматы',type:'Бизнес',rank:8,grantScore:105},
+  {id:'sdu',name:'SDU Университеті',short:'SDU',city:'Қаскелең',type:'Классикалық',rank:9,grantScore:80},
+  {id:'kazguu',name:'КАЗГЮУ Университеті',short:'КАЗГЮУ',city:'Астана',type:'Заң',rank:10,grantScore:100},
+  {id:'kaznmu',name:'С.Асфендияров атындағы ҚазҰМУ',short:'ҚазҰМУ',city:'Алматы',type:'Медициналық',rank:11,grantScore:112},
+  {id:'amu',name:'Астана медицина университеті',short:'АМУ',city:'Астана',type:'Медициналық',rank:12,grantScore:108},
+  {id:'kgmu',name:'Қарағанды медицина университеті',short:'ҚМУ',city:'Қарағанды',type:'Медициналық',rank:13,grantScore:100},
+  {id:'skma',name:'Оңтүстік Қазақстан медицина академиясы',short:'ОҚМА',city:'Шымкент',type:'Медициналық',rank:14,grantScore:95},
+  {id:'wkmu',name:'Батыс Қазақстан медицина университеті',short:'БҚМУ',city:'Ақтөбе',type:'Медициналық',rank:15,grantScore:90},
+  {id:'kaznpu',name:'Абай атындағы ҚазҰПУ',short:'ҚазҰПУ',city:'Алматы',type:'Педагогикалық',rank:16,grantScore:100},
+  {id:'kgpu',name:'Қыздар педагогикалық университеті',short:'ҚМҚПУ',city:'Алматы',type:'Педагогикалық',rank:17,grantScore:95},
+  {id:'narxoz',name:'Нархоз Университеті',short:'Нархоз',city:'Алматы',type:'Бизнес',rank:18,grantScore:90},
+  {id:'almau',name:'AlmaU Университеті',short:'AlmaU',city:'Алматы',type:'Бизнес',rank:19,grantScore:85},
+  {id:'keu',name:'Қазақ экономикалық университеті',short:'ҚЭУ',city:'Алматы',type:'Классикалық',rank:20,grantScore:80},
+  {id:'ablai',name:'Абылай хан атындағы ҚазХҚжӘТУ',short:'ҚазХҚжӘТУ',city:'Алматы',type:'Классикалық',rank:21,grantScore:100},
+  {id:'ekstu',name:'Д.Серікбаев атындағы ШҚТУ',short:'ШҚТУ',city:'Өскемен',type:'Техникалық',rank:22,grantScore:70},
+  {id:'aeu',name:'Алматы энергетика және байланыс университеті',short:'АЭжБУ',city:'Алматы',type:'Техникалық',rank:23,grantScore:72},
+  {id:'kafu',name:'Халықаралық Қазақ-Түрік Университеті',short:'ХҚТУ',city:'Түркістан',type:'Классикалық',rank:24,grantScore:70},
+  {id:'kgu',name:'Е.А.Бөкетов атындағы ҚарУ',short:'ҚарУ',city:'Қарағанды',type:'Классикалық',rank:25,grantScore:65},
+];
+
+const specUniMap = {
+  'B057':['nu','kbtu','iitu','aitu','kaznu','kazntu','enu','sdu','almau','narxoz'],
+  'B109':['nu','kbtu','iitu','aitu','kaznu','enu'],
+  'B110':['nu','kbtu','iitu','aitu','kaznu','kazntu','enu','sdu'],
+  'B058':['kbtu','iitu','aitu','kaznu','kazntu','enu','aeu'],
+  'B108':['nu','kbtu','kimep','kaznu','almau'],
+  'BM086':['kaznmu','amu','kgmu','skma','wkmu'],
+  'BM088':['kaznmu','amu','kgmu','skma','wkmu'],
+  'BM089':['kaznmu','amu','kgmu','skma'],
+  'B085':['kaznmu','amu','kgmu','kaznu'],
+  'B103':['kaznu','kazntu','enu','kgu'],
+  'B104':['kaznu','kazntu','nu','enu'],
+  'B054':['kaznu','kazntu','nu','enu'],
+  'B055':['kaznu','kazntu','nu'],
+  'B115':['kazntu','nu','kbtu','enu','aeu'],
+  'B098':['kazntu','nu','enu'],
+  'B036':['ablai','kaznu','enu','kimep','sdu'],
+  'B107':['kimep','nu','kaznu','enu','narxoz','almau'],
+  'B041':['kaznu','enu','sdu','kgu'],
+  'B001':['kaznu','enu','kaznpu','kgpu','sdu'],
+  'B116':['kaznu','enu','sdu','kgu','ablai'],
+  'B049':['kazguu','kimep','kaznu','enu','sdu'],
+  'B117':['kazguu','kimep','kaznu','nu'],
+  'B046':['kimep','narxoz','almau','keu','kaznu','enu'],
+  'B044':['kimep','narxoz','keu','kaznu','enu','almau'],
+  'B111':['kimep','almau','kaznu','iitu','aitu'],
+  'B073':['kaznu','enu','sdu','kgu'],
+  'B031':['kaznu','enu','sdu'],
+  'B042':['kaznu','enu','sdu','kgu'],
+  'B026':['kaznu','enu','iitu','aitu','sdu'],
+  'B100':['kazntu','ekstu','enu','kgu'],
+  'B101':['kazntu','ekstu','kgu','enu'],
+  'B009':['kaznu','enu','kazntu','kgu'],
+  'B112':['kaznu','enu','kazguu','sdu'],
+  'B047':['kazguu','kaznu','enu','kimep'],
+  'B024':['kaznu','enu','sdu','kgu'],
+  'B016':['kaznu','enu','kaznpu'],
+  'B018':['kaznu','enu','kaznpu','kgpu'],
+};
+
+const specialties = [
+  {code:'B057',name:'Ақпараттық жүйелер',subKey:'informatics-math',subject:'Информатика – Математика',grant:4800,minScore:99,desc:'Бағдарламалау, дерекқорлар, желілер. Бағдарламашы, жүйелік архитект.'},
+  {code:'B109',name:'Жасанды интеллект және ML',subKey:'informatics-math',subject:'Информатика – Математика',grant:950,minScore:110,desc:'AI, ML, Deep Learning. AI инженері, Data Scientist.'},
+  {code:'B110',name:'Компьютерлік ғылым',subKey:'informatics-math',subject:'Информатика – Математика',grant:1200,minScore:95,desc:'Алгоритмдер, бағдарламалық жасақтама. Software Engineer.'},
+  {code:'B058',name:'Есептеу техникасы және бағдарламалау',subKey:'informatics-math',subject:'Информатика – Математика',grant:2100,minScore:95,desc:'Аппараттық жасақтама, жүйелік бағдарламалау.'},
+  {code:'B108',name:'Қаржылық технологиялар (FinTech)',subKey:'informatics-math',subject:'Информатика – Математика',grant:180,minScore:105,desc:'Блокчейн, цифрлық банкинг. FinTech маманы.'},
+  {code:'BM086',name:'Жалпы медицина',subKey:'biology-chemistry',subject:'Биология – Химия',grant:1501,minScore:112,desc:'Дәрігер, хирург, терапевт.'},
+  {code:'BM088',name:'Педиатрия',subKey:'biology-chemistry',subject:'Биология – Химия',grant:851,minScore:112,desc:'Балалар дәрігері, педиатр.'},
+  {code:'BM089',name:'Стоматология',subKey:'biology-chemistry',subject:'Биология – Химия',grant:300,minScore:110,desc:'Тіс дәрігері, стоматолог.'},
+  {code:'B085',name:'Фармация',subKey:'biology-chemistry',subject:'Биология – Химия',grant:610,minScore:90,desc:'Дәрі-дәрмек, фармацевт.'},
+  {code:'B103',name:'Экология және табиғатты пайдалану',subKey:'biology-chemistry',subject:'Биология – Химия',grant:750,minScore:70,desc:'Экологиялық мониторинг. Эколог.'},
+  {code:'B104',name:'Биотехнология',subKey:'biology-chemistry',subject:'Биология – Химия',grant:420,minScore:85,desc:'Биологиялық технологиялар, генетика.'},
+  {code:'B054',name:'Физика',subKey:'physics-math',subject:'Физика – Математика',grant:1234,minScore:50,desc:'Физика ғылымы, зерттеу. Физик, ғалым.'},
+  {code:'B055',name:'Ядролық физика',subKey:'physics-math',subject:'Физика – Математика',grant:280,minScore:65,desc:'Ядролық энергетика.'},
+  {code:'B115',name:'Робототехника және мехатроника',subKey:'physics-math',subject:'Физика – Математика',grant:460,minScore:88,desc:'Роботтар жасау. Робот инженері.'},
+  {code:'B098',name:'Авиация және аэронавигация',subKey:'physics-math',subject:'Физика – Математика',grant:215,minScore:75,desc:'Ұшақ, авиация. Авиация инженері.'},
+  {code:'B036',name:'Аударма ісі',subKey:'history-english',subject:'Дүниежүзі тарихы – Ағылшын',grant:203,minScore:126,desc:'Ағылшын, орыс, қазақ тілі аудармасы. Аудармашы.'},
+  {code:'B107',name:'Халықаралық бизнес',subKey:'history-english',subject:'Дүниежүзі тарихы – Ағылшын',grant:95,minScore:122,desc:'Халықаралық сауда. Халықаралық бизнес маманы.'},
+  {code:'B041',name:'Тарих',subKey:'geography-history',subject:'География – Дүниежүзі тарихы',grant:340,minScore:95,desc:'Тарих ғылымы, мұрагат. Тарихшы, мұрагатшы.'},
+  {code:'B001',name:'Педагогика және бастауыш білім',subKey:'geography-biology',subject:'География – Биология',grant:296,minScore:100,desc:'Бастауыш сынып мұғалімі.'},
+  {code:'B116',name:'Психология',subKey:'geography-biology',subject:'География – Биология',grant:185,minScore:120,desc:'Клиникалық, іскерлік психология. Психолог.'},
+  {code:'B049',name:'Заңтану',subKey:'law-history',subject:'Құқық – Дүниежүзі тарихы',grant:480,minScore:115,desc:'Заң, сот, прокуратура. Заңгер.'},
+  {code:'B117',name:'Халықаралық құқық',subKey:'law-history',subject:'Құқық – Дүниежүзі тарихы',grant:68,minScore:125,desc:'Халықаралық заң, дипломатия.'},
+  {code:'B047',name:'Мемлекет және құқық',subKey:'law-history',subject:'Құқық – Дүниежүзі тарихы',grant:150,minScore:110,desc:'Мемлекеттік заң. Заңгер.'},
+  {code:'B046',name:'Менеджмент',subKey:'math-geography',subject:'Математика – География',grant:750,minScore:105,desc:'Бизнес басқару. Менеджер, бизнесмен.'},
+  {code:'B044',name:'Экономика',subKey:'math-geography',subject:'Математика – География',grant:1100,minScore:105,desc:'Экономикалық талдау. Экономист.'},
+  {code:'B111',name:'Цифрлық маркетинг',subKey:'math-geography',subject:'Математика – География',grant:75,minScore:108,desc:'Онлайн жарнама, SMM. Маркетолог.'},
+  {code:'B073',name:'Сәулет',subKey:'creative',subject:'Шығармашылық',grant:497,minScore:100,desc:'Ғимараттар жобалау. Сәулетші, интерьер дизайнері.'},
+  {code:'B031',name:'Сән дизайны',subKey:'creative',subject:'Шығармашылық',grant:168,minScore:110,desc:'Киім дизайны, мода. Модельер.'},
+  {code:'B042',name:'Журналистика',subKey:'creative',subject:'Шығармашылық',grant:238,minScore:115,desc:'Жаңалықтар, бейне контент. Журналист, ТВ жүргізуші.'},
+  {code:'B026',name:'Графикалық дизайн және медиа',subKey:'creative',subject:'Шығармашылық',grant:120,minScore:110,desc:'Графикалық дизайн, UX/UI. Дизайнер.'},
+  {code:'B100',name:'Мұнай-газ өңдеу',subKey:'physics-chemistry',subject:'Физика – Химия',grant:480,minScore:68,desc:'Мұнай-газ өндіру. Мұнай-газ инженері.'},
+  {code:'B101',name:'Металлургия',subKey:'physics-chemistry',subject:'Физика – Химия',grant:620,minScore:55,desc:'Металл балқыту. Металлург.'},
+  {code:'B009',name:'География',subKey:'geography-english',subject:'География – Ағылшын',grant:450,minScore:80,desc:'Географиялық зерттеулер. Географ, картограф.'},
+  {code:'B112',name:'Мемлекеттік басқару',subKey:'geography-history',subject:'География – Дүниежүзі тарихы',grant:140,minScore:112,desc:'Мемлекеттік органдар. Мемлекеттік қызметші.'},
+  {code:'B024',name:'Биология',subKey:'geography-biology',subject:'География – Биология',grant:600,minScore:75,desc:'Биологиялық ғылым. Биолог, ғалым.'},
+  {code:'B016',name:'Математика',subKey:'physics-math',subject:'Физика – Математика',grant:900,minScore:60,desc:'Таза математика. Математик, педагог.'},
+  {code:'B018',name:'Химия',subKey:'biology-chemistry',subject:'Биология – Химия',grant:550,minScore:70,desc:'Химиялық ғылым. Химик, фармацевт.'},
+];
+
+// ===== STATE =====
+let currentUser=null, currentPage='home';
+let selectedQuotas=new Set(), grantHistory=[];
+let conversations={}, currentConvId=null;
+let pendingFiles=[], isAiThinking=false;
+let specFilter='', uniFilter='';
+
+// ===== AUTH =====
+function switchTab(tab){
+  document.getElementById('loginForm').style.display=tab==='login'?'block':'none';
+  document.getElementById('registerForm').style.display=tab==='register'?'block':'none';
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(tab==='login'?'tabLogin':'tabReg').classList.add('active');
+}
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  if(!email||!pass){showToast(t('fillAll'));return;}
+  if(window._fbReady&&window._fbAuth){
+    window._fbSignIn(window._fbAuth,email,pass)
+      .then(cred=>{const u=cred.user;loginUser({name:u.displayName||email.split('@')[0],email:u.email,avatar:(u.displayName||email)[0].toUpperCase(),uid:u.uid});})
+      .catch(()=>localLogin(email,pass));
+  } else localLogin(email,pass);
+}
+function localLogin(email,pass){
+  const users=JSON.parse(localStorage.getItem('strix_users')||'[]');
+  const user=users.find(u=>u.email===email&&u.pass===pass);
+  if(!user){showToast(t('wrongCreds'));return;}
+  loginUser(user);
+}
+function doRegister(){
+  const name=document.getElementById('regName').value.trim();
+  const email=document.getElementById('regEmail').value.trim();
+  const pass=document.getElementById('regPass').value;
+  if(!name||!email||!pass){showToast(t('fillAll'));return;}
+  if(pass.length<6){showToast(t('passMin'));return;}
+  if(window._fbReady&&window._fbAuth){
+    window._fbCreateUser(window._fbAuth,email,pass)
+      .then(cred=>{window._fbUpdateProfile(cred.user,{displayName:name});loginUser({name,email,avatar:name[0].toUpperCase(),uid:cred.user.uid});})
+      .catch(err=>{if(err.code==='auth/email-already-in-use'){showToast(t('emailTaken'));return;}localRegister(name,email,pass);});
+  } else localRegister(name,email,pass);
+}
+function localRegister(name,email,pass){
+  const users=JSON.parse(localStorage.getItem('strix_users')||'[]');
+  if(users.find(u=>u.email===email)){showToast(t('emailTaken'));return;}
+  const user={name,email,pass,avatar:name[0].toUpperCase()};
+  users.push(user);
+  localStorage.setItem('strix_users',JSON.stringify(users));
+  loginUser(user);
+}
+function doGoogleLogin(){
+  if(window._fbReady&&window._fbAuth&&window._fbGoogleProvider){
+    window._fbSignInWithPopup(window._fbAuth,window._fbGoogleProvider)
+      .then(result=>{
+        const u=result.user;
+        loginUser({name:u.displayName||u.email.split('@')[0],email:u.email,avatar:(u.displayName||u.email)[0].toUpperCase(),uid:u.uid});
+      })
+      .catch(err=>{
+        if(err.code==='auth/popup-blocked'){
+          window._fbSignInWithRedirect(window._fbAuth,window._fbGoogleProvider).catch(e=>showToast('Google: '+e.message));
+        } else {
+          showToast('Google: '+err.message);
+        }
+      });
+  } else {
+    showToast(t('googleDemoMsg'));
+    setTimeout(()=>loginUser({name:'Google Пайдаланушы',email:'google@strix.kz',avatar:'G'}),1000);
+  }
+}
+function loginUser(user){
+  currentUser=user;
+  localStorage.setItem('strix_current',JSON.stringify(user));
+  updateAvatars(user);
+  document.getElementById('authOverlay').style.display='none';
+  document.getElementById('mainApp').classList.add('show');
+  renderSpecialties();
+  loadConversations();
+  showToast(t('greetLogin')+user.name+'!');
+}
+function updateAvatars(user){
+  const av=user.avatar||user.name[0].toUpperCase();
+  ['navAvatar','profileAvatar','specAvatar','grantAvatar','unisAvatar'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.textContent=av;
+  });
+  const pn=document.getElementById('profileName'); if(pn) pn.textContent=user.name;
+  const pe=document.getElementById('profileEmail'); if(pe) pe.textContent=user.email;
+}
+function doLogout(){
+  if(window._fbReady&&window._fbAuth) window._fbSignOut(window._fbAuth).catch(()=>{});
+  localStorage.removeItem('strix_current');
+  currentUser=null;
+  document.getElementById('authOverlay').style.display='flex';
+  document.getElementById('mainApp').classList.remove('show');
+  showToast(t('byeMsg'));
+}
+
+// ===== NAVIGATION =====
+function goPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.nav-tab').forEach(n=>n.classList.remove('active'));
+  const map={home:'homePage',specialties:'specialtiesPage',grant:'grantPage',results:'resultsPage',ai:'aiPage',unis:'unisPage',profile:'profilePage'};
+  const el=document.getElementById(map[page]); if(el) el.classList.add('show');
+  const navMap={home:'nav-home',specialties:'nav-specialties',grant:'nav-grant',unis:'nav-unis',ai:'nav-ai',profile:'nav-profile'};
+  if(navMap[page]){const ne=document.getElementById(navMap[page]); if(ne) ne.classList.add('active');}
+  const bn=document.getElementById('bottomNav');
+  if(page==='ai'){bn.style.display='none'; if(!currentConvId) showAiEmpty();}
+  else bn.style.display='flex';
+  currentPage=page;
+  if(page==='specialties') renderSpecialties();
+  if(page==='unis') renderUnis();
+  window.scrollTo(0,0);
+}
+
+// ===== SPECIALTIES =====
+function setSpecFilter(val,btn){
+  specFilter=val;
+  document.querySelectorAll('#specChips .chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderSpecialties();
+}
+function renderSpecialties(){
+  const search=(document.getElementById('specSearch')?.value||'').toLowerCase();
+  let list=specialties;
+  if(specFilter) list=list.filter(s=>s.subKey===specFilter);
+  if(search) list=list.filter(s=>s.name.toLowerCase().includes(search)||s.code.toLowerCase().includes(search));
+  const el=document.getElementById('specList');
+  if(!el) return;
+  if(list.length===0){el.innerHTML=`<div style="text-align:center;padding:40px;color:var(--text3);">Сәйкес мамандық табылмады</div>`;return;}
+  el.innerHTML=list.map(s=>`
+    <div class="spec-item" onclick="openSpecSheet('${s.code}')">
+      <div class="spec-code-tag">${s.code}</div>
+      <div class="spec-info">
+        <div class="spec-name">${s.name}</div>
+        <div class="spec-subject">${s.subject}</div>
+      </div>
+      <div>
+        <div class="spec-score">${s.minScore}</div>
+        <div class="spec-score-label">мин. балл</div>
+      </div>
+    </div>`).join('');
+}
+
+function openSpecSheet(code){
+  const s=specialties.find(sp=>sp.code===code); if(!s) return;
+  const unis=(specUniMap[code]||[]).map(id=>universities.find(u=>u.id===id)).filter(Boolean);
+  const el=document.getElementById('specSheetContent');
+  el.innerHTML=`
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+      <span class="badge badge-accent">${s.code}</span>
+      <span style="font-size:12px;color:var(--text3);">${s.subject}</span>
+    </div>
+    <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-0.02em;">${s.name}</div>
+    <div style="font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:16px;">${s.desc||''}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div style="background:var(--accent-softer);border-radius:12px;padding:12px 14px;">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;letter-spacing:0.05em;margin-bottom:4px;">ГРАНТ САНЫ</div>
+        <div style="font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-0.02em;">${s.grant}</div>
+      </div>
+      <div style="background:var(--green-soft);border-radius:12px;padding:12px 14px;">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;letter-spacing:0.05em;margin-bottom:4px;">МИН. БАЛЛ</div>
+        <div style="font-size:22px;font-weight:800;color:var(--green);letter-spacing:-0.02em;">${s.minScore}</div>
+      </div>
+    </div>
+    ${unis.length>0?`
+    <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">УНИВЕРСИТЕТТЕР (${unis.length})</div>
+    ${unis.map(u=>`
+      <div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--separator);">
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--accent-softer);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;text-align:center;">${u.short}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${u.name}</div>
+          <div style="font-size:12px;color:var(--accent);">${u.city} • ${u.type}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:13px;font-weight:700;color:var(--green);">${u.grantScore}+</div>
+          <div style="font-size:10px;color:var(--text3);">грант балл</div>
+        </div>
+      </div>`).join('')}` : ''}`;
+  document.getElementById('specSheet').classList.add('open');
+}
+function closeSpecSheet(e){if(e.target===document.getElementById('specSheet'))document.getElementById('specSheet').classList.remove('open');}
+
+// ===== QUOTA =====
+function toggleQuota(el,val){
+  const cb=el.querySelector('.quota-check');
+  if(selectedQuotas.has(val)){selectedQuotas.delete(val);cb.classList.remove('on');}
+  else{selectedQuotas.add(val);cb.classList.add('on');}
+}
+function updateScore(val){
+  const pct=(val/140*100).toFixed(1);
+  document.getElementById('scoreBubble').textContent=val;
+  document.getElementById('grantSlider').style.setProperty('--pct',pct+'%');
+}
+function updateSubjectHint(){}
+
+// ===== CALCULATE =====
+function donutSVG(pct,color){
+  const r=26,circ=2*Math.PI*r,offset=circ-(pct/100)*circ;
+  return `<svg viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="${r}" fill="none" stroke="var(--card2)" stroke-width="6"/>
+    <circle cx="32" cy="32" r="${r}" fill="none" stroke="${color}" stroke-width="6"
+      stroke-dasharray="${circ}" stroke-dashoffset="${offset}"
+      stroke-linecap="round" transform="rotate(-90 32 32)"/>
+  </svg>`;
+}
+
+function calculateGrant(){
+  const subKey=document.getElementById('grantSubjectFilter').value;
+  const score=parseInt(document.getElementById('grantSlider').value);
+  const quotaBonus=selectedQuotas.size>0?10:0;
+  const effectiveScore=score+quotaBonus;
+
+  let matches=subKey?specialties.filter(s=>s.subKey===subKey):specialties;
+  matches=matches.filter(s=>effectiveScore>=s.minScore-30);
+  matches.sort((a,b)=>(effectiveScore-a.minScore)<(effectiveScore-b.minScore)?1:-1);
+
+  const subLabel=subKey?document.querySelector('#grantSubjectFilter option:checked').text:t('allSubjects');
+  grantHistory.unshift({subject:subLabel,score,quota:quotaBonus>0});
+  renderHistory();
+
+  const el=document.getElementById('resultsContent');
+  if(matches.length===0){
+    el.innerHTML=`<div style="text-align:center;padding:48px 20px;">
+      <div style="font-size:48px;margin-bottom:14px;">✦</div>
+      <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;">${t('noMatch')}</div>
+      <div style="font-size:13px;color:var(--text3);">Балыңызды жоғарылатыңыз немесе пәнді өзгертіңіз</div>
+    </div>`;
+  } else {
+    el.innerHTML = `<div style="background:var(--text);border-radius:16px;padding:16px 20px;margin:0 16px 16px;color:var(--bg);">
+      <div style="font-size:12px;opacity:0.6;margin-bottom:4px;">Сіздің балыңыз${quotaBonus>0?' (квота +'+quotaBonus+')':''}</div>
+      <div style="font-size:32px;font-weight:800;letter-spacing:-0.03em;">${effectiveScore}</div>
+      <div style="font-size:12px;opacity:0.6;margin-top:4px;">${matches.length} мамандық табылды</div>
+    </div>`
+    + matches.slice(0,30).map(s=>{
+      const diff=effectiveScore-s.minScore;
+      let pct,color,label;
+      if(diff>=20){pct=95;color='var(--green)';label='Жоғары';}
+      else if(diff>=10){pct=75;color='var(--yellow)';label='Жақсы';}
+      else if(diff>=0){pct=50;color='var(--yellow)';label='Орташа';}
+      else if(diff>=-15){pct=20;color='var(--red)';label='Төмен';}
+      else{pct=8;color='var(--red)';label='Қиын';}
+
+      // Get matching universities for this specialty and score
+      const uniIds=specUniMap[s.code]||[];
+      const matchedUnis=uniIds.map(id=>universities.find(u=>u.id===id)).filter(Boolean).filter(u=>effectiveScore>=u.grantScore);
+      const allUnis=uniIds.map(id=>universities.find(u=>u.id===id)).filter(Boolean);
+      const topUni=matchedUnis[0]||allUnis[0];
+
+      return `<div class="result-item" onclick="openResultSheet('${s.code}',${effectiveScore})">
+        <div class="donut-wrap">${donutSVG(pct,color)}<div class="donut-center" style="color:${color}">${pct}%</div></div>
+        <div class="result-info">
+          <div class="result-code">${s.code} · ${s.name}</div>
+          <div class="result-subj">${s.subject}</div>
+          <div class="result-meta">
+            <span style="color:var(--text3)">Мин: ${s.minScore}</span>
+            ${diff>=0?`<span style="color:var(--green);margin-left:8px;">+${diff} артық</span>`:`<span style="color:var(--red);margin-left:8px;">${diff} жетіспейді</span>`}
+          </div>
+          ${topUni?`<div class="result-unis">${topUni.short}${matchedUnis.length>1?' +' +(matchedUnis.length-1)+' ЖОО':allUnis.length>1?' ('+allUnis.length+' ЖОО)':''}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+  goPage('results');
+}
+
+// ===== RESULT SHEET (Specialty + Universities) =====
+function openResultSheet(code, userScore){
+  const s=specialties.find(sp=>sp.code===code); if(!s) return;
+  const uniIds=specUniMap[code]||[];
+  const allUnis=uniIds.map(id=>universities.find(u=>u.id===id)).filter(Boolean);
+  const eligibleUnis=allUnis.filter(u=>userScore>=u.grantScore);
+  const nearUnis=allUnis.filter(u=>userScore>=u.grantScore-15&&userScore<u.grantScore);
+
+  const el=document.getElementById('specSheetContent');
+  const diff=userScore-s.minScore;
+  el.innerHTML=`
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+      <span class="badge badge-accent">${s.code}</span>
+      <span style="font-size:12px;color:var(--text3);">${s.subject}</span>
+    </div>
+    <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-0.02em;">${s.name}</div>
+    <div style="font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:16px;">${s.desc||''}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;">
+      <div style="background:var(--accent-softer);border-radius:11px;padding:10px 12px;">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;">ГРАНТ</div>
+        <div style="font-size:18px;font-weight:800;color:var(--accent);">${s.grant}</div>
+      </div>
+      <div style="background:var(--green-soft);border-radius:11px;padding:10px 12px;">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;">МИН. БАЛЛ</div>
+        <div style="font-size:18px;font-weight:800;color:var(--green);">${s.minScore}</div>
+      </div>
+      <div style="background:${diff>=0?'var(--green-soft)':'var(--red-soft)'};border-radius:11px;padding:10px 12px;">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;">АЙЫРМА</div>
+        <div style="font-size:18px;font-weight:800;color:${diff>=0?'var(--green)':'var(--red)'};">${diff>=0?'+'+diff:diff}</div>
+      </div>
+    </div>
+
+    ${eligibleUnis.length>0?`
+    <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">
+      ГРАНТ АЛА АЛАТЫН УНИВЕРСИТЕТТЕР (${eligibleUnis.length})
+    </div>
+    ${eligibleUnis.map(u=>`
+      <div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--separator);">
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;text-align:center;">${u.short}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${u.name}</div>
+          <div style="font-size:12px;color:var(--text3);">${u.city} · ${u.type}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:12px;font-weight:700;color:var(--green);">Грант</div>
+          <div style="font-size:10px;color:var(--text3);">${u.grantScore}+ балл</div>
+        </div>
+      </div>`).join('')}` : ''}
+
+    ${nearUnis.length>0?`
+    <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin:14px 0 8px;">
+      ЖУЫҚ УНИВЕРСИТЕТТЕР (${nearUnis.length})
+    </div>
+    ${nearUnis.map(u=>`
+      <div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--separator);">
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--accent-softer);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;text-align:center;">${u.short}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${u.name}</div>
+          <div style="font-size:12px;color:var(--text3);">${u.city} · ${u.type}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:12px;font-weight:700;color:var(--accent);">${u.grantScore-userScore} жетіспейді</div>
+          <div style="font-size:10px;color:var(--text3);">${u.grantScore}+ балл</div>
+        </div>
+      </div>`).join('')}` : ''}
+  `;
+  document.getElementById('specSheet').classList.add('open');
+}
+
+function renderHistory(){
+  const el=document.getElementById('resultHistory');
+  if(grantHistory.length===0) return;
+  el.innerHTML=grantHistory.slice(0,5).map(h=>`
+    <div class="history-card">
+      <div class="h-lbl">${t('yourScore')}</div>
+      <div class="h-val">${h.score}${h.quota?' +10':''}</div>
+      <div class="h-sub">${h.subject}</div>
+    </div>`).join('');
+}
+
+// ===== UNIVERSITIES =====
+function setUniFilter(val,btn){
+  uniFilter=val;
+  document.querySelectorAll('#uniChips .chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderUnis();
+}
+function renderUnis(){
+  const search=(document.getElementById('uniSearch')?.value||'').toLowerCase();
+  let list=universities.filter(u=>{
+    const mt=!uniFilter||u.type===uniFilter;
+    const ms=!search||u.name.toLowerCase().includes(search)||(u.short||'').toLowerCase().includes(search)||u.city.toLowerCase().includes(search);
+    return mt&&ms;
+  });
+  const el=document.getElementById('uniList'); if(!el) return;
+  el.innerHTML=list.map(u=>`
+    <div class="uni-card" onclick="openUniSheet('${u.id}')">
+      <div class="uni-abbr-box">${u.short}</div>
+      <div class="uni-info-col">
+        <div class="uni-name">${u.name}</div>
+        <div class="uni-city">${u.city}</div>
+        <div class="uni-type">${u.type}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div class="uni-rank">#${u.rank}</div>
+        <div class="uni-grant-badge">${u.grantScore}+ балл</div>
+      </div>
+    </div>`).join('');
+}
+
+function openUniSheet(id){
+  const u=universities.find(x=>x.id===id); if(!u) return;
+  const uniSpecs=Object.entries(specUniMap)
+    .filter(([code,ids])=>ids.includes(id))
+    .map(([code])=>specialties.find(s=>s.code===code))
+    .filter(Boolean);
+  const el=document.getElementById('specSheetContent');
+  el.innerHTML=`
+    <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px;">
+      <div style="width:56px;height:56px;border-radius:14px;background:var(--accent-softer);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;">${u.short}</div>
+      <div>
+        <div style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.02em;">${u.name}</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:2px;">${u.city} · ${u.type}</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+      <div style="background:var(--accent-softer);border-radius:12px;padding:12px 14px;">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;">РЕЙТИНГ</div>
+        <div style="font-size:22px;font-weight:800;color:var(--accent);">#${u.rank}</div>
+      </div>
+      <div style="background:var(--green-soft);border-radius:12px;padding:12px 14px;">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;">ГРАНТ БАЛЛ</div>
+        <div style="font-size:22px;font-weight:800;color:var(--green);">${u.grantScore}+</div>
+      </div>
+    </div>
+    ${uniSpecs.length>0?`
+    <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">МАМАНДЫҚТАР (${uniSpecs.length})</div>
+    ${uniSpecs.map(s=>`
+      <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--separator);">
+        <div style="background:var(--accent-softer);color:var(--accent);border-radius:7px;padding:3px 7px;font-size:10px;font-weight:700;flex-shrink:0;">${s.code}</div>
+        <div style="flex:1;font-size:13px;font-weight:600;color:var(--text);">${s.name}</div>
+        <div style="font-size:12px;color:var(--green);font-weight:700;flex-shrink:0;">${s.grant} грант</div>
+      </div>`).join('')}` : ''}
+  `;
+  document.getElementById('specSheet').classList.add('open');
+}
+
+// ===== AI CHAT =====
+const GROQ_API_KEY='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';
+function getSystemPrompt(){
+  return `Сен Strix — Қазақстандағы ҰБТ платформасының AI кеңесшісісің.
+МАҢЫЗДЫ: Кез келген сұраққа жауап бер: ғылым, технология, тіл, медицина, психология, мансап, мәдениет, спорт, саясат, рецептер, саяхат т.б.
+Тіл: пайдаланушы қай тілде жазса, сол тілде жауап бер.
+ҰБТ деректері: мак. балл 140, IT(B057): 4800 грант мин.99, Медицина(BM086): 1501 грант мин.112, AI/ML(B109): 950 мин.110, Педагогика(B001): 296 мин.100, Физика(B054): 1234 мин.50, Аударма(B036): 203 мин.126, Заң(B049): 480 мин.115. Квоталар +10 балл.
+Жауап форматы: нақты, пайдалы, достық. Markdown қолдан: **қалың**, *курсив*, • тізім.`;
+}
+function loadConversations(){
+  const key=currentUser?'strix_convs_'+currentUser.email:'strix_convs_guest';
+  try{conversations=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){conversations={};}
+  renderConvList();
+}
+function saveConversations(){
+  const key=currentUser?'strix_convs_'+currentUser.email:'strix_convs_guest';
+  localStorage.setItem(key,JSON.stringify(conversations));
+}
+function genId(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5);}
+function newConversation(){currentConvId=null;pendingFiles=[];renderFilePreview();showAiEmpty();closeConvDrawer();renderConvList();}
+function showAiEmpty(){
+  const el=document.getElementById('aiMessages');
+  el.innerHTML=`<div class="ai-empty">
+    <div class="ai-empty-logo">S</div>
+    <div class="ai-empty-title">${t('emptyTitle')}</div>
+    <div class="ai-empty-sub">${t('emptySub').replace(/\n/g,'<br>')}</div>
+  </div>`;
+  document.getElementById('quickPromptsRow').style.display='flex';
+}
+function renderMessages(){
+  const el=document.getElementById('aiMessages');
+  if(!currentConvId||!conversations[currentConvId]){showAiEmpty();return;}
+  const msgs=conversations[currentConvId].messages;
+  if(msgs.length===0){showAiEmpty();return;}
+  document.getElementById('quickPromptsRow').style.display='none';
+  el.innerHTML=msgs.map(m=>{
+    let content='';
+    if(m.imageUrl) content+=`<img class="msg-image" src="${m.imageUrl}" alt="photo">`;
+    if(m.fileName) content+=`<div style="display:flex;gap:7px;align-items:center;background:var(--accent-softer);border-radius:9px;padding:9px;margin-bottom:5px;">📄 <span style="font-size:13px;font-weight:600;">${m.fileName}</span></div>`;
+    if(m.text) content+=m.role==='ai'?formatMarkdown(m.text):escapeHtml(m.text).replace(/\n/g,'<br>');
+    const time=m.time?new Date(m.time).toLocaleTimeString('kk-KZ',{hour:'2-digit',minute:'2-digit'}):'';
+    return `<div class="msg ${m.role}"><div class="msg-bubble">${content}</div><div class="msg-time">${time}</div></div>`;
+  }).join('');
+  el.scrollTop=el.scrollHeight;
+}
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function formatMarkdown(text){
+  let h=escapeHtml(text);
+  h=h.replace(/```([\s\S]*?)```/g,'<pre><code>$1</code></pre>');
+  h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
+  h=h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  h=h.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  h=h.replace(/###\s*(.+)/g,'<h3>$1</h3>');
+  h=h.replace(/^[•\-\*] (.+)$/gm,'<li>$1</li>');
+  h=h.replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>');
+  h=h.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+  if(!h.startsWith('<')) h='<p>'+h+'</p>';
+  return h;
+}
+function openConversation(id){currentConvId=id;closeConvDrawer();renderMessages();}
+function deleteConversation(id,e){
+  e.stopPropagation();
+  delete conversations[id];
+  if(currentConvId===id){currentConvId=null;showAiEmpty();}
+  saveConversations();renderConvList();
+}
+function renderConvList(){
+  const el=document.getElementById('convList');
+  const keys=Object.keys(conversations).sort((a,b)=>conversations[b].created-conversations[a].created);
+  if(keys.length===0){el.innerHTML=`<div style="text-align:center;padding:28px;color:var(--text3);font-size:13px;">${t('noChats')}</div>`;return;}
+  el.innerHTML=keys.map(id=>{
+    const conv=conversations[id];
+    const isActive=id===currentConvId;
+    const preview=conv.messages.length>0?(conv.messages[conv.messages.length-1].text||'').substring(0,30)+'...':'';
+    const timeStr=new Date(conv.created).toLocaleDateString('kk-KZ',{month:'short',day:'numeric'});
+    return `<div class="conv-item${isActive?' active':''}" onclick="openConversation('${id}')">
+      <div style="flex:1;min-width:0;">
+        <div class="conv-item-title">${conv.title}</div>
+        <div class="conv-item-prev">${preview}</div>
+      </div>
+      <span class="conv-item-time">${timeStr}</span>
+      <button class="conv-del" onclick="deleteConversation('${id}',event)">✕</button>
+    </div>`;
+  }).join('');
+}
+function openConvDrawer(){renderConvList();document.getElementById('convDrawer').classList.add('open');}
+function closeConvDrawer(){document.getElementById('convDrawer').classList.remove('open');}
+
+async function sendMessage(){
+  const ta=document.getElementById('aiTextarea');
+  const text=ta.value.trim();
+  const files=[...pendingFiles];
+  if(!text&&files.length===0) return;
+  if(isAiThinking) return;
+  if(!currentConvId){
+    currentConvId=genId();
+    conversations[currentConvId]={title:text?text.substring(0,32)+(text.length>32?'...':''):'Жаңа чат',messages:[],created:Date.now()};
+  }
+  const userMsg={role:'user',text,time:Date.now()};
+  if(files.length>0&&files[0].type==='image') userMsg.imageUrl=files[0].dataUrl;
+  if(files.length>0&&files[0].type==='file'){userMsg.fileName=files[0].name;userMsg.fileSize=files[0].size;}
+  conversations[currentConvId].messages.push(userMsg);
+  pendingFiles=[];renderFilePreview();
+  ta.value='';ta.style.height='auto';
+  document.getElementById('quickPromptsRow').style.display='none';
+  setThinking(true);renderMessages();saveConversations();
+  try{
+    const aiText=await callGroq(text,files,conversations[currentConvId].messages);
+    conversations[currentConvId].messages.push({role:'ai',text:aiText,time:Date.now()});
+    saveConversations();renderConvList();
+  }catch(err){
+    conversations[currentConvId].messages.push({role:'ai',text:'⚠️ '+(err.message||'Желі қатесі'),time:Date.now()});
+    saveConversations();
+  }
+  setThinking(false);renderMessages();
+}
+function setThinking(val){
+  isAiThinking=val;
+  const orb=document.getElementById('aiOrb');
+  const typing=document.getElementById('typingBubble');
+  const btn=document.getElementById('sendBtn');
+  const status=document.getElementById('aiStatusText');
+  if(val){orb.classList.add('thinking');typing.classList.add('show');status.textContent=t('thinking');btn.disabled=true;document.getElementById('aiMessages').scrollTop=9999;}
+  else{orb.classList.remove('thinking');typing.classList.remove('show');status.textContent=t('ready');btn.disabled=false;}
+}
+async function callGroq(userText,files,history){
+  const apiMsgs=[{role:'system',content:getSystemPrompt()}];
+  const histSlice=history.slice(-10,-1);
+  for(const m of histSlice) apiMsgs.push({role:m.role==='user'?'user':'assistant',content:m.text||'[медиа файл]'});
+  let msgText=userText||'';
+  if(files.length>0&&files[0].type==='image') msgText=(msgText?msgText+'\n':'')+'[Пайдаланушы фото жіберді]';
+  if(files.length>0&&files[0].type==='file') msgText=(msgText?msgText+'\n':'')+`[Пайдаланушы "${files[0].name}" файлын жіберді]`;
+  apiMsgs.push({role:'user',content:msgText||'Сәлем!'});
+  const resp=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+GROQ_API_KEY},
+    body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:2000,messages:apiMsgs,temperature:0.7})
+  });
+  const data=await resp.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.choices[0].message.content;
+}
+function usePrompt(text){document.getElementById('aiTextarea').value=text;sendMessage();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+
+// FILE HANDLING
+let attachOpen=false;
+function toggleAttachMenu(){attachOpen=!attachOpen;document.getElementById('attachMenu').classList.toggle('show',attachOpen);}
+function closeAttachMenu(){attachOpen=false;document.getElementById('attachMenu').classList.remove('show');}
+function handleImage(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{pendingFiles=[{type:'image',dataUrl:ev.target.result,name:file.name,size:fmtSize(file.size)}];renderFilePreview();};
+  reader.readAsDataURL(file); e.target.value='';
+}
+function handleFile(e){
+  const file=e.target.files[0]; if(!file) return;
+  pendingFiles=[{type:'file',name:file.name,size:fmtSize(file.size),dataUrl:null}];
+  renderFilePreview(); e.target.value='';
+}
+function fmtSize(b){if(b<1024) return b+'B'; if(b<1048576) return (b/1024).toFixed(1)+'KB'; return (b/1048576).toFixed(1)+'MB';}
+function renderFilePreview(){
+  const row=document.getElementById('filePreviewRow');
+  if(pendingFiles.length===0){row.style.display='none';row.innerHTML='';return;}
+  row.style.display='flex';
+  row.innerHTML=pendingFiles.map((f,i)=>{
+    if(f.type==='image') return `<div class="file-preview-item" style="padding:3px;background:none;"><img class="file-prev-img" src="${f.dataUrl}"><button class="file-remove" onclick="removePending(${i})">✕</button></div>`;
+    return `<div class="file-preview-item">📄 ${f.name}<button class="file-remove" style="position:relative;top:0;right:0;margin-left:4px;" onclick="removePending(${i})">✕</button></div>`;
+  }).join('');
+}
+function removePending(i){pendingFiles.splice(i,1);renderFilePreview();}
+
+// ORB COLOR CYCLE
+const orbColors=['#c96e3a','#1a7a3c','#0891b2','#7c3aed','#c0392b'];
+let orbColorIdx=0;
+function cycleOrbColor(){
+  if(isAiThinking) return;
+  orbColorIdx=(orbColorIdx+1)%orbColors.length;
+  const orb=document.getElementById('aiOrb');
+  orb.style.background=orbColors[orbColorIdx];
+  setTimeout(()=>{if(!isAiThinking) orb.style.background='';},2000);
+}
+
+// TOAST
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ===== INIT =====
+document.addEventListener('click',e=>{
+  if(attachOpen&&!e.target.closest('#attachMenu')&&!e.target.closest('.attach-btn')) closeAttachMenu();
+});
+
+(function init(){
+  if(isDark){
+    const btn=document.getElementById('themeBtn'); if(btn) btn.textContent='☀️';
+    const tog=document.getElementById('darkToggle'); if(tog) tog.checked=true;
+  }
+  // Google redirect result
+  if(window._fbReady&&window._fbGetRedirectResult&&window._fbAuth){
+    window._fbGetRedirectResult(window._fbAuth)
+      .then(result=>{
+        if(result&&result.user){
+          const u=result.user;
+          loginUser({name:u.displayName||'Google User',email:u.email,avatar:(u.displayName||'G')[0].toUpperCase(),uid:u.uid});
+        }
+      }).catch(err=>console.warn('Redirect result error:',err.message));
+  }
+  // Restore session
+  let saved=null;
+  try{saved=JSON.parse(localStorage.getItem('strix_current'));}catch(e){}
+  if(saved) loginUser(saved);
+  // Firebase auth state
+  if(window._fbReady&&window._fbOnAuthStateChanged&&window._fbAuth){
+    window._fbOnAuthStateChanged(window._fbAuth,r=>{
+    if(r&&r.uid){
+      let saved=null;
+      try{saved=JSON.parse(localStorage.getItem('strix_current'));}catch(e){}
+      if(!saved||saved.uid!==r.uid){
+        loginUser({name:r.displayName||'User',email:r.email,avatar:(r.displayName||'U')[0].toUpperCase(),uid:r.uid});
+      }
+    } else {
+      if(!JSON.parse(localStorage.getItem('strix_current')||'null')) logoutUser();
+    }
+  });
+  }
+})();
+</script>
+</body>
+</html>
