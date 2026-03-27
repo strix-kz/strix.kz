@@ -11,7 +11,7 @@
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
   import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
   const firebaseConfig = {
-    apiKey:"AIzaSyA8kTHiIIJXQeRZtIIb2v-f02XHiJyVL08",
+    apiKey:"AIzaSyBSd2R35KGCr6XulxSmoL48Q1Ej11n6yTU",
     authDomain:"strix-kz.firebaseapp.com",projectId:"strix-kz",
     storageBucket:"strix-kz.firebasestorage.app",
     messagingSenderId:"914224931230",
@@ -1191,7 +1191,7 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
     <div class="profile-hero">
       <div class="profile-av" id="profileAvatar">А</div>
       <div class="profile-name" id="profileName">Пайдаланушы</div>
-      <div class="profile-email" id="profileEmail">user@strix.kz</div>
+      <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="384d4b5d4a784b4c4a5140165342">[email&#160;protected]</a></div>
     </div>
     <div style="padding:0 16px;">
       <div class="section-label" data-i18n="settings">БАПТАУЛАР</div>
@@ -1278,7 +1278,7 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ===== i18n =====
 const LANGS = {
   kk: {
@@ -2151,11 +2151,4 @@ document.addEventListener('click',e=>{
   if(saved) loginUser(saved);
   // Firebase auth state
   if(window._fbReady&&window._fbOnAuthStateChanged&&window._fbAuth){
-    window._fbOnAuthStateChanged(window._fbAuth,user=>{
-      if(user&&!currentUser) loginUser({name:user.displayName||user.email.split('@')[0],email:user.email,avatar:(user.displayName||user.email)[0].toUpperCase(),uid:user.uid});
-    });
-  }
-})();
-</script>
-</body>
-</html>
+    window._fbOnAuthStateChanged(window._fbAuth,user
