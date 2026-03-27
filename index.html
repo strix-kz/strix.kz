@@ -2151,7 +2151,7 @@ document.addEventListener('click',e=>{
   if(saved) loginUser(saved);
   // Firebase auth state
   if(window._fbReady&&window._fbOnAuthStateChanged&&window._fbAuth){
-    window._fbOnAuthStateChanged(window._fbAuth,userr=>{
+    window._fbOnAuthStateChanged(window._fbAuth,r=>{
     if(r&&r.uid){
       let saved=null;
       try{saved=JSON.parse(localStorage.getItem('strix_current'));}catch(e){}
