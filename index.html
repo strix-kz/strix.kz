@@ -2151,4 +2151,19 @@ document.addEventListener('click',e=>{
   if(saved) loginUser(saved);
   // Firebase auth state
   if(window._fbReady&&window._fbOnAuthStateChanged&&window._fbAuth){
-    window._fbOnAuthStateChanged(window._fbAuth,user
+    window._fbOnAuthStateChanged(window._fbAuth,userr=>{
+    if(r&&r.uid){
+      let saved=null;
+      try{saved=JSON.parse(localStorage.getItem('strix_current'));}catch(e){}
+      if(!saved||saved.uid!==r.uid){
+        loginUser({name:r.displayName||'User',email:r.email,avatar:(r.displayName||'U')[0].toUpperCase(),uid:r.uid});
+      }
+    } else {
+      if(!JSON.parse(localStorage.getItem('strix_current')||'null')) logoutUser();
+    }
+  });
+  }
+})();
+</script>
+</body>
+</html>
