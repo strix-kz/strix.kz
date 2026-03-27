@@ -17,8 +17,7 @@
     projectId: "strix-kz",
     storageBucket: "strix-kz.firebasestorage.app",
     messagingSenderId: "914224931230",
-    appId: "1:914224931230:web:3781b1720c93690382b68f",
-    measurementId: "G-9PXKHPW1HZ"
+    appId: "1:914224931230:web:3781b1720c93690382b68f"
   };
 
   let app, auth, googleProvider;
@@ -114,8 +113,7 @@ body {
 @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 @keyframes spinSquare { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
-@keyframes spinSquareFast { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
-@keyframes logoGlow { 0%,100%{filter:drop-shadow(0 0 4px rgba(91,95,222,0.6))} 50%{filter:drop-shadow(0 0 10px rgba(91,95,222,1))} }
+@keyframes spinSquareFast { 0%{transform:rotate(0deg)} 100%{transform:rotate(720deg)} }
 
 /* ===== iOS COMPONENTS ===== */
 .ios-card {
@@ -233,19 +231,14 @@ body {
   display: flex; align-items: center; justify-content: center;
   position: relative; flex-shrink: 0;
 }
-.nav-logo-orb .logo-square {
-  position: absolute;
-  width: 28px; height: 28px;
-  border: 2.5px solid var(--accent);
-  border-radius: 6px;
+.nav-logo-orb .logo-sq {
+  position: absolute; width: 28px; height: 28px;
+  border: 2.5px solid var(--accent); border-radius: 7px;
   animation: spinSquare 6s linear infinite;
 }
 .nav-logo-orb .logo-s {
-  font-size: 16px; font-weight: 900;
-  color: var(--accent);
-  position: relative; z-index: 2;
-  line-height: 1;
-  font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+  font-size: 15px; font-weight: 900; color: var(--accent);
+  position: relative; z-index: 2; line-height: 1;
 }
 .nav-logo-text { font-size: 20px; font-weight: 800; color: var(--text); }
 
@@ -313,27 +306,19 @@ body {
 }
 .auth-orb {
   width: 80px; height: 80px;
-  border-radius: 24px;
   margin: 0 auto 16px;
   display: flex; align-items: center; justify-content: center;
-  position: relative;
-  animation: orbFloat 3s ease-in-out infinite;
+  position: relative; animation: orbFloat 3s ease-in-out infinite;
 }
-.auth-orb .logo-square-auth {
-  position: absolute;
-  width: 64px; height: 64px;
-  border: 3px solid var(--accent);
-  border-radius: 18px;
-  animation: spinSquare 6s linear infinite;
+.auth-orb .logo-sq-lg {
+  position: absolute; width: 64px; height: 64px;
+  border: 3px solid var(--accent); border-radius: 18px;
+  animation: spinSquare 5s linear infinite;
   box-shadow: 0 0 20px rgba(91,95,222,0.3);
 }
-.auth-orb .logo-s-auth {
-  font-size: 36px; font-weight: 900;
-  color: var(--accent);
-  position: relative; z-index: 2;
-  line-height: 1;
-  font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
-  text-shadow: 0 2px 8px rgba(91,95,222,0.4);
+.auth-orb .logo-s-lg {
+  font-size: 34px; font-weight: 900; color: var(--accent);
+  position: relative; z-index: 2; line-height: 1;
 }
 
 .auth-title { font-size: 28px; font-weight: 800; color: var(--text); }
@@ -662,33 +647,22 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
 
 .ai-orb {
   width: 44px; height: 44px;
-  border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  position: relative;
-  cursor: pointer; flex-shrink: 0;
-  transition: all 0.3s;
+  position: relative; cursor: pointer; flex-shrink: 0; transition: all 0.3s;
 }
-.ai-orb .logo-square-orb {
-  position: absolute;
-  width: 36px; height: 36px;
-  border: 2.5px solid var(--accent);
-  border-radius: 10px;
+.ai-orb .logo-sq-sm {
+  position: absolute; width: 36px; height: 36px;
+  border: 2.5px solid var(--accent); border-radius: 10px;
   animation: spinSquare 4s linear infinite;
-  box-shadow: 0 0 12px rgba(91,95,222,0.3);
 }
-.ai-orb .logo-s-orb {
-  font-size: 18px; font-weight: 900;
-  color: var(--accent);
-  position: relative; z-index: 2;
-  line-height: 1;
-  font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+.ai-orb .logo-s-sm {
+  font-size: 18px; font-weight: 900; color: var(--accent);
+  position: relative; z-index: 2; line-height: 1;
 }
-.ai-orb.thinking .logo-square-orb {
-  animation: spinSquareFast 0.6s linear infinite;
-  border-color: var(--accent2);
-  box-shadow: 0 0 20px rgba(91,95,222,0.7);
+.ai-orb.thinking .logo-sq-sm {
+  animation: spinSquareFast 0.5s linear infinite;
+  border-color: #9B9FFF; box-shadow: 0 0 20px rgba(91,95,222,0.7);
 }
-.ai-orb::before { display: none; }
 
 .ai-topbar-info { flex: 1; }
 .ai-topbar-name { font-size: 16px; font-weight: 700; color: var(--text); }
@@ -767,23 +741,17 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
 .ai-empty-orb {
   width: 90px; height: 90px;
   display: flex; align-items: center; justify-content: center;
-  position: relative;
-  animation: orbFloat 3s ease-in-out infinite;
+  position: relative; animation: orbFloat 3s ease-in-out infinite;
 }
-.ai-empty-orb .logo-square-empty {
-  position: absolute;
-  width: 72px; height: 72px;
-  border: 3px solid var(--accent);
-  border-radius: 20px;
+.ai-empty-orb .logo-sq-xl {
+  position: absolute; width: 72px; height: 72px;
+  border: 3px solid var(--accent); border-radius: 20px;
   animation: spinSquare 5s linear infinite;
   box-shadow: 0 0 24px rgba(91,95,222,0.4);
 }
-.ai-empty-orb .logo-s-empty {
-  font-size: 34px; font-weight: 900;
-  color: var(--accent);
-  position: relative; z-index: 2;
-  line-height: 1;
-  font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+.ai-empty-orb .logo-s-xl {
+  font-size: 34px; font-weight: 900; color: var(--accent);
+  position: relative; z-index: 2; line-height: 1;
 }
 .ai-empty-title { font-size: 22px; font-weight: 800; color: var(--text); }
 .ai-empty-sub { font-size: 14px; color: var(--text3); line-height: 1.5; }
@@ -950,46 +918,34 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: var(--nav-bg);
-  backdrop-filter: var(--blur);
-  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border-top: 1px solid var(--nav-border);
-  display: flex; padding: 10px 12px 22px;
-  z-index: 100;
-  transition: background 0.3s;
-  gap: 4px;
+  display: flex; padding: 8px 8px 22px; gap: 4px;
+  z-index: 100; transition: background 0.3s;
 }
 .nav-item {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; gap: 3px;
-  cursor: pointer; padding: 8px 6px;
+  cursor: pointer; padding: 8px 4px;
   border: none; background: transparent;
-  font-family: inherit; transition: all 0.2s;
-  border-radius: 14px;
-  position: relative;
+  font-family: inherit; border-radius: 14px; transition: all 0.2s;
 }
 .nav-item:active { opacity: 0.7; transform: scale(0.95); }
 .nav-item-icon { font-size: 20px; transition: all 0.2s; }
-.nav-item-label { font-size: 10px; font-weight: 600; color: var(--text3); transition: all 0.2s; }
+.nav-item-label { font-size: 10px; font-weight: 600; color: var(--text3); }
 .nav-item.active .nav-item-label { color: var(--accent); }
 .nav-item.active .nav-item-icon { transform: scale(1.1); }
-
-/* Center AI button - pill style like financial app */
 .nav-item-center {
-  flex: 1.2;
   background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
-  border-radius: 20px !important;
-  padding: 8px 6px !important;
+  border-radius: 20px !important; padding: 8px 4px !important;
   box-shadow: 0 4px 16px rgba(91,95,222,0.4);
 }
-.nav-item-center .nav-item-label { color: rgba(255,255,255,0.85) !important; font-weight: 700; }
+.nav-item-center .nav-item-label { color: rgba(255,255,255,0.9) !important; font-weight: 700; }
 .nav-item-center .nav-ai-icon { color: #fff !important; }
-.nav-item-center.active { background: linear-gradient(135deg, #7B7FE8, #5B5FDE) !important; }
-
 .nav-ai-icon {
   font-size: 12px; font-weight: 900; color: var(--text3);
   width: 22px; height: 22px;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
 }
 .nav-item.active .nav-ai-icon { color: var(--accent); }
 
@@ -1112,10 +1068,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-box">
     <div class="auth-logo-wrap">
-      <div class="auth-orb">
-        <div class="logo-square-auth"></div>
-        <span class="logo-s-auth">S</span>
-      </div>
+      <div class="auth-orb"><div class="logo-sq-lg"></div><span class="logo-s-lg">S</span></div>
       <div class="auth-title">Strix</div>
       <div class="auth-subtitle" id="authSubtitle">ҰБТ-ға дайындық платформасы</div>
     </div>
@@ -1214,7 +1167,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
   <div class="page show" id="homePage">
     <div class="top-nav">
       <div class="nav-logo">
-        <div class="nav-logo-orb"><div class="logo-square"></div><span class="logo-s">S</span></div>
+        <div class="nav-logo-orb"><div class="logo-sq"></div><span class="logo-s">S</span></div>
         <span class="nav-logo-text">Strix</span>
       </div>
       <div class="nav-right">
@@ -1283,7 +1236,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
   <div class="page" id="specialtiesPage">
     <div class="top-nav">
       <div class="nav-logo">
-        <div class="nav-logo-orb"><div class="logo-square"></div><span class="logo-s">S</span></div>
+        <div class="nav-logo-orb"><div class="logo-sq"></div><span class="logo-s">S</span></div>
         <span class="nav-logo-text" data-i18n="specialties">Мамандықтар</span>
       </div>
       <div class="nav-right">
@@ -1313,7 +1266,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
   <div class="page" id="grantPage">
     <div class="top-nav">
       <div class="nav-logo">
-        <div class="nav-logo-orb"><div class="logo-square"></div><span class="logo-s">S</span></div>
+        <div class="nav-logo-orb"><div class="logo-sq"></div><span class="logo-s">S</span></div>
         <span class="nav-logo-text" data-i18n="grant">Грант</span>
       </div>
       <div class="nav-right">
@@ -1424,10 +1377,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
         ‹ <span data-i18n="back" style="font-size:15px;">Артқа</span>
       </button>
 
-      <div class="ai-orb" id="aiOrb" onclick="cycleEmotion()">
-        <div class="logo-square-orb"></div>
-        <span class="logo-s-orb">S</span>
-      </div>
+      <div class="ai-orb" id="aiOrb" onclick="cycleEmotion()"><div class="logo-sq-sm"></div><span class="logo-s-sm">S</span></div>
 
       <div class="ai-topbar-info">
         <div class="ai-topbar-name">Strix AI</div>
@@ -1494,7 +1444,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
   <div class="page" id="unisPage">
     <div class="top-nav">
       <div class="nav-logo">
-        <div class="nav-logo-orb"><div class="logo-square"></div><span class="logo-s">S</span></div>
+        <div class="nav-logo-orb"><div class="logo-sq"></div><span class="logo-s">S</span></div>
         <span class="nav-logo-text" data-i18n="universities">Университеттер</span>
       </div>
       <div class="nav-right">
@@ -1525,7 +1475,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
   <div class="page" id="profilePage">
     <div class="top-nav">
       <div class="nav-logo">
-        <div class="nav-logo-orb"><div class="logo-square"></div><span class="logo-s">S</span></div>
+        <div class="nav-logo-orb"><div class="logo-sq"></div><span class="logo-s">S</span></div>
         <span class="nav-logo-text" data-i18n="profile">Профиль</span>
       </div>
     </div>
@@ -1533,7 +1483,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
     <div class="profile-hero">
       <div class="profile-avatar" id="profileAvatar">А</div>
       <div class="profile-name" id="profileName">Пайдаланушы</div>
-      <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9acaabcab99bca1b8b4a9b5bcf7bab6b4">[email&#160;protected]</a></div>
+      <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="532620362113362b323e233f367d303c3e">[email&#160;protected]</a></div>
     </div>
 
     <div style="padding:0 16px;">
@@ -1557,7 +1507,7 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
           </div>
         </div>
         <div class="ios-row" onclick="goPage('ai')">
-          <div class="ios-row-icon" style="background:linear-gradient(135deg,#7B7FE8,#5B5FDE);font-size:14px;font-weight:900;color:#fff;border-radius:8px;">S</div>
+          <div class="ios-row-icon" style="background:linear-gradient(135deg,#7B7FE8,#5B5FDE);font-size:12px;font-weight:900;color:#fff;">AI</div>
           <span class="ios-row-label" data-i18n="aiChat">Strix AI Чат</span>
           <span class="ios-row-arrow">›</span>
         </div>
@@ -1582,10 +1532,6 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
       <div class="nav-item-icon">📋</div>
       <div class="nav-item-label" data-i18n="specialties">Мамандық</div>
     </button>
-    <button class="nav-item nav-item-center" id="nav-ai" onclick="goPage('ai')">
-      <div class="nav-ai-icon">AI</div>
-      <div class="nav-item-label">Strix AI</div>
-    </button>
     <button class="nav-item" id="nav-grant" onclick="goPage('grant')">
       <div class="nav-item-icon">🎯</div>
       <div class="nav-item-label" data-i18n="grant">Грант</div>
@@ -1593,6 +1539,10 @@ input[type="range"].ios-slider:active::-webkit-slider-thumb { transform: scale(1
     <button class="nav-item" id="nav-unis" onclick="goPage('unis')">
       <div class="nav-item-icon">🏛️</div>
       <div class="nav-item-label">ЖОО</div>
+    </button>
+    <button class="nav-item nav-item-center" id="nav-ai" onclick="goPage('ai')">
+      <div class="nav-ai-icon">AI</div>
+      <div class="nav-item-label">Strix AI</div>
     </button>
     <button class="nav-item" id="nav-profile" onclick="goPage('profile')">
       <div class="nav-item-icon">👤</div>
@@ -1796,39 +1746,15 @@ const universities = [
 ];
 
 const specUniMap = {
-  'B057':['nu','kbtu','iitu','aitu','kaznu','kazntu','enu','sdu','almau','narxoz'],
-  'B109':['nu','kbtu','iitu','aitu','kaznu','enu'],
-  'B110':['nu','kbtu','iitu','aitu','kaznu','kazntu','enu','sdu'],
-  'B058':['kbtu','iitu','aitu','kaznu','kazntu','enu','aeu'],
-  'B108':['nu','kbtu','kimep','kaznu','almau'],
+  'B057':['nu','kbtu','iitu','aitu','kaznu','kazntu','enu','sdu','narxoz','almau'],
+  'B109':['nu','kbtu','iitu','aitu','kaznu','kazntu','enu'],
+  'B110':['nu','kbtu','iitu','aitu','kaznu','kazntu','enu','aeu'],
   'BM086':['kaznmu','amu','kgmu','skma','wkmu'],
   'BM088':['kaznmu','amu','kgmu','skma','wkmu'],
-  'BM089':['kaznmu','amu','kgmu','skma'],
-  'B085':['kaznmu','amu','kgmu','kaznu'],
-  'B103':['kaznu','kazntu','enu','kgu'],
-  'B104':['kaznu','kazntu','nu','enu'],
-  'B054':['kaznu','kazntu','nu','enu','semey'],
-  'B055':['kaznu','kazntu','nu'],
-  'B115':['kazntu','nu','kbtu','enu','aeu'],
-  'B098':['kazntu','nu','enu'],
-  'B036':['ablai','kaznu','enu','kimep','sdu'],
-  'B107':['kimep','nu','kaznu','enu','narxoz','almau'],
-  'B041':['kaznu','enu','sdu','kgu','semey'],
-  'B001':['kaznu','enu','kaznpu','kgpu','sdu'],
-  'B116':['kaznu','enu','sdu','kgu','ablai'],
   'B049':['kazguu','kimep','kaznu','enu','sdu'],
-  'B117':['kazguu','kimep','kaznu','nu'],
-  'B046':['kimep','narxoz','almau','keu','kaznu','enu'],
-  'B044':['kimep','narxoz','keu','kaznu','enu','almau'],
-  'B111':['kimep','almau','kaznu','iitu','aitu'],
-  'B073':['kaznu','enu','sdu','kgu'],
-  'B031':['kaznu','enu','sdu'],
-  'B042':['kaznu','enu','sdu','kgu'],
-  'B026':['kaznu','enu','iitu','aitu','sdu'],
-  'B100':['kazntu','ekstu','enu','kgu'],
-  'B101':['kazntu','ekstu','kgu','enu'],
-  'B009':['kaznu','enu','kazntu','kgu'],
-  'B112':['kaznu','enu','kazguu','sdu'],
+  'B036':['ablai','kaznu','enu','kimep'],
+  'B001':['kaznu','enu','kaznpu','kgpu'],
+  'B054':['kaznu','kazntu','enu','nu'],
 };
 
 const specialties = [
@@ -1949,10 +1875,9 @@ function localRegister(name, email, pass) {
 
 function doGoogleLogin() {
   if(window._fbReady && window._fbAuth && window._fbGoogleProvider) {
-    // Redirect әдісі — телефон браузерлерінде жақсы жұмыс жасайды
     window._fbSignInWithRedirect(window._fbAuth, window._fbGoogleProvider)
       .catch(err => {
-        showToast('Google кіру қатесі: ' + err.message);
+        showToast('Google қатесі: ' + err.message);
       });
   } else {
     showToast(t('googleDemoMsg'));
@@ -2136,20 +2061,14 @@ function donutSVG(pct, color) {
 function calculateGrant() {
   const subKey = document.getElementById('grantSubjectFilter').value;
   const score = parseInt(document.getElementById('grantSlider').value);
-  const quotaBonus = selectedQuotas.size > 0 ? 10 : 0;
-  const effectiveScore = score + quotaBonus;
-
-  let matches = subKey ? specialties.filter(s => s.subKey === subKey) : specialties;
-  // Show all specialties user can potentially reach (within 30 points below)
-  matches = matches.filter(s => effectiveScore >= s.minScore - 30);
-  matches.sort((a, b) => {
-    const diffA = effectiveScore - a.minScore;
-    const diffB = effectiveScore - b.minScore;
-    return diffB - diffA;
-  });
+  const hasQuota = selectedQuotas.size > 0;
+  const effectiveScore = score + (hasQuota ? 10 : 0);
+  let matches = subKey ? specialties.filter(s => s.subKey===subKey) : specialties;
+  matches = matches.filter(s => effectiveScore >= s.minScore - 25);
+  matches.sort((a,b) => (effectiveScore - a.minScore) < (effectiveScore - b.minScore) ? 1 : -1);
 
   const subLabel = subKey ? document.querySelector('#grantSubjectFilter option:checked').text : t('allSubjects');
-  grantHistory.unshift({subject: subLabel, score, quota: quotaBonus > 0});
+  grantHistory.unshift({subject:subLabel, score, quota: hasQuota ? [...selectedQuotas][0] : null});
   renderHistory();
 
   const el = document.getElementById('resultsContent');
@@ -2160,30 +2079,20 @@ function calculateGrant() {
       <div style="font-size:14px;color:var(--text3);">Балыңызды жоғарылатыңыз немесе пәнді өзгертіңіз</div>
     </div>`;
   } else {
-    // Score summary header
-    el.innerHTML = `<div style="background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;padding:16px 20px;margin-bottom:20px;color:#fff;">
-      <div style="font-size:13px;opacity:0.85;margin-bottom:4px;">Сіздің балыңыз${quotaBonus>0?' (квота +'+quotaBonus+')':''}</div>
-      <div style="font-size:32px;font-weight:900;">${effectiveScore}</div>
-      <div style="font-size:13px;opacity:0.85;margin-top:4px;">${matches.length} мамандық табылды</div>
-    </div>` + matches.slice(0, 30).map(s => {
+    el.innerHTML = matches.slice(0,25).map(s => {
       const diff = effectiveScore - s.minScore;
-      let pct, color, label;
-      if(diff >= 20){pct=95;color='var(--green)';label='Жоғары мүмкіндік';}
-      else if(diff >= 10){pct=75;color='var(--yellow)';label='Жақсы мүмкіндік';}
-      else if(diff >= 0){pct=50;color='var(--yellow)';label='Орташа мүмкіндік';}
-      else if(diff >= -15){pct=20;color='var(--red)';label='Төмен мүмкіндік';}
-      else{pct=8;color='var(--red)';label='Өте қиын';}
-
-      const unis = (specUniMap[s.code]||[]).map(id=>universities.find(u=>u.id===id)).filter(Boolean);
-      const topUni = unis[0];
-
+      let pct, color;
+      if(diff >= 20){pct=95;color='var(--green)';}
+      else if(diff >= 10){pct=75;color='var(--yellow)';}
+      else if(diff >= 0){pct=50;color='var(--yellow)';}
+      else if(diff >= -15){pct=20;color='var(--red)';}
+      else{pct=8;color='var(--red)';}
       return `<div class="result-item" onclick="openSpecSheet('${s.code}')">
         <div class="donut-wrap">${donutSVG(pct,color)}<div class="donut-center" style="color:${color}">${pct}%</div></div>
         <div class="result-info">
           <div class="result-code">${s.code} • ${s.name}</div>
           <div class="result-name">${s.subject}</div>
-          <div class="result-meta">Мин. балл: ${s.minScore} • ${diff>=0?'<span style="color:var(--green)">+'+diff+' артық</span>':'<span style="color:var(--red)">'+diff+' жетіспейді</span>'}</div>
-          ${topUni ? `<div style="font-size:11px;color:var(--text3);margin-top:3px;">🏛️ ${topUni.short||topUni.name}${unis.length>1?' +' +(unis.length-1)+' басқа':''}</div>` : ''}
+          <div class="result-meta">Грант балы: ${s.minScore} • Айырма: ${diff>=0?'+'+diff:diff}</div>
         </div>
       </div>`;
     }).join('');
@@ -2299,10 +2208,7 @@ function newConversation() {
 function showAiEmpty() {
   const el = document.getElementById('aiMessages');
   el.innerHTML = `<div class="ai-empty">
-    <div class="ai-empty-orb">
-      <div class="logo-square-empty"></div>
-      <span class="logo-s-empty">S</span>
-    </div>
+    <div class="ai-empty-orb"><div class="logo-sq-xl"></div><span class="logo-s-xl">S</span></div>
     <div class="ai-empty-title">${t('emptyTitle')}</div>
     <div class="ai-empty-sub">${t('emptySub')}</div>
   </div>`;
@@ -2536,21 +2442,19 @@ function renderFilePreview() {
 
 function removePending(i) { pendingFiles.splice(i,1); renderFilePreview(); }
 
-// ===== LOGO SPIN EFFECTS =====
+// ===== EMOTIONS =====
 const emotions = ['happy','sad','surprise','angry','cool','sleepy','love','wink'];
 let emoIdx = -1;
 function cycleEmotion() {
   if(isAiThinking) return;
   emoIdx = (emoIdx+1) % emotions.length;
-  const square = document.querySelector('#aiOrb .logo-square-orb');
-  const sText = document.querySelector('#aiOrb .logo-s-orb');
-  if(!square) return;
-  if(emotions[emoIdx]==='happy') { square.style.borderColor='#FFD60A'; sText.style.color='#FFD60A'; }
-  else if(emotions[emoIdx]==='love') { square.style.borderColor='#FF375F'; sText.style.color='#FF375F'; }
-  else if(emotions[emoIdx]==='angry') { square.style.borderColor='#FF3B30'; sText.style.color='#FF3B30'; }
-  else if(emotions[emoIdx]==='cool') { square.style.borderColor='#32ADE6'; sText.style.color='#32ADE6'; }
-  else { square.style.borderColor=''; sText.style.color=''; }
-  setTimeout(() => { square.style.borderColor=''; sText.style.color=''; }, 2000);
+  const sq = document.querySelector('#aiOrb .logo-sq-sm');
+  const s = document.querySelector('#aiOrb .logo-s-sm');
+  if(!sq) return;
+  const colors = {happy:'#FFD60A',love:'#FF375F',angry:'#FF3B30',cool:'#32ADE6'};
+  const c = colors[emotions[emoIdx]] || 'var(--accent)';
+  sq.style.borderColor = c; if(s) s.style.color = c;
+  setTimeout(() => { sq.style.borderColor=''; if(s) s.style.color=''; }, 2000);
 }
 
 // ===== TOAST =====
@@ -2577,18 +2481,16 @@ document.addEventListener('click', e => {
     if(toggle) toggle.checked = true;
   }
 
-  // Check Google redirect result first
+  // Check Google redirect result
   if(window._fbReady && window._fbGetRedirectResult && window._fbAuth) {
     window._fbGetRedirectResult(window._fbAuth)
       .then(result => {
         if(result && result.user) {
           const u = result.user;
-          loginUser({name: u.displayName||'Google User', email: u.email, avatar: (u.displayName||'G')[0].toUpperCase(), uid: u.uid});
+          loginUser({name: u.displayName||u.email.split('@')[0], email: u.email, avatar: (u.displayName||u.email)[0].toUpperCase(), uid: u.uid});
         }
       })
-      .catch(err => {
-        console.warn('Redirect result error:', err.message);
-      });
+      .catch(err => console.warn('Redirect:', err.message));
   }
 
   // Restore session
@@ -2602,4 +2504,13 @@ document.addEventListener('click', e => {
   if(window._fbReady && window._fbOnAuthStateChanged && window._fbAuth) {
     window._fbOnAuthStateChanged(window._fbAuth, user => {
       if(user && !currentUser) {
-        loginUser({nam
+        loginUser({name: u.displayName||u.email.split('@')[0], email: u.email, avatar: (u.displayName||u.email)[0].toUpperCase(), uid: u.uid});
+      }
+    });
+  }
+
+  applyLang();
+})();
+</script>
+</body>
+</html>
