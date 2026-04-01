@@ -833,6 +833,62 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
 
 /* SCROLLBAR */
 * { scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+
+/* ===== QUIZ PAGE ===== */
+#quizPage { padding-bottom: 80px; }
+.quiz-upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--card);
+  margin-bottom: 16px;
+}
+.quiz-upload-zone:hover,.quiz-upload-zone.drag{border-color:var(--accent);background:var(--accent-soft);}
+.quiz-upload-zone input{display:none;}
+.quiz-file-info{background:var(--green-soft);border:1px solid rgba(26,122,60,0.2);border-radius:var(--radius);padding:12px 16px;display:none;align-items:center;gap:10px;margin-bottom:12px;font-size:14px;}
+.quiz-file-info.show{display:flex;}
+.quiz-settings{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:16px;margin-bottom:12px;}
+.quiz-set-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.quiz-set-row:last-child{margin-bottom:0;}
+.quiz-num-input{display:flex;align-items:center;gap:8px;}
+.quiz-num-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;}
+.quiz-num-val{font-size:15px;font-weight:700;min-width:32px;text-align:center;}
+.quiz-q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.quiz-q-card{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:20px;margin-bottom:12px;animation:slideUp 0.3s ease;}
+.quiz-q-num{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:8px;}
+.quiz-q-text{font-size:15px;font-weight:600;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;font-family:inherit;font-size:14px;color:var(--text);text-align:left;transition:all 0.15s;width:100%;}
+.quiz-opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft);}
+.quiz-opt-letter{width:26px;height:26px;border-radius:7px;background:var(--card2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:all 0.15s;}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-soft);}
+.quiz-opt.correct .quiz-opt-letter{background:var(--green);color:white;border-color:var(--green);}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-soft);}
+.quiz-opt.wrong .quiz-opt-letter{background:var(--red);color:white;border-color:var(--red);}
+.quiz-fb{padding:10px 14px;border-radius:var(--radius);font-size:13px;font-weight:600;display:none;margin-bottom:10px;align-items:center;gap:6px;}
+.quiz-fb.show{display:flex;}
+.quiz-fb.correct{background:var(--green-soft);color:var(--green);}
+.quiz-fb.wrong{background:var(--red-soft);color:var(--red);}
+.quiz-result-hero{text-align:center;padding:24px 0 20px;}
+.quiz-result-score{font-size:48px;font-weight:800;color:var(--accent);line-height:1;}
+.quiz-result-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;}
+.quiz-stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;}
+.quiz-stat-num{font-size:22px;font-weight:800;}
+.quiz-stat-label{font-size:11px;color:var(--text3);margin-top:3px;}
+.quiz-stat.green .quiz-stat-num{color:var(--green);}
+.quiz-stat.red .quiz-stat-num{color:var(--red);}
+.quiz-wrong-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:8px;}
+.quiz-wrong-q{font-size:13px;font-weight:600;margin-bottom:6px;}
+.quiz-wrong-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.quiz-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:5px;}
+.quiz-badge.your{background:var(--red-soft);color:var(--red);}
+.quiz-badge.ok{background:var(--green-soft);color:var(--green);}
+.quiz-saved-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.quiz-saved-pct{font-size:18px;font-weight:800;color:var(--accent);}
+
 </style>
 </head>
 <body>
@@ -1634,12 +1690,12 @@ function doLogout(){
 function goPage(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
   document.querySelectorAll('.nav-tab').forEach(n=>n.classList.remove('active'));
-  const map={home:'homePage',specialties:'specialtiesPage',grant:'grantPage',results:'resultsPage',ai:'aiPage',unis:'unisPage',profile:'profilePage'};
+  const map={home:'homePage',specialties:'specialtiesPage',grant:'grantPage',results:'resultsPage',ai:'aiPage',unis:'unisPage',profile:'profilePage',quiz:'quizPage'};
   const el=document.getElementById(map[page]); if(el) el.classList.add('show');
-  const navMap={home:'nav-home',specialties:'nav-specialties',grant:'nav-grant',unis:'nav-unis',ai:'nav-ai',profile:'nav-profile'};
+  const navMap={home:'nav-home',specialties:'nav-specialties',grant:'nav-grant',unis:'nav-unis',ai:'nav-ai',profile:'nav-profile',quiz:'nav-quiz'};
   if(navMap[page]){const ne=document.getElementById(navMap[page]); if(ne) ne.classList.add('active');}
   const bn=document.getElementById('bottomNav');
-  if(page==='ai'){bn.style.display='none'; if(!currentConvId) showAiEmpty();}
+  if(page==='ai'){bn.style.display='none'; if(!currentConvId) showAiEmpty();} else if(page==='quiz'){bn.style.display='flex'; qLoadSaved();}
   else bn.style.display='flex';
   currentPage=page;
   if(page==='specialties') renderSpecialties();
@@ -2175,6 +2231,183 @@ document.addEventListener('click',e=>{
   });
   }
 })();
+
+// ===== QUIZ =====
+let qAllQ=[],qQuizQ=[],qCurrent=0,qScore=0,qAnswers=[],qShuff=true,qNum2=50,qAnswered=false;
+const QLETTERS=['A','B','C','D'];
+
+(function(){
+  const inp=document.getElementById('qFileInput');
+  const zone=document.getElementById('qZone');
+  if(zone){
+    zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag');});
+    zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+    zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag');if(e.dataTransfer.files[0])qHandleFile(e.dataTransfer.files[0]);});
+  }
+  if(inp) inp.addEventListener('change',e=>{if(e.target.files[0])qHandleFile(e.target.files[0]);});
+})();
+
+async function qHandleFile(file){
+  document.getElementById('qLoadingBar').style.display='block';
+  document.getElementById('qFileInfo').classList.remove('show');
+  try{
+    const ab=await file.arrayBuffer();
+    if(typeof mammoth==='undefined'){
+      // Load mammoth dynamically
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
+        s.onload=res; s.onerror=rej;
+        document.head.appendChild(s);
+      });
+    }
+    const result=await mammoth.extractRawText({arrayBuffer:ab});
+    qAllQ=qParseQ(result.value);
+    document.getElementById('qLoadingBar').style.display='none';
+    if(qAllQ.length===0){showToast('Сұрақ табылмады. Файл форматын тексеріңіз.');return;}
+    document.getElementById('qFileName').textContent=file.name;
+    document.getElementById('qQCount').textContent=qAllQ.length+' сұрақ';
+    document.getElementById('qFileInfo').classList.add('show');
+    document.getElementById('qStartBtn').disabled=false;
+    if(qNum2>qAllQ.length){qNum2=qAllQ.length;document.getElementById('qNumVal').textContent=qNum2;}
+  }catch(e){
+    document.getElementById('qLoadingBar').style.display='none';
+    showToast('Файл қатесі: '+e.message);
+  }
+}
+
+function qParseQ(text){
+  const qs=[];
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l);
+  let i=0;
+  while(i<lines.length){
+    const qm=lines[i].match(/^(\d+)[.)\s]\s*(.+)/);
+    if(qm){
+      const qText=qm[2].trim();
+      const opts=[];
+      let correct=0;
+      i++;
+      while(i<lines.length){
+        const om=lines[i].match(/^([A-Dа-дАД])[.)\s]\s*(.+)/i);
+        if(om){opts.push(om[2].trim());i++;}else break;
+      }
+      if(i<lines.length){
+        const am=lines[i].match(/[Жж]ауап[ы]?\s*:?\s*([A-Dа-дАД])/i)||lines[i].match(/Answer\s*:?\s*([A-D])/i)||lines[i].match(/^([A-D])$/i);
+        if(am){correct=Math.max(0,'ABCD'.indexOf(am[1].toUpperCase()));i++;}
+      }
+      if(opts.length>=2) qs.push({q:qText,options:opts,correct});
+    }else i++;
+  }
+  return qs;
+}
+
+function qChangeNum(d){
+  const max=qAllQ.length||300;
+  qNum2=Math.max(1,Math.min(max,qNum2+d));
+  document.getElementById('qNumVal').textContent=qNum2;
+}
+function qToggleShuffle(){
+  qShuff=!qShuff;
+  document.getElementById('qShuffleToggle').classList.toggle('on',qShuff);
+}
+function qStart(){
+  if(!qAllQ.length)return;
+  const shuffled=[...qAllQ].sort(()=>Math.random()-0.5);
+  qQuizQ=shuffled.slice(0,Math.min(qNum2,shuffled.length));
+  qCurrent=0;qScore=0;qAnswers=[];
+  qShowState('quiz');
+  qRender();
+}
+function qShowState(s){
+  document.getElementById('qUpload').style.display=s==='upload'?'block':'none';
+  document.getElementById('qQuiz').style.display=s==='quiz'?'block':'none';
+  document.getElementById('qResult').style.display=s==='result'?'block':'none';
+}
+function qRender(){
+  qAnswered=false;
+  const q=qQuizQ[qCurrent];
+  const total=qQuizQ.length;
+  document.getElementById('qProgressTxt').textContent=(qCurrent+1)+'/'+total;
+  document.getElementById('qScoreLive').textContent='✓ '+qScore;
+  document.getElementById('qProgFill').style.width=((qCurrent/total)*100)+'%';
+  document.getElementById('qNum').textContent='СҰРАҚ '+(qCurrent+1);
+  document.getElementById('qText').textContent=q.q;
+  let opts=q.options.map((o,i)=>({text:o,origIdx:i}));
+  if(qShuff) opts=opts.sort(()=>Math.random()-0.5);
+  const correctIdx=opts.findIndex(o=>o.origIdx===q.correct);
+  const list=document.getElementById('qOpts');
+  list.innerHTML='';
+  opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='quiz-opt';
+    btn.innerHTML=`<span class="quiz-opt-letter">${QLETTERS[i]}</span><span>${opt.text}</span>`;
+    btn.onclick=()=>qSelect(i,correctIdx,opts);
+    list.appendChild(btn);
+  });
+  document.getElementById('qFb').classList.remove('show','correct','wrong');
+  document.getElementById('qNextBtn').style.display='none';
+}
+function qSelect(chosen,correct,opts){
+  if(qAnswered)return;
+  qAnswered=true;
+  const btns=document.querySelectorAll('.quiz-opt');
+  btns.forEach(b=>b.disabled=true);
+  const ok=chosen===correct;
+  if(ok)qScore++;
+  btns[chosen].classList.add(ok?'correct':'wrong');
+  if(!ok)btns[correct].classList.add('correct');
+  const fb=document.getElementById('qFb');
+  fb.classList.add('show',ok?'correct':'wrong');
+  fb.textContent=ok?'✓ Дұрыс жауап!':'✗ Қате. Дұрыс: '+QLETTERS[correct]+') '+opts[correct].text;
+  qAnswers.push({q:qQuizQ[qCurrent].q,chosen:opts[chosen].text,chosenL:QLETTERS[chosen],correct:opts[correct].text,correctL:QLETTERS[correct],ok});
+  document.getElementById('qScoreLive').textContent='✓ '+qScore;
+  const nb=document.getElementById('qNextBtn');
+  nb.style.display='block';
+  nb.textContent=qCurrent<qQuizQ.length-1?'Келесі сұрақ →':'Нәтижені көру →';
+}
+function qNext(){
+  qCurrent++;
+  if(qCurrent>=qQuizQ.length)qShowResult();
+  else qRender();
+}
+function qShowResult(){
+  qShowState('result');
+  const total=qQuizQ.length;
+  const pct=Math.round((qScore/total)*100);
+  let emoji='😔';
+  if(pct>=90)emoji='🏆';else if(pct>=70)emoji='🎉';else if(pct>=50)emoji='👍';
+  document.getElementById('qEmoji').textContent=emoji;
+  document.getElementById('qFinalScore').textContent=qScore+'/'+total;
+  document.getElementById('qFinalPct').textContent=pct+'%';
+  document.getElementById('qSCorrect').textContent=qScore;
+  document.getElementById('qSWrong').textContent=total-qScore;
+  document.getElementById('qSPct').textContent=pct+'%';
+  const wrong=qAnswers.filter(a=>!a.ok);
+  document.getElementById('qWrongList').innerHTML=wrong.length===0
+    ?'<p style="color:var(--green);font-weight:600;text-align:center;padding:16px">🎯 Барлығы дұрыс!</p>'
+    :wrong.map(a=>`<div class="quiz-wrong-item"><div class="quiz-wrong-q">${a.q}</div><div class="quiz-wrong-badges"><span class="quiz-badge your">Сенің: ${a.chosenL}) ${a.chosen}</span><span class="quiz-badge ok">Дұрыс: ${a.correctL}) ${a.correct}</span></div></div>`).join('');
+}
+function qSave(){
+  const total=qQuizQ.length;
+  const pct=Math.round((qScore/total)*100);
+  const saved=JSON.parse(localStorage.getItem('strix_quiz_results')||'[]');
+  saved.unshift({id:Date.now(),date:new Date().toLocaleDateString('kk-KZ'),score:qScore,total,pct,wrong:qAnswers.filter(a=>!a.ok).length});
+  localStorage.setItem('strix_quiz_results',JSON.stringify(saved.slice(0,20)));
+  showToast('✅ Нәтиже сақталды!');
+  qLoadSaved();
+}
+function qRestart(){qStart();}
+function qGoHome(){qShowState('upload');qLoadSaved();}
+function qLoadSaved(){
+  const saved=JSON.parse(localStorage.getItem('strix_quiz_results')||'[]');
+  const sec=document.getElementById('qSavedSection');
+  const list=document.getElementById('qSavedList');
+  if(!sec||!list)return;
+  if(!saved.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  list.innerHTML=saved.map(r=>`<div class="quiz-saved-item"><div style="flex:1"><div style="font-size:13px;font-weight:600;">${r.score}/${r.total} дұрыс</div><div style="font-size:11px;color:var(--text3);">${r.date} · ${r.wrong} қате</div></div><div class="quiz-saved-pct">${r.pct}%</div></div>`).join('');
+}
+
 </script>
 </body>
 </html>
