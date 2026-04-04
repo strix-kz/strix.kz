@@ -2313,7 +2313,7 @@ function openUniSheet(id){
 }
 
 // ===== AI CHAT =====
-const OPENROUTER_API_KEY='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';
+const GROQ_API_KEY='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';
 function getSystemPrompt(){
   return `Сен Aven.ai — Қазақстандағы ҰБТ платформасының AI кеңесшісісің.
 МАҢЫЗДЫ: Кез келген сұраққа жауап бер: ғылым, технология, тіл, медицина, психология, мансап, мәдениет, спорт, саясат, рецептер, саяхат т.б.
@@ -2445,20 +2445,10 @@ async function callGroq(userText,files,history){
   if(files.length>0&&files[0].type==='image') msgText=(msgText?msgText+'\n':'')+'[Пайдаланушы фото жіберді]';
   if(files.length>0&&files[0].type==='file') msgText=(msgText?msgText+'\n':'')+`[Пайдаланушы "${files[0].name}" файлын жіберді]`;
   apiMsgs.push({role:'user',content:msgText||'Сәлем!'});
-  const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+  const resp=await fetch('https://api.groq.com/openai/v1/chat/completions',{
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer '+OPENROUTER_API_KEY,
-      'HTTP-Referer':'https://trixkz.pages.dev',
-      'X-Title':'Aven.ai'
-    },
-    body:JSON.stringify({
-      model:'meta-llama/llama-3.3-70b-instruct:free',
-      max_tokens:1500,
-      messages:apiMsgs,
-      temperature:0.7
-    })
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+GROQ_API_KEY},
+    body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1500,messages:apiMsgs,temperature:0.7})
   });
   const data=await resp.json();
   if(data.error) throw new Error(data.error.message);
