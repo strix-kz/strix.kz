@@ -2313,7 +2313,7 @@ function openUniSheet(id){
 }
 
 // ===== AI CHAT =====
-const GEMINI_API_KEY='AIzaSyAx_ZV52Lg6NjiTP96P2kGpOebEYnnY9rY';
+const OPENROUTER_API_KEY='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';
 function getSystemPrompt(){
   return `Сен Aven.ai — Қазақстандағы ҰБТ платформасының AI кеңесшісісің.
 МАҢЫЗДЫ: Кез келген сұраққа жауап бер: ғылым, технология, тіл, медицина, психология, мансап, мәдениет, спорт, саясат, рецептер, саяхат т.б.
@@ -2439,26 +2439,30 @@ function setThinking(val){
 }
 async function callGroq(userText,files,history){
   const histSlice=history.slice(-10,-1);
-  const contents=[];
-  for(const m of histSlice){
-    contents.push({role:m.role==='user'?'user':'model',parts:[{text:m.text||'[медиа файл]'}]});
-  }
+  const apiMsgs=[{role:'system',content:getSystemPrompt()}];
+  for(const m of histSlice) apiMsgs.push({role:m.role==='user'?'user':'assistant',content:m.text||'[медиа файл]'});
   let msgText=userText||'';
   if(files.length>0&&files[0].type==='image') msgText=(msgText?msgText+'\n':'')+'[Пайдаланушы фото жіберді]';
   if(files.length>0&&files[0].type==='file') msgText=(msgText?msgText+'\n':'')+`[Пайдаланушы "${files[0].name}" файлын жіберді]`;
-  contents.push({role:'user',parts:[{text:msgText||'Сәлем!'}]});
-  const resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+GEMINI_API_KEY,{
+  apiMsgs.push({role:'user',content:msgText||'Сәлем!'});
+  const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{
     method:'POST',
-    headers:{'Content-Type':'application/json'},
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer '+OPENROUTER_API_KEY,
+      'HTTP-Referer':'https://trixkz.pages.dev',
+      'X-Title':'Aven.ai'
+    },
     body:JSON.stringify({
-      system_instruction:{parts:[{text:getSystemPrompt()}]},
-      contents:contents,
-      generationConfig:{maxOutputTokens:1500,temperature:0.7}
+      model:'meta-llama/llama-3.3-70b-instruct:free',
+      max_tokens:1500,
+      messages:apiMsgs,
+      temperature:0.7
     })
   });
   const data=await resp.json();
   if(data.error) throw new Error(data.error.message);
-  return data.candidates[0].content.parts[0].text;
+  return data.choices[0].message.content;
 }
 function usePrompt(text){document.getElementById('aiTextarea').value=text;sendMessage();}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
