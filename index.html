@@ -1235,7 +1235,7 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
             <div style="font-size:11px;color:var(--text3);margin-top:4px;">Сурет немесе PDF • tap to upload</div>
           </div>
           <input type="file" id="ubtFileInput" accept="image/*,.pdf" style="display:none" onchange="handleUbtFile(this.files[0])">
-          <div id="ubtFilePreview" style="display:none;margin-top:10px;padding:10px;background:var(--green-soft);border-radius:10px;display:flex;align-items:center;gap:10px;">
+          <div id="ubtFilePreview" style="display:none;margin-top:10px;padding:10px;background:var(--green-soft);border-radius:10px;align-items:center;gap:10px;">
             <span style="font-size:20px;">✅</span>
             <div>
               <div id="ubtFileName" style="font-size:13px;font-weight:600;color:var(--green);"></div>
@@ -1255,6 +1255,24 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
   <div class="page" id="resultsPage">
     <div class="top-nav">
       <button class="back-btn" onclick="goPage('grant')">‹ <span data-i18n="grant">Грант</span></button>
+    </div>
+    <div class="chips-row" id="resultCityChips" style="padding-bottom:4px;">
+      <button class="chip active" onclick="filterResultsByCity('',this)">🇰🇿 Барлық қала</button>
+      <button class="chip" onclick="filterResultsByCity('Астана',this)">Астана</button>
+      <button class="chip" onclick="filterResultsByCity('Алматы',this)">Алматы</button>
+      <button class="chip" onclick="filterResultsByCity('Шымкент',this)">Шымкент</button>
+      <button class="chip" onclick="filterResultsByCity('Қарағанды',this)">Қарағанды</button>
+      <button class="chip" onclick="filterResultsByCity('Павлодар',this)">Павлодар</button>
+      <button class="chip" onclick="filterResultsByCity('Өскемен',this)">Өскемен</button>
+      <button class="chip" onclick="filterResultsByCity('Семей',this)">Семей</button>
+      <button class="chip" onclick="filterResultsByCity('Ақтөбе',this)">Ақтөбе</button>
+      <button class="chip" onclick="filterResultsByCity('Орал',this)">Орал</button>
+      <button class="chip" onclick="filterResultsByCity('Атырау',this)">Атырау</button>
+      <button class="chip" onclick="filterResultsByCity('Ақтау',this)">Ақтау</button>
+      <button class="chip" onclick="filterResultsByCity('Қостанай',this)">Қостанай</button>
+      <button class="chip" onclick="filterResultsByCity('Қызылорда',this)">Қызылорда</button>
+      <button class="chip" onclick="filterResultsByCity('Тараз',this)">Тараз</button>
+      <button class="chip" onclick="filterResultsByCity('Түркістан',this)">Түркістан</button>
     </div>
     <div style="padding:0 0 100px;" id="resultsContent"></div>
   </div>
@@ -1333,6 +1351,29 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
       <button class="chip" onclick="setUniFilter('Педагогикалық',this)">Педагогика</button>
       <button class="chip" onclick="setUniFilter('Заң',this)">Заң</button>
       <button class="chip" onclick="setUniFilter('Бизнес',this)">Бизнес</button>
+    </div>
+    <div class="chips-row" id="uniCityChips" style="padding-top:0;">
+      <button class="chip active" onclick="setUniCityFilter('',this)">🇰🇿 Барлық қала</button>
+      <button class="chip" onclick="setUniCityFilter('Астана',this)">Астана</button>
+      <button class="chip" onclick="setUniCityFilter('Алматы',this)">Алматы</button>
+      <button class="chip" onclick="setUniCityFilter('Шымкент',this)">Шымкент</button>
+      <button class="chip" onclick="setUniCityFilter('Қарағанды',this)">Қарағанды</button>
+      <button class="chip" onclick="setUniCityFilter('Павлодар',this)">Павлодар</button>
+      <button class="chip" onclick="setUniCityFilter('Өскемен',this)">Өскемен</button>
+      <button class="chip" onclick="setUniCityFilter('Семей',this)">Семей</button>
+      <button class="chip" onclick="setUniCityFilter('Ақтөбе',this)">Ақтөбе</button>
+      <button class="chip" onclick="setUniCityFilter('Орал',this)">Орал</button>
+      <button class="chip" onclick="setUniCityFilter('Атырау',this)">Атырау</button>
+      <button class="chip" onclick="setUniCityFilter('Ақтау',this)">Ақтау</button>
+      <button class="chip" onclick="setUniCityFilter('Қостанай',this)">Қостанай</button>
+      <button class="chip" onclick="setUniCityFilter('Қызылорда',this)">Қызылорда</button>
+      <button class="chip" onclick="setUniCityFilter('Талдықорған',this)">Талдықорған</button>
+      <button class="chip" onclick="setUniCityFilter('Қаскелең',this)">Қаскелең</button>
+      <button class="chip" onclick="setUniCityFilter('Тараз',this)">Тараз</button>
+      <button class="chip" onclick="setUniCityFilter('Петропавл',this)">Петропавл</button>
+      <button class="chip" onclick="setUniCityFilter('Жезқазған',this)">Жезқазған</button>
+      <button class="chip" onclick="setUniCityFilter('Түркістан',this)">Түркістан</button>
+      <button class="chip" onclick="setUniCityFilter('Көкшетау',this)">Көкшетау</button>
     </div>
     <div style="padding:0 0 100px;" id="uniList"></div>
   </div>
@@ -1695,6 +1736,55 @@ const universities = [
   {id:'alatau_med',name:'Алатау медицина академиясы',short:'АлатауМА',city:'Алматы',type:'Медициналық',rank:98,grantScore:78},
   {id:'central_asian',name:'Орталық Азия университеті',short:'ОАУ',city:'Алматы',type:'Классикалық',rank:99,grantScore:68},
   {id:'prospekt',name:'Проспект медициналық университеті',short:'ПроспектМУ',city:'Астана',type:'Медициналық',rank:100,grantScore:82},
+  // Қызылорда
+  {id:'korkyt2',name:'Қорқыт Ата атындағы ҚызылордаРУ',short:'ҚызРУ',city:'Қызылорда',type:'Классикалық',rank:101,grantScore:58},
+  // Талдықорған
+  {id:'zhetysu2',name:'Жетісу университеті (педфак)',short:'ЖетісуПед',city:'Талдықорған',type:'Педагогикалық',rank:102,grantScore:55},
+  // Тараз
+  {id:'taraz_tech',name:'Тараз өңірлік университеті',short:'ТарОУ',city:'Тараз',type:'Техникалық',rank:103,grantScore:58},
+  {id:'taraz_innov',name:'Тараз инновациялық-гуманитарлық университеті',short:'ТИГУ',city:'Тараз',type:'Классикалық',rank:104,grantScore:55},
+  // Петропавл
+  {id:'sev_kaz',name:'М.Қозыбаев СҚМУ',short:'СҚМУ',city:'Петропавл',type:'Классикалық',rank:105,grantScore:58},
+  // Атырау
+  {id:'atyrau_mun',name:'Атырау мұнай-газ университеті',short:'АтырауМГУ',city:'Атырау',type:'Техникалық',rank:106,grantScore:68},
+  {id:'atyrau_univ',name:'Атырау университеті',short:'АтырауУ',city:'Атырау',type:'Классикалық',rank:107,grantScore:55},
+  // Ақтау
+  {id:'caspian_tech',name:'Каспий мемлекеттік технологиялар университеті',short:'КаспийТУ',city:'Ақтау',type:'Техникалық',rank:108,grantScore:62},
+  // Орал
+  {id:'oral_univ',name:'М.Өтемісов ЗҚУ',short:'ЗҚУ',city:'Орал',type:'Классикалық',rank:109,grantScore:56},
+  {id:'oral_innov',name:'Батыс Қазақстан инновациялық технологиялар университеті',short:'БҚИТУ',city:'Орал',type:'Техникалық',rank:110,grantScore:55},
+  // Өскемен
+  {id:'vkou',name:'Д.Серікбаев ШҚТУ',short:'ШҚТУ',city:'Өскемен',type:'Техникалық',rank:111,grantScore:70},
+  {id:'vkou_med',name:'Шығыс Қазақстан медицина колледжі-университеті',short:'ШҚМУ',city:'Өскемен',type:'Медициналық',rank:112,grantScore:65},
+  // Ақтөбе
+  {id:'aktobe_reg',name:'Қ.Жұбанов атындағы Ақтөбе РУ',short:'АктобеРУ',city:'Ақтөбе',type:'Классикалық',rank:113,grantScore:58},
+  {id:'aktobe_med2',name:'М.Оспанов атындағы ЗҚМУ',short:'ЗҚМУ',city:'Ақтөбе',type:'Медициналық',rank:114,grantScore:82},
+  // Семей
+  {id:'semey_state',name:'Семей мемлекеттік педагогикалық университеті',short:'СемейПУ',city:'Семей',type:'Педагогикалық',rank:115,grantScore:55},
+  {id:'semey_med2',name:'Семей медицина университеті',short:'СемейМУ',city:'Семей',type:'Медициналық',rank:116,grantScore:88},
+  // Шымкент
+  {id:'sksu',name:'М.Әуезов атындағы ОҚУ',short:'ОҚУ',city:'Шымкент',type:'Классикалық',rank:117,grantScore:65},
+  {id:'skma2',name:'ОҚМА медицина академиясы',short:'ОҚМА',city:'Шымкент',type:'Медициналық',rank:118,grantScore:95},
+  {id:'miras2',name:'Мирас университеті',short:'Мирас',city:'Шымкент',type:'Классикалық',rank:119,grantScore:60},
+  // Түркістан
+  {id:'yassawi',name:'Қ.А.Яссауи халықаралық қазақ-түрік университеті',short:'ЯссауиУ',city:'Түркістан',type:'Классикалық',rank:120,grantScore:65},
+  // Қостанай
+  {id:'kostanai_reg',name:'А.Байтұрсынов Қостанай РУ',short:'ҚостРУ',city:'Қостанай',type:'Классикалық',rank:121,grantScore:58},
+  {id:'kostanai_eng',name:'М.Дулатов атындағы ҚИЭУ',short:'ҚИЭУ',city:'Қостанай',type:'Техникалық',rank:122,grantScore:55},
+  // Қарағанды
+  {id:'karaganda_med2',name:'Қарағанды медицина университеті',short:'ҚарМедУ',city:'Қарағанды',type:'Медициналық',rank:123,grantScore:100},
+  {id:'karaganda_tech2',name:'Қарағанды техникалық университеті',short:'ҚарТУ',city:'Қарағанды',type:'Техникалық',rank:124,grantScore:60},
+  {id:'bolashak',name:'Болашақ университеті',short:'БолашақУ',city:'Қарағанды',type:'Классикалық',rank:125,grantScore:60},
+  // Павлодар
+  {id:'toraighyrov',name:'Торайғыров университеті',short:'ТорУ',city:'Павлодар',type:'Классикалық',rank:126,grantScore:60},
+  {id:'innopavlodar',name:'Инновациялық Еурасия университеті',short:'ИнЕУ',city:'Павлодар',type:'Классикалық',rank:127,grantScore:58},
+  // Жезқазған
+  {id:'jezkazgan_univ',name:'Жезқазған университеті',short:'ЖезқазУ',city:'Жезқазған',type:'Техникалық',rank:128,grantScore:52},
+  // Көкшетау
+  {id:'kokshe_univ',name:'Ш.Уәлиханов Көкшетау университеті',short:'КөкшеУ',city:'Көкшетау',type:'Классикалық',rank:129,grantScore:55},
+  {id:'kokshe_acad',name:'Көкше академиясы',short:'КөкшеА',city:'Көкшетау',type:'Классикалық',rank:130,grantScore:55},
+  // Қаскелең
+  {id:'sdu_kaskelen',name:'SDU Университеті',short:'SDU',city:'Қаскелең',type:'Классикалық',rank:131,grantScore:80},
 ];
 
 const specUniMap = {
@@ -1872,7 +1962,7 @@ let currentUser=null, currentPage='home';
 let selectedQuotas=new Set(), grantHistory=[];
 let conversations={}, currentConvId=null;
 let pendingFiles=[], isAiThinking=false;
-let specFilter='', uniFilter='';
+let specFilter='', uniFilter='', uniCityFilter='';
 
 // ===== AUTH =====
 function switchTab(tab){
@@ -2048,6 +2138,73 @@ function openSpecSheet(code){
 }
 function closeSpecSheet(e){if(e.target===document.getElementById('specSheet'))document.getElementById('specSheet').classList.remove('open');}
 
+// ===== RESULT CITY FILTER =====
+var _lastGrantResults = null; // cached results for city refilter
+function filterResultsByCity(city, btn){
+  document.querySelectorAll('#resultCityChips .chip').forEach(c=>c.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(!_lastGrantResults) return;
+  const {matches, effectiveScore, quotaBonus} = _lastGrantResults;
+  renderGrantResults(matches, effectiveScore, quotaBonus, city);
+}
+
+function renderGrantResults(matches, effectiveScore, quotaBonus, cityFilter){
+  const el = document.getElementById('resultsContent');
+  let filtered = matches;
+  if(cityFilter){
+    // Сол мамандықтарды қалдыр, бірақ тек сол қалада университеті барларды
+    filtered = matches.filter(s => {
+      const uniIds = specUniMap[s.code]||[];
+      return uniIds.some(id => {
+        const u = universities.find(x=>x.id===id);
+        return u && u.city===cityFilter;
+      });
+    });
+  }
+  if(filtered.length===0){
+    el.innerHTML=`<div style="text-align:center;padding:48px 20px;">
+      <div style="font-size:48px;margin-bottom:14px;">🏙️</div>
+      <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;">${cityFilter||''} қаласында мамандық табылмады</div>
+      <div style="font-size:13px;color:var(--text3);">Басқа қала таңдаңыз</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML = `<div style="background:var(--text);border-radius:16px;padding:16px 20px;margin:0 16px 16px;color:var(--bg);">
+    <div style="font-size:12px;opacity:0.6;margin-bottom:4px;">Сіздің балыңыз${quotaBonus>0?' (квота +'+quotaBonus+')':''}${cityFilter?' · '+cityFilter:''}</div>
+    <div style="font-size:32px;font-weight:800;letter-spacing:-0.03em;">${effectiveScore}</div>
+    <div style="font-size:12px;opacity:0.6;margin-top:4px;">${filtered.length} мамандық · ${filtered.filter(s=>effectiveScore>=s.minScore).length} грант мүмкін</div>
+  </div>`
+  + filtered.slice(0,40).map(s=>{
+    const diff=effectiveScore-s.minScore;
+    let pct,color;
+    if(diff>=20){pct=95;color='var(--green)';}
+    else if(diff>=10){pct=78;color='var(--green)';}
+    else if(diff>=0){pct=55;color='var(--yellow)';}
+    else if(diff>=-10){pct=25;color='var(--accent)';}
+    else if(diff>=-25){pct=12;color='var(--red)';}
+    else{pct=5;color='var(--red)';}
+
+    const uniIds=specUniMap[s.code]||[];
+    let displayUnis = uniIds.map(id=>universities.find(u=>u.id===id)).filter(Boolean);
+    if(cityFilter) displayUnis = displayUnis.filter(u=>u.city===cityFilter);
+    const matchedUnis = displayUnis.filter(u=>effectiveScore>=u.grantScore);
+
+    return `<div class="result-item" onclick="openResultSheet('${s.code}',${effectiveScore})">
+      <div class="donut-wrap">${donutSVG(pct,color)}<div class="donut-center" style="color:${color};font-size:10px;">${diff>=0?'+'+diff:diff}</div></div>
+      <div class="result-info">
+        <div class="result-code">${s.code} · ${s.name}</div>
+        <div class="result-subj">${s.subject}</div>
+        <div class="result-meta">
+          <span style="color:var(--text3)">Мин: ${s.minScore}</span>
+          <span style="color:var(--text3);margin-left:6px;">Грант: ${s.grant}</span>
+          ${diff>=0?`<span style="color:var(--green);margin-left:8px;">✓ Өтеді</span>`:`<span style="color:var(--red);margin-left:8px;">${diff} жетіспейді</span>`}
+        </div>
+        ${displayUnis.length>0?`<div class="result-unis">${matchedUnis.length>0?matchedUnis.slice(0,2).map(u=>u.short).join(', ')+(matchedUnis.length>2?' +'+(matchedUnis.length-2):''):displayUnis[0].short+(displayUnis.length>1?' ('+displayUnis.length+' ЖОО)':'')}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 // ===== QUOTA =====
 function toggleQuota(el,val){
   const cb=el.querySelector('.quota-check');
@@ -2107,18 +2264,38 @@ function donutSVG(pct,color){
 
 function calculateGrant(){
   const subKey=document.getElementById('grantSubjectFilter').value;
-  // Use new UBT score system
   const score = ubtVals.hist + ubtVals.read + ubtVals.math + ubtVals.sub1 + ubtVals.sub2;
-  const quotaBonus=selectedQuotas.size>0?10:0;
-  const effectiveScore=score+quotaBonus;
+  
+  // Квота бонустарын дұрыс есептеу — барлық таңдалған квоталар +10 (максимум 30 дейін)
+  const quotaBonus = Math.min(selectedQuotas.size * 10, 30);
+  const effectiveScore = score + quotaBonus;
 
-  let matches=subKey?specialties.filter(s=>s.subKey===subKey):specialties;
-  matches=matches.filter(s=>effectiveScore>=s.minScore-30);
-  matches.sort((a,b)=>(effectiveScore-a.minScore)<(effectiveScore-b.minScore)?1:-1);
+  let matches = subKey ? specialties.filter(s=>s.subKey===subKey) : specialties;
+  // Балдан 40-тан артық жетіспейтіндерді ғана көрсет (тым алыс мамандықтарды жасыру)
+  matches = matches.filter(s => effectiveScore >= s.minScore - 40);
+  // Ең жақын мамандықтар алдымен (минбалл - эффективбалл айырмасы бойынша)
+  matches.sort((a,b) => {
+    const da = Math.abs(effectiveScore - a.minScore);
+    const db = Math.abs(effectiveScore - b.minScore);
+    // Балдан өтетіндер алдымен, содан соң жетіспейтіндер
+    const aPass = effectiveScore >= a.minScore;
+    const bPass = effectiveScore >= b.minScore;
+    if(aPass && !bPass) return -1;
+    if(!aPass && bPass) return 1;
+    return da - db;
+  });
 
   const subLabel=subKey?document.querySelector('#grantSubjectFilter option:checked').text:t('allSubjects');
   grantHistory.unshift({subject:subLabel,score,quota:quotaBonus>0});
   renderHistory();
+
+  // Қала фильтрін сброс
+  document.querySelectorAll('#resultCityChips .chip').forEach(c=>c.classList.remove('active'));
+  const firstCity = document.querySelector('#resultCityChips .chip');
+  if(firstCity) firstCity.classList.add('active');
+
+  // Нәтижелерді кэштеу (қала фильтрі үшін)
+  _lastGrantResults = {matches, effectiveScore, quotaBonus};
 
   const el=document.getElementById('resultsContent');
   if(matches.length===0){
@@ -2127,41 +2304,10 @@ function calculateGrant(){
       <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;">${t('noMatch')}</div>
       <div style="font-size:13px;color:var(--text3);">Балыңызды жоғарылатыңыз немесе пәнді өзгертіңіз</div>
     </div>`;
-  } else {
-    el.innerHTML = `<div style="background:var(--text);border-radius:16px;padding:16px 20px;margin:0 16px 16px;color:var(--bg);">
-      <div style="font-size:12px;opacity:0.6;margin-bottom:4px;">Сіздің балыңыз${quotaBonus>0?' (квота +'+quotaBonus+')':''}</div>
-      <div style="font-size:32px;font-weight:800;letter-spacing:-0.03em;">${effectiveScore}</div>
-      <div style="font-size:12px;opacity:0.6;margin-top:4px;">${matches.length} мамандық табылды</div>
-    </div>`
-    + matches.slice(0,30).map(s=>{
-      const diff=effectiveScore-s.minScore;
-      let pct,color,label;
-      if(diff>=20){pct=95;color='var(--green)';label='Жоғары';}
-      else if(diff>=10){pct=75;color='var(--yellow)';label='Жақсы';}
-      else if(diff>=0){pct=50;color='var(--yellow)';label='Орташа';}
-      else if(diff>=-15){pct=20;color='var(--red)';label='Төмен';}
-      else{pct=8;color='var(--red)';label='Қиын';}
-
-      // Get matching universities for this specialty and score
-      const uniIds=specUniMap[s.code]||[];
-      const matchedUnis=uniIds.map(id=>universities.find(u=>u.id===id)).filter(Boolean).filter(u=>effectiveScore>=u.grantScore);
-      const allUnis=uniIds.map(id=>universities.find(u=>u.id===id)).filter(Boolean);
-      const topUni=matchedUnis[0]||allUnis[0];
-
-      return `<div class="result-item" onclick="openResultSheet('${s.code}',${effectiveScore})">
-        <div class="donut-wrap">${donutSVG(pct,color)}<div class="donut-center" style="color:${color}">${pct}%</div></div>
-        <div class="result-info">
-          <div class="result-code">${s.code} · ${s.name}</div>
-          <div class="result-subj">${s.subject}</div>
-          <div class="result-meta">
-            <span style="color:var(--text3)">Мин: ${s.minScore}</span>
-            ${diff>=0?`<span style="color:var(--green);margin-left:8px;">+${diff} артық</span>`:`<span style="color:var(--red);margin-left:8px;">${diff} жетіспейді</span>`}
-          </div>
-          ${topUni?`<div class="result-unis">${topUni.short}${matchedUnis.length>1?' +' +(matchedUnis.length-1)+' ЖОО':allUnis.length>1?' ('+allUnis.length+' ЖОО)':''}</div>`:''}
-        </div>
-      </div>`;
-    }).join('');
+    goPage('results');
+    return;
   }
+  renderGrantResults(matches, effectiveScore, quotaBonus, '');
   goPage('results');
 }
 
@@ -2252,12 +2398,19 @@ function setUniFilter(val,btn){
   btn.classList.add('active');
   renderUnis();
 }
+function setUniCityFilter(val,btn){
+  uniCityFilter=val;
+  document.querySelectorAll('#uniCityChips .chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderUnis();
+}
 function renderUnis(){
   const search=(document.getElementById('uniSearch')?.value||'').toLowerCase();
   let list=universities.filter(u=>{
     const mt=!uniFilter||u.type===uniFilter;
+    const mc=!uniCityFilter||u.city===uniCityFilter;
     const ms=!search||u.name.toLowerCase().includes(search)||(u.short||'').toLowerCase().includes(search)||u.city.toLowerCase().includes(search);
-    return mt&&ms;
+    return mt&&mc&&ms;
   });
   const el=document.getElementById('uniList'); if(!el) return;
   el.innerHTML=list.map(u=>`
@@ -2729,7 +2882,7 @@ function qLoadSaved(){
     if (!box.querySelector('img')) {
       var img = document.createElement('img');
       img.src = LOGO;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;';
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block;padding:4px;box-sizing:border-box;';
       box.innerHTML = '';
       box.appendChild(img);
     }
