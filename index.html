@@ -1639,26 +1639,26 @@ if(localStorage.getItem('strix_dark')==='true'){isDark=true;document.documentEle
 
 // ===== DATA =====
 const universities = [
-  {id:'nu',name:'Назарбаев Университеті',short:'НУ',city:'Астана',type:'Зерттеу',rank:1,grantScore:110,code:'001',abbr:'НУ',status:'Акционерлік',address:'Қабанбай батыр д. 53, Астана',site:'https://nu.edu.kz',instagram:'https://www.instagram.com/nazarbayevuniversity/',dormitory:true,military:false},
-  {id:'kbtu',name:'Қазақстан-Британ техникалық университеті',short:'КБТУ',city:'Алматы',type:'Техникалық',rank:2,grantScore:105,code:'002',abbr:'КБТУ',status:'Коммерциялық емес АҚ',address:'Тоқалов к. 59, Алматы',site:'https://kbtu.edu.kz',instagram:'https://www.instagram.com/kbtu_kz/',dormitory:true,military:false},
-  {id:'iitu',name:'Халықаралық ақпараттық технологиялар университеті',short:'ХАТУ',city:'Алматы',type:'IT',rank:3,grantScore:99,code:'003',abbr:'ХАТУ',status:'Коммерциялық емес АҚ',address:'Манас к. 34/1, Алматы',site:'https://iitu.edu.kz',instagram:'https://www.instagram.com/iitu.official/',dormitory:true,military:false},
-  {id:'aitu',name:'Astana IT University',short:'AITU',city:'Астана',type:'IT',rank:4,grantScore:95,code:'004',abbr:'AITU',status:'Коммерциялық емес АҚ',address:'Манғылық Ел даңғылы, С1 ғимарат, Астана',site:'https://astanait.edu.kz',instagram:'https://www.instagram.com/astanaituniversity/',dormitory:true,military:false},
-  {id:'kaznu',name:'Әл-Фараби атындағы ҚазҰУ',short:'ҚазҰУ',city:'Алматы',type:'Классикалық',rank:5,grantScore:80,code:'005',abbr:'ҚазҰУ',status:'Республикалық мемлекеттік кәсіпорын',address:'Аль-Фараби даңғылы 71, Алматы',site:'https://www.kaznu.kz',instagram:'https://www.instagram.com/kaznu.official/',dormitory:true,military:true},
-  {id:'kazntu',name:'Қ.Сәтбаев атындағы ҚазҰТЗУ',short:'Сәтбаев',city:'Алматы',type:'Техникалық',rank:6,grantScore:75,code:'006',abbr:'Сәтбаев Унив.',status:'Коммерциялық емес АҚ',address:'Сатпаев к. 22А, Алматы',site:'https://satbayev.university',instagram:'https://www.instagram.com/satbayev.university/',dormitory:true,military:true},
-  {id:'enu',name:'Л.Н.Гумилев атындағы ЕҰУ',short:'ЕҰУ',city:'Астана',type:'Классикалық',rank:7,grantScore:75,code:'007',abbr:'ЕҰУ',status:'Республикалық мемлекеттік кәсіпорын',address:'Қажымұқан к. 11, Астана',site:'https://www.enu.kz',instagram:'https://www.instagram.com/enu.official/',dormitory:true,military:true},
-  {id:'kimep',name:'КИМЭП Университеті',short:'КИМЭП',city:'Алматы',type:'Бизнес',rank:8,grantScore:105,code:'008',abbr:'КИМЭП',status:'Коммерциялық емес АҚ',address:'Абай даңғылы 2, Алматы',site:'https://www.kimep.kz',instagram:'https://www.instagram.com/kimepuniversity/',dormitory:true,military:false},
-  {id:'sdu',name:'SDU Университеті',short:'SDU',city:'Қаскелең',type:'Классикалық',rank:9,grantScore:80,code:'009',abbr:'SDU',status:'Коммерциялық емес АҚ',address:'Абылай хан к. 1/1, Қаскелең',site:'https://sdu.edu.kz',instagram:'https://www.instagram.com/sdu_university/',dormitory:true,military:false},
-  {id:'kazguu',name:'КАЗГЮУ Университеті',short:'КАЗГЮУ',city:'Астана',type:'Заң',rank:10,grantScore:100,code:'010',abbr:'КАЗГЮУ',status:'Коммерциялық емес АҚ',address:'Орынбор к. 8, Астана',site:'https://www.kazguu.kz',instagram:'https://www.instagram.com/kazguu.university/',dormitory:true,military:false},
-  {id:'kaznmu',name:'С.Асфендияров атындағы ҚазҰМУ',short:'ҚазҰМУ',city:'Алматы',type:'Медициналық',rank:11,grantScore:112,code:'011',abbr:'ҚазҰМУ',status:'Республикалық мемлекеттік кәсіпорын',address:'Төле би к. 94, Алматы',site:'https://kaznmu.kz',instagram:'https://www.instagram.com/kaznmu_official/',dormitory:true,military:true},
-  {id:'amu',name:'Астана медицина университеті',short:'АМУ',city:'Астана',type:'Медициналық',rank:12,grantScore:108,code:'012',abbr:'АстанаМУ',status:'Акционерлік',address:'Бейбітшілік к. 49А, Астана',site:'https://amu.edu.kz',instagram:'https://www.instagram.com/amu_mua_official/',dormitory:true,military:true},
-  {id:'kgmu',name:'Қарағанды медицина университеті',short:'ҚМУ',city:'Қарағанды',type:'Медициналық',rank:13,grantScore:100,code:'013',abbr:'ҚарМУ',status:'Республикалық мемлекеттік кәсіпорын',address:'Гоголь к. 40, Қарағанды',site:'https://www.qmu.kz',instagram:'https://www.instagram.com/qmu.edu.kz/',dormitory:true,military:false},
-  {id:'skma',name:'Оңтүстік Қазақстан медицина академиясы',short:'ОҚМА',city:'Шымкент',type:'Медициналық',rank:14,grantScore:95,code:'014',abbr:'ОҚМА',status:'Республикалық мемлекеттік кәсіпорын',address:'Әл-Фараби даңғылы 1, Шымкент',site:'https://skma.kz',instagram:'https://www.instagram.com/skma.kz/',dormitory:true,military:false},
-  {id:'wkmu',name:'Батыс Қазақстан медицина университеті',short:'БҚМУ',city:'Ақтөбе',type:'Медициналық',rank:15,grantScore:90,code:'015',abbr:'БҚМУ',status:'Республикалық мемлекеттік кәсіпорын',address:'Марат Оспанов к. 68, Ақтөбе',site:'https://zkmu.kz',instagram:'https://www.instagram.com/wkmu.kz/',dormitory:true,military:false},
-  {id:'kaznpu',name:'Абай атындағы ҚазҰПУ',short:'ҚазҰПУ',city:'Алматы',type:'Педагогикалық',rank:16,grantScore:100,code:'016',abbr:'ҚазҰПУ',status:'Республикалық мемлекеттік кәсіпорын',address:'Достық даңғылы 13, Алматы',site:'https://kaznpu.kz',instagram:'https://www.instagram.com/kaznpu_abai/',dormitory:true,military:true},
-  {id:'kgpu',name:'Қыздар педагогикалық университеті',short:'ҚМҚПУ',city:'Алматы',type:'Педагогикалық',rank:17,grantScore:95,code:'017',abbr:'ҚМҚПУ',status:'Республикалық мемлекеттік кәсіпорын',address:'Айтеке би к. 99, Алматы',site:'https://kgpu.kz',instagram:'https://www.instagram.com/kgpu.edu.kz/',dormitory:true,military:false},
-  {id:'narxoz',name:'Нархоз Университеті',short:'Нархоз',city:'Алматы',type:'Бизнес',rank:18,grantScore:90,code:'018',abbr:'Нархоз',status:'Коммерциялық емес АҚ',address:'Жандосов к. 55, Алматы',site:'https://narxoz.kz',instagram:'https://www.instagram.com/narxoz.university/',dormitory:true,military:false},
-  {id:'almau',name:'AlmaU Университеті',short:'AlmaU',city:'Алматы',type:'Бизнес',rank:19,grantScore:85,code:'019',abbr:'AlmaU',status:'Коммерциялық емес АҚ',address:'Розыбакиев к. 227, Алматы',site:'https://almau.edu.kz',instagram:'https://www.instagram.com/almau.edu.kz/',dormitory:true,military:false},
-  {id:'keu',name:'Қазақ экономикалық университеті',short:'ҚЭУ',city:'Алматы',type:'Классикалық',rank:20,grantScore:80,code:'020',abbr:'ҚЭУ',status:'Коммерциялық емес АҚ',address:'Жандосов к. 55, Алматы',site:'https://keu.kz',instagram:'https://www.instagram.com/keu.kz/',dormitory:true,military:false},
+  {id:'nu',name:'Назарбаев Университеті',short:'НУ',city:'Астана',type:'Зерттеу',rank:1,grantScore:110},
+  {id:'kbtu',name:'Қазақстан-Британ техникалық университеті',short:'КБТУ',city:'Алматы',type:'Техникалық',rank:2,grantScore:105},
+  {id:'iitu',name:'Халықаралық ақпараттық технологиялар университеті',short:'ХАТУ',city:'Алматы',type:'IT',rank:3,grantScore:99},
+  {id:'aitu',name:'Astana IT University',short:'AITU',city:'Астана',type:'IT',rank:4,grantScore:95},
+  {id:'kaznu',name:'Әл-Фараби атындағы ҚазҰУ',short:'ҚазҰУ',city:'Алматы',type:'Классикалық',rank:5,grantScore:80},
+  {id:'kazntu',name:'Қ.Сәтбаев атындағы ҚазҰТЗУ',short:'Сәтбаев',city:'Алматы',type:'Техникалық',rank:6,grantScore:75},
+  {id:'enu',name:'Л.Н.Гумилев атындағы ЕҰУ',short:'ЕҰУ',city:'Астана',type:'Классикалық',rank:7,grantScore:75},
+  {id:'kimep',name:'КИМЭП Университеті',short:'КИМЭП',city:'Алматы',type:'Бизнес',rank:8,grantScore:105},
+  {id:'sdu',name:'SDU Университеті',short:'SDU',city:'Қаскелең',type:'Классикалық',rank:9,grantScore:80},
+  {id:'kazguu',name:'КАЗГЮУ Университеті',short:'КАЗГЮУ',city:'Астана',type:'Заң',rank:10,grantScore:100},
+  {id:'kaznmu',name:'С.Асфендияров атындағы ҚазҰМУ',short:'ҚазҰМУ',city:'Алматы',type:'Медициналық',rank:11,grantScore:112},
+  {id:'amu',name:'Астана медицина университеті',short:'АМУ',city:'Астана',type:'Медициналық',rank:12,grantScore:108},
+  {id:'kgmu',name:'Қарағанды медицина университеті',short:'ҚМУ',city:'Қарағанды',type:'Медициналық',rank:13,grantScore:100},
+  {id:'skma',name:'Оңтүстік Қазақстан медицина академиясы',short:'ОҚМА',city:'Шымкент',type:'Медициналық',rank:14,grantScore:95},
+  {id:'wkmu',name:'Батыс Қазақстан медицина университеті',short:'БҚМУ',city:'Ақтөбе',type:'Медициналық',rank:15,grantScore:90},
+  {id:'kaznpu',name:'Абай атындағы ҚазҰПУ',short:'ҚазҰПУ',city:'Алматы',type:'Педагогикалық',rank:16,grantScore:100},
+  {id:'kgpu',name:'Қыздар педагогикалық университеті',short:'ҚМҚПУ',city:'Алматы',type:'Педагогикалық',rank:17,grantScore:95},
+  {id:'narxoz',name:'Нархоз Университеті',short:'Нархоз',city:'Алматы',type:'Бизнес',rank:18,grantScore:90},
+  {id:'almau',name:'AlmaU Университеті',short:'AlmaU',city:'Алматы',type:'Бизнес',rank:19,grantScore:85},
+  {id:'keu',name:'Қазақ экономикалық университеті',short:'ҚЭУ',city:'Алматы',type:'Классикалық',rank:20,grantScore:80},
   {id:'ablai',name:'Абылай хан атындағы ҚазХҚжӘТУ',short:'ҚазХҚжӘТУ',city:'Алматы',type:'Классикалық',rank:21,grantScore:100},
   {id:'ekstu',name:'Д.Серікбаев атындағы ШҚТУ',short:'ШҚТУ',city:'Өскемен',type:'Техникалық',rank:22,grantScore:70},
   {id:'aeu',name:'Алматы энергетика және байланыс университеті',short:'АЭжБУ',city:'Алматы',type:'Техникалық',rank:23,grantScore:72},
@@ -2175,19 +2175,10 @@ function renderGrantResults(matches, effectiveScore, quotaBonus, cityFilter){
     </div>`;
     return;
   }
-  el.innerHTML = `<div style="background:linear-gradient(135deg,#3a4fe0 0%,#5b6ee8 100%);border-radius:16px;padding:18px 20px;margin:0 16px 16px;color:#fff;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-      <div>
-        <div style="font-size:12px;opacity:0.7;margin-bottom:4px;">Баллы в ЕНТ</div>
-        <div style="font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1;">${effectiveScore}</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:10px 16px;text-align:center;cursor:pointer;" onclick="goPage('grant')">
-        <div style="font-size:12px;opacity:0.85;font-weight:600;">Изменить</div>
-      </div>
-    </div>
-    ${quotaBonus>0?`<div style="font-size:12px;opacity:0.8;margin-bottom:6px;">Квоталар: <span style="font-weight:700;">${Array.from(selectedQuotas).map(q=>({rural:'Ауыл квотасы',multilarge:'Көпбалалы отбасы',incomplete:'Толық емес отбасы',serpin:'Серпін',disabled:'Мүгедектігі бар',disabled2:'Мүгедектігі бар отбасы',orphan:'Жетім балалар'}[q]||q)).join(', ')}</span></div>`:''}
-    <div style="font-size:13px;opacity:0.85;font-weight:600;">Пән: <span style="font-weight:800;opacity:1;">${(function(){const sel=document.getElementById('grantSubjectFilter');return sel&&sel.value?document.querySelector('#grantSubjectFilter option:checked').text:'Барлық пәндер';})()}</span></div>
-    <div style="font-size:11px;opacity:0.65;margin-top:6px;">${filtered.length} мамандық · ${filtered.filter(s=>effectiveScore>=s.minScore).length} грант мүмкін${cityFilter?' · '+cityFilter:''}</div>
+  el.innerHTML = `<div style="background:var(--text);border-radius:16px;padding:16px 20px;margin:0 16px 16px;color:var(--bg);">
+    <div style="font-size:12px;opacity:0.6;margin-bottom:4px;">Сіздің балыңыз${quotaBonus>0?' (квота +'+quotaBonus+')':''}${cityFilter?' · '+cityFilter:''}</div>
+    <div style="font-size:32px;font-weight:800;letter-spacing:-0.03em;">${effectiveScore}</div>
+    <div style="font-size:12px;opacity:0.6;margin-top:4px;">${filtered.length} мамандық · ${filtered.filter(s=>effectiveScore>=s.minScore).length} грант мүмкін</div>
   </div>`
   + filtered.slice(0,40).map(s=>{
     const diff=effectiveScore-s.minScore;
@@ -2207,17 +2198,14 @@ function renderGrantResults(matches, effectiveScore, quotaBonus, cityFilter){
     return `<div class="result-item" onclick="openResultSheet('${s.code}',${effectiveScore})">
       <div class="donut-wrap">${donutSVG(pct,color)}<div class="donut-center" style="color:${color};font-size:10px;">${diff>=0?'+'+diff:diff}</div></div>
       <div class="result-info">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
-          <div class="result-code" style="margin-bottom:0;">${s.code} · ${s.name}</div>
-          <span style="font-size:10px;font-weight:700;color:#3a4fe0;flex-shrink:0;margin-left:6px;">${selectedQuotas.size>0?(Array.from(selectedQuotas)[0]==='rural'?'Ауыл квота':(Array.from(selectedQuotas)[0]==='multilarge'?'Пед. квота':'Квота')):'Жалпы конкурс'}</span>
-        </div>
+        <div class="result-code">${s.code} · ${s.name}</div>
         <div class="result-subj">${s.subject}</div>
         <div class="result-meta">
           <span style="color:var(--text3)">Мин: ${s.minScore}</span>
           <span style="color:var(--text3);margin-left:6px;">Грант: ${s.grant}</span>
           ${diff>=0?`<span style="color:var(--green);margin-left:8px;">✓ Өтеді</span>`:`<span style="color:var(--red);margin-left:8px;">${diff} жетіспейді</span>`}
         </div>
-        ${displayUnis.length>0?`<div class="result-unis" style="color:#3a4fe0;">${matchedUnis.length>0?matchedUnis.slice(0,2).map(u=>u.short).join(', ')+(matchedUnis.length>2?' +'+(matchedUnis.length-2)+''):displayUnis[0].short+(displayUnis.length>1?' ('+displayUnis.length+' ЖОО)':'')}</div>`:''}
+        ${displayUnis.length>0?`<div class="result-unis">${matchedUnis.length>0?matchedUnis.slice(0,2).map(u=>u.short).join(', ')+(matchedUnis.length>2?' +'+(matchedUnis.length-2):''):displayUnis[0].short+(displayUnis.length>1?' ('+displayUnis.length+' ЖОО)':'')}</div>`:''}
       </div>
     </div>`;
   }).join('');
@@ -2526,85 +2514,32 @@ function openUniSheet(id){
     .map(([code])=>specialties.find(s=>s.code===code))
     .filter(Boolean);
   const el=document.getElementById('specSheetContent');
-
-  // Helper to render a detail row
-  const detailRow = (label, value) => value ? `
-    <div style="padding:12px 0;border-bottom:1px solid var(--separator);">
-      <div style="font-size:12px;color:var(--accent);font-weight:600;margin-bottom:3px;">${label}</div>
-      <div style="font-size:14px;font-weight:500;color:var(--text);">${value}</div>
-    </div>` : '';
-
-  const linkRow = (label, href, displayText) => href ? `
-    <div style="padding:12px 0;border-bottom:1px solid var(--separator);">
-      <div style="font-size:12px;color:var(--accent);font-weight:600;margin-bottom:3px;">${label}</div>
-      <a href="${href}" target="_blank" style="font-size:13px;color:var(--text2);text-decoration:none;word-break:break-all;">${displayText||href}</a>
-    </div>` : '';
-
-  const boolRow = (label, val) => `
-    <div style="padding:12px 0;border-bottom:1px solid var(--separator);">
-      <div style="font-size:12px;color:var(--accent);font-weight:600;margin-bottom:3px;">${label}</div>
-      <div style="font-size:14px;font-weight:600;color:${val?'var(--green)':'var(--text3)'};">${val?'Иә':'Жоқ'}</div>
-    </div>`;
-
   el.innerHTML=`
-    <!-- EDUSER-STYLE HEADER BANNER -->
-    <div style="background:linear-gradient(135deg,#3a4fe0 0%,#5b6ee8 100%);border-radius:16px;padding:18px 16px;margin-bottom:16px;color:#fff;">
-      <div style="display:flex;gap:14px;align-items:center;">
-        <div style="width:60px;height:60px;border-radius:14px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;text-align:center;line-height:1.3;color:#fff;">${u.short}</div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:11px;opacity:0.75;margin-bottom:2px;">ЖОО коды · ${u.code||('#'+u.rank)}</div>
-          <div style="font-size:11px;opacity:0.75;margin-bottom:4px;">Аббревиатура · <b>${u.abbr||u.short}</b></div>
-          <div style="font-size:11px;opacity:0.65;margin-bottom:2px;">ЖОО атауы</div>
-          <div style="font-size:14px;font-weight:800;line-height:1.3;">${u.name}</div>
-        </div>
+    <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px;">
+      <div style="width:56px;height:56px;border-radius:14px;background:var(--accent-softer);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;">${u.short}</div>
+      <div>
+        <div style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.02em;">${u.name}</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:2px;">${u.city} · ${u.type}</div>
       </div>
     </div>
-
-    <!-- GRANT & RANK STATS -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
       <div style="background:var(--accent-softer);border-radius:12px;padding:12px 14px;">
         <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;">РЕЙТИНГ</div>
-        <div style="font-size:24px;font-weight:800;color:var(--accent);">#${u.rank}</div>
+        <div style="font-size:22px;font-weight:800;color:var(--accent);">#${u.rank}</div>
       </div>
       <div style="background:var(--green-soft);border-radius:12px;padding:12px 14px;">
         <div style="font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;">ГРАНТ БАЛЛ</div>
-        <div style="font-size:24px;font-weight:800;color:var(--green);">${u.grantScore}+</div>
+        <div style="font-size:22px;font-weight:800;color:var(--green);">${u.grantScore}+</div>
       </div>
     </div>
-
-    <!-- DETAIL ROWS -->
-    <div style="background:var(--card);border-radius:14px;padding:0 16px;border:1px solid var(--border);margin-bottom:16px;">
-      ${detailRow('Статус', u.status)}
-      ${detailRow('Аймақ', u.city)}
-      ${detailRow('Мекенжай', u.address)}
-      ${u.site ? linkRow('Сайт', u.site, u.site) : ''}
-      ${u.instagram ? linkRow('Әл. желі', u.instagram, u.instagram) : ''}
-      <div style="display:grid;grid-template-columns:1fr 1fr;">
-        ${boolRow('Әскери кафедра', u.military||false)}
-        ${boolRow('Жатақхана', u.dormitory||false)}
-      </div>
-    </div>
-
-    <!-- SPECIALTIES TABLE (Eduser-inspired) -->
     ${uniSpecs.length>0?`
-    <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;padding:0 2px;">
-      МАМАНДЫҚТАР (${uniSpecs.length})
-    </div>
-    <div style="background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden;margin-bottom:4px;">
-      <div style="display:flex;padding:9px 14px;border-bottom:1px solid var(--separator);background:var(--card2);">
-        <div style="font-size:11px;font-weight:700;color:var(--text3);width:70px;">Код</div>
-        <div style="font-size:11px;font-weight:700;color:var(--text3);flex:1;">Мамандық</div>
-        <div style="font-size:11px;font-weight:700;color:var(--text3);text-align:right;width:60px;">Предметы</div>
-        <div style="font-size:11px;font-weight:700;color:var(--text3);text-align:right;width:44px;">Балл</div>
-      </div>
-      ${uniSpecs.map(s=>`
-      <div style="display:flex;align-items:center;padding:11px 14px;border-bottom:1px solid var(--separator);">
-        <div style="width:70px;flex-shrink:0;"><span style="background:var(--accent-softer);color:var(--accent);border-radius:6px;padding:2px 6px;font-size:10px;font-weight:700;">${s.code}</span></div>
-        <div style="flex:1;font-size:13px;font-weight:600;color:var(--text);min-width:0;padding-right:6px;">${s.name}</div>
-        <div style="font-size:11px;color:var(--text3);text-align:right;width:60px;line-height:1.3;">${s.subject.replace(' – ','<br>')}</div>
-        <div style="font-size:13px;font-weight:700;color:var(--text);text-align:right;width:44px;">${s.minScore}</div>
-      </div>`).join('')}
-    </div>` : `<div style="text-align:center;padding:20px;color:var(--text3);font-size:13px;">Мамандық деректері жоқ</div>`}
+    <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">МАМАНДЫҚТАР (${uniSpecs.length})</div>
+    ${uniSpecs.map(s=>`
+      <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--separator);">
+        <div style="background:var(--accent-softer);color:var(--accent);border-radius:7px;padding:3px 7px;font-size:10px;font-weight:700;flex-shrink:0;">${s.code}</div>
+        <div style="flex:1;font-size:13px;font-weight:600;color:var(--text);">${s.name}</div>
+        <div style="font-size:12px;color:var(--green);font-weight:700;flex-shrink:0;">${s.grant} грант</div>
+      </div>`).join('')}` : ''}
   `;
   document.getElementById('specSheet').classList.add('open');
 }
