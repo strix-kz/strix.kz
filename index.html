@@ -831,6 +831,64 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
 .msg-bubble pre { background:var(--bg3); padding:12px; border-radius:10px; overflow-x:auto; margin:8px 0; font-size:13px; }
 .msg-bubble h3 { font-size:14px; font-weight:700; margin:8px 0 4px; }
 
+/* ===== GRANT NEW STYLE (eduser-inspired) ===== */
+.grant-dropdown-wrap {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  overflow: hidden;
+}
+.grant-dropdown-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 16px; cursor: pointer; font-size: 15px;
+  font-weight: 500; color: var(--text);
+  user-select: none;
+}
+.grant-dropdown-head:active { background: var(--card2); }
+.grant-drop-arrow { font-size: 16px; color: var(--text3); transition: transform 0.2s; }
+.grant-drop-arrow.open { transform: rotate(180deg); }
+.grant-dropdown-body { border-top: 1px solid var(--separator); }
+.grant-drop-opt {
+  padding: 13px 16px; font-size: 14px; color: var(--text2);
+  cursor: pointer; transition: background 0.1s;
+  border-bottom: 1px solid var(--separator);
+}
+.grant-drop-opt:last-child { border-bottom: none; }
+.grant-drop-opt:active, .grant-drop-opt.active { background: var(--accent-softer); color: var(--accent); font-weight: 600; }
+.grant-main-slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:30px; height:30px; border-radius:50%;
+  background: var(--accent) !important;
+  box-shadow: 0 2px 10px rgba(201,110,58,0.35), 0 0 0 3px rgba(201,110,58,0.15);
+  cursor:pointer; transition:transform 0.1s;
+}
+input[type="range"].grant-main-slider {
+  background: linear-gradient(to right, var(--accent) var(--pct,50%), var(--card2) var(--pct,50%));
+}
+.grant-confirm-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; cursor: pointer; user-select: none;
+  margin-top: 4px;
+}
+.grant-confirm-check {
+  width: 24px; height: 24px; border-radius: 7px;
+  border: 2px solid var(--border); background: var(--card2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.2s;
+}
+.grant-confirm-check.on { background: var(--accent); border-color: var(--accent); }
+.grant-confirm-check.on::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 800; }
+.grant-calc-btn {
+  width: 100%; padding: 16px;
+  background: var(--text); color: var(--bg);
+  border: none; border-radius: var(--radius);
+  font-size: 16px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  transition: opacity 0.15s, transform 0.1s;
+  opacity: 0.4; pointer-events: none;
+}
+.grant-calc-btn.ready { opacity: 1; pointer-events: auto; }
+.grant-calc-btn.ready:active { transform: scale(0.98); opacity: 0.85; }
+
 /* SCROLLBAR */
 * { scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
 
@@ -1066,188 +1124,136 @@ input[type="range"].slider:active::-webkit-slider-thumb { transform:scale(1.1); 
   <div class="page" id="grantPage">
     <div class="top-nav">
       <div class="nav-brand">
-        <div class="nav-logo-box" id="navLogoBox1" style="background:black;padding:0;overflow:hidden;"></div>
+        <div class="nav-logo-box" id="navLogoBox2" style="background:black;padding:0;overflow:hidden;"></div>
         <span class="nav-brand-name" data-i18n="grant">Грант</span>
       </div>
       <div class="nav-avatar" onclick="goPage('profile')" id="grantAvatar">А</div>
     </div>
-    <div class="grant-header">
-      <div class="grant-header-title" data-i18n="grantCalc">Грант Калькулятор</div>
-      <div class="grant-header-sub" data-i18n="grantDesc">Балыңызды енгізіңіз — грант мүмкіндігін тексеріңіз</div>
-    </div>
-    <div style="padding:14px 0 6px;">
-      <div class="section-label" data-i18n="history">ТАРИХ</div>
-      <div class="history-strip" id="resultHistory">
+
+    <div style="padding:0 16px 100px;">
+
+      <!-- HEADER -->
+      <div style="text-align:center;padding:22px 0 18px;">
+        <div style="font-size:22px;font-weight:800;color:var(--text);line-height:1.3;letter-spacing:-0.02em;">Грантқа түсу мүмкіндігіңізді<br><span style="color:var(--accent);">дәл анықтаңыз!</span></div>
+        <div style="font-size:13px;color:var(--text3);margin-top:6px;font-style:italic;">* 2025 жылғы статистика бойынша</div>
+      </div>
+
+      <!-- HISTORY STRIP -->
+      <div class="history-strip" id="resultHistory" style="margin-bottom:16px;">
         <div style="font-size:13px;color:var(--text3);padding:4px 0;" data-i18n="noResults">Әлі нәтиже жоқ</div>
       </div>
-    </div>
-    <div style="padding:0 16px 12px;">
-      <div class="section-label" style="padding:8px 0 8px;" data-i18n="subjectFilter">ПӘНДЕР</div>
-      <div class="card" style="margin-bottom:14px;">
-        <select id="grantSubjectFilter" style="width:100%;padding:13px 14px;background:transparent;border:none;font-size:15px;font-family:inherit;color:var(--text);outline:none;cursor:pointer;appearance:none;" onchange="updateSubjectHint()">
-          <option value="" data-i18n="allSubjects">Барлық пәндер</option>
-          <option value="informatics-math">Информатика – Математика</option>
-          <option value="biology-chemistry">Биология – Химия</option>
-          <option value="physics-math">Физика – Математика</option>
-          <option value="geography-history">География – Дүниежүзі тарихы</option>
-          <option value="history-english">Дүниежүзі тарихы – Ағылшын</option>
-          <option value="geography-biology">География – Биология</option>
-          <option value="math-geography">Математика – География</option>
-          <option value="kazakh">Қазақ тілі – Әдебиет</option>
-          <option value="russian">Орыс тілі – Әдебиет</option>
-          <option value="geography-english">География – Ағылшын</option>
-          <option value="law-history">Құқық – Дүниежүзі тарихы</option>
-          <option value="physics-chemistry">Физика – Химия</option>
-          <option value="creative">Шығармашылық</option>
-        </select>
-      </div>
-      <div class="section-label" style="padding:0 0 8px;" data-i18n="quotas">КВОТА</div>
-      <div class="quota-card" style="margin-bottom:14px;">
-        <div class="quota-row" onclick="toggleQuota(this,'rural')">
-          <div class="quota-check" data-val="rural"></div>
-          <span class="quota-lbl" data-i18n="quotaRural">Ауылдық квота</span>
-          <span class="quota-pts">+10</span>
+
+      <!-- SUBJECT DROPDOWN -->
+      <div class="grant-dropdown-wrap" id="subjectDropWrap">
+        <div class="grant-dropdown-head" onclick="toggleGrantDropdown('subject')">
+          <span id="subjectDropLabel">Барлық пәндер</span>
+          <span class="grant-drop-arrow" id="subjectDropArrow">∨</span>
         </div>
-        <div class="quota-row" onclick="toggleQuota(this,'multilarge')">
-          <div class="quota-check" data-val="multilarge"></div>
-          <span class="quota-lbl" data-i18n="quotaMulti">Көпбалалы отбасы</span>
-          <span class="quota-pts">+10</span>
-        </div>
-        <div class="quota-row" onclick="toggleQuota(this,'incomplete')">
-          <div class="quota-check" data-val="incomplete"></div>
-          <span class="quota-lbl" data-i18n="quotaIncomplete">Толық емес отбасы</span>
-          <span class="quota-pts">+10</span>
-        </div>
-        <div class="quota-row" onclick="toggleQuota(this,'serpin')">
-          <div class="quota-check" data-val="serpin"></div>
-          <span class="quota-lbl">Серпін квотасы</span>
-          <span class="quota-pts">+10</span>
-        </div>
-        <div class="quota-row" onclick="toggleQuota(this,'disabled')">
-          <div class="quota-check" data-val="disabled"></div>
-          <span class="quota-lbl" data-i18n="quotaDisabled">Мүгедектігі бар</span>
-          <span class="quota-pts">+10</span>
-        </div>
-        <div class="quota-row" onclick="toggleQuota(this,'orphan')">
-          <div class="quota-check" data-val="orphan"></div>
-          <span class="quota-lbl" data-i18n="quotaOrphan">Жетім балалар</span>
-          <span class="quota-pts">+10</span>
+        <div class="grant-dropdown-body" id="subjectDropBody" style="display:none;">
+          <div class="grant-drop-opt active" onclick="selectSubject('','Барлық пәндер',this)">Барлық пәндер</div>
+          <div class="grant-drop-opt" onclick="selectSubject('informatics-math','Математика – Информатика',this)">Математика – Информатика</div>
+          <div class="grant-drop-opt" onclick="selectSubject('physics-math','Математика – Физика',this)">Математика – Физика</div>
+          <div class="grant-drop-opt" onclick="selectSubject('biology-chemistry','Биология – Химия',this)">Биология – Химия</div>
+          <div class="grant-drop-opt" onclick="selectSubject('geography-history','Дж. тарихы – География',this)">Дж. тарихы – География</div>
+          <div class="grant-drop-opt" onclick="selectSubject('kazakh','Қаз. Тілі – Қаз. Әдебиеті',this)">Қаз. Тілі – Қаз. Әдебиеті</div>
+          <div class="grant-drop-opt" onclick="selectSubject('russian','Орыс Тілі – Орыс. Әдебиеті',this)">Орыс Тілі – Орыс. Әдебиеті</div>
+          <div class="grant-drop-opt" onclick="selectSubject('history-english','Шет тілі – Дж. тарихы',this)">Шет тілі – Дж. тарихы</div>
+          <div class="grant-drop-opt" onclick="selectSubject('math-geography','Математика – География',this)">Математика – География</div>
+          <div class="grant-drop-opt" onclick="selectSubject('law-history','Дж. тарихы – Құқық негіздері',this)">Дж. тарихы – Құқық негіздері</div>
+          <div class="grant-drop-opt" onclick="selectSubject('physics-chemistry','Химия – Физика',this)">Химия – Физика</div>
+          <div class="grant-drop-opt" onclick="selectSubject('geography-english','География – Шет тілі',this)">География – Шет тілі</div>
+          <div class="grant-drop-opt" onclick="selectSubject('creative','Шығармашылық',this)">Шығармашылық</div>
         </div>
       </div>
-    </div>
-    <!-- UBT Score Input: 5 components -->
-    <div style="padding:0 16px 12px;">
-      <div class="section-label" style="padding:0 0 8px;">ҰБТ БАЛДАРЫ</div>
-      <div class="card" style="padding:14px 16px;margin-bottom:14px;">
+      <!-- hidden select for calculateGrant() -->
+      <select id="grantSubjectFilter" style="display:none;" onchange="updateSubjectHint()">
+        <option value="">Барлық пәндер</option>
+        <option value="informatics-math">Информатика – Математика</option>
+        <option value="biology-chemistry">Биология – Химия</option>
+        <option value="physics-math">Физика – Математика</option>
+        <option value="geography-history">География – Дүниежүзі тарихы</option>
+        <option value="history-english">Дүниежүзі тарихы – Ағылшын</option>
+        <option value="geography-biology">География – Биология</option>
+        <option value="math-geography">Математика – География</option>
+        <option value="kazakh">Қазақ тілі – Әдебиет</option>
+        <option value="russian">Орыс тілі – Әдебиет</option>
+        <option value="geography-english">География – Ағылшын</option>
+        <option value="law-history">Құқық – Дүниежүзі тарихы</option>
+        <option value="physics-chemistry">Физика – Химия</option>
+        <option value="creative">Шығармашылық</option>
+      </select>
 
-        <!-- Қазақстан тарихы: 0-20 -->
-        <div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:13px;font-weight:600;color:var(--text);">Қазақстан тарихы</span>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <button onclick="ubtAdj('hist',-1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">−</button>
-              <span id="ubt-hist" style="font-size:16px;font-weight:800;min-width:28px;text-align:center;color:var(--accent);">10</span>
-              <button onclick="ubtAdj('hist',1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">+</button>
-            </div>
+      <!-- QUOTAS DROPDOWN (collapsible) -->
+      <div class="grant-dropdown-wrap" id="quotaDropWrap" style="margin-top:12px;">
+        <div class="grant-dropdown-head" onclick="toggleGrantDropdown('quota')">
+          <span>Квоталар <span id="quotaBadge" style="display:none;background:var(--accent);color:#fff;border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px;"></span></span>
+          <span class="grant-drop-arrow" id="quotaDropArrow">∨</span>
+        </div>
+        <div class="grant-dropdown-body" id="quotaDropBody" style="display:none;">
+          <div class="quota-row" onclick="toggleQuota(this,'rural')" style="border-radius:0;">
+            <div class="quota-check" data-val="rural"></div>
+            <span class="quota-lbl">Ауыл квотасы</span>
+            <span style="font-size:12px;color:var(--text3);">?</span>
           </div>
-          <input type="range" class="slider" min="0" max="20" value="10" id="sl-hist" oninput="ubtSlide('hist',this.value)" style="--pct:50%">
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:3px;"><span>0</span><span>10</span><span>20</span></div>
-        </div>
-
-        <!-- Оқу сауаттылық: 0-10 -->
-        <div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:13px;font-weight:600;color:var(--text);">Оқу сауаттылығы</span>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <button onclick="ubtAdj('read',-1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">−</button>
-              <span id="ubt-read" style="font-size:16px;font-weight:800;min-width:28px;text-align:center;color:var(--accent);">5</span>
-              <button onclick="ubtAdj('read',1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">+</button>
-            </div>
+          <div class="quota-row" onclick="toggleQuota(this,'multilarge')" style="border-radius:0;">
+            <div class="quota-check" data-val="multilarge"></div>
+            <span class="quota-lbl">Көпбалалы отбасы</span>
+            <span style="font-size:12px;color:var(--text3);">?</span>
           </div>
-          <input type="range" class="slider" min="0" max="10" value="5" id="sl-read" oninput="ubtSlide('read',this.value)" style="--pct:50%">
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:3px;"><span>0</span><span>5</span><span>10</span></div>
-        </div>
-
-        <!-- Математикалық сауаттылық: 0-10 -->
-        <div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:13px;font-weight:600;color:var(--text);">Математикалық сауаттылық</span>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <button onclick="ubtAdj('math',-1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">−</button>
-              <span id="ubt-math" style="font-size:16px;font-weight:800;min-width:28px;text-align:center;color:var(--accent);">5</span>
-              <button onclick="ubtAdj('math',1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">+</button>
-            </div>
+          <div class="quota-row" onclick="toggleQuota(this,'incomplete')" style="border-radius:0;">
+            <div class="quota-check" data-val="incomplete"></div>
+            <span class="quota-lbl">Толық емес отбасы</span>
+            <span style="font-size:12px;color:var(--text3);">?</span>
           </div>
-          <input type="range" class="slider" min="0" max="10" value="5" id="sl-math" oninput="ubtSlide('math',this.value)" style="--pct:50%">
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:3px;"><span>0</span><span>5</span><span>10</span></div>
-        </div>
-
-        <!-- Негізгі пән 1: 0-50 -->
-        <div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:13px;font-weight:600;color:var(--text);">Негізгі пән 1</span>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <button onclick="ubtAdj('sub1',-1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">−</button>
-              <span id="ubt-sub1" style="font-size:16px;font-weight:800;min-width:28px;text-align:center;color:var(--accent);">25</span>
-              <button onclick="ubtAdj('sub1',1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">+</button>
-            </div>
+          <div class="quota-row" onclick="toggleQuota(this,'serpin')" style="border-radius:0;">
+            <div class="quota-check" data-val="serpin"></div>
+            <span class="quota-lbl">Серпін</span>
+            <span style="font-size:12px;color:var(--text3);">?</span>
           </div>
-          <input type="range" class="slider" min="0" max="50" value="25" id="sl-sub1" oninput="ubtSlide('sub1',this.value)" style="--pct:50%">
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:3px;"><span>0</span><span>25</span><span>50</span></div>
-        </div>
-
-        <!-- Негізгі пән 2: 0-50 -->
-        <div style="margin-bottom:6px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:13px;font-weight:600;color:var(--text);">Негізгі пән 2</span>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <button onclick="ubtAdj('sub2',-1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">−</button>
-              <span id="ubt-sub2" style="font-size:16px;font-weight:800;min-width:28px;text-align:center;color:var(--accent);">25</span>
-              <button onclick="ubtAdj('sub2',1)" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);font-size:16px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;">+</button>
-            </div>
+          <div class="quota-row" onclick="toggleQuota(this,'disabled')" style="border-radius:0;">
+            <div class="quota-check" data-val="disabled"></div>
+            <span class="quota-lbl">Мүгедектігі бар адамдар</span>
+            <span style="font-size:12px;color:var(--text3);">?</span>
           </div>
-          <input type="range" class="slider" min="0" max="50" value="25" id="sl-sub2" oninput="ubtSlide('sub2',this.value)" style="--pct:50%">
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:3px;"><span>0</span><span>25</span><span>50</span></div>
-        </div>
-
-      </div>
-
-      <!-- Total score display -->
-      <div style="background:var(--text);border-radius:var(--radius-lg);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:11px;color:rgba(245,244,239,0.6);font-weight:600;letter-spacing:0.04em;margin-bottom:2px;">ЖАЛПЫ БАЛ</div>
-          <div id="ubtTotalDisplay" style="font-size:36px;font-weight:800;color:var(--bg);letter-spacing:-0.03em;">70</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:11px;color:rgba(245,244,239,0.5);margin-bottom:4px;">Макс: 140</div>
-          <div id="ubtBreakdown" style="font-size:12px;color:rgba(245,244,239,0.65);">10+5+5+25+25</div>
-        </div>
-      </div>
-
-      <!-- UBT Document upload -->
-      <div class="section-label" style="padding:0 0 8px;">ҰБТ ҚҰЖАТТАРЫ</div>
-      <div class="card" style="margin-bottom:14px;">
-        <div style="padding:14px 16px;">
-          <div id="ubtDropZone" onclick="document.getElementById('ubtFileInput').click()"
-            style="border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--card2);">
-            <div style="font-size:28px;margin-bottom:6px;">📄</div>
-            <div style="font-size:13px;font-weight:600;color:var(--text);">ҰБТ нәтижесін жүктеу</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:4px;">Сурет немесе PDF • tap to upload</div>
+          <div class="quota-row" onclick="toggleQuota(this,'disabled2')" style="border-radius:0;">
+            <div class="quota-check" data-val="disabled2"></div>
+            <span class="quota-lbl">Мүгедектігі бар отбасынан</span>
+            <span style="font-size:12px;color:var(--text3);">?</span>
           </div>
-          <input type="file" id="ubtFileInput" accept="image/*,.pdf" style="display:none" onchange="handleUbtFile(this.files[0])">
-          <div id="ubtFilePreview" style="display:none;margin-top:10px;padding:10px;background:var(--green-soft);border-radius:10px;align-items:center;gap:10px;">
-            <span style="font-size:20px;">✅</span>
-            <div>
-              <div id="ubtFileName" style="font-size:13px;font-weight:600;color:var(--green);"></div>
-              <div style="font-size:11px;color:var(--text3);">Файл жүктелді</div>
-            </div>
+          <div class="quota-row" onclick="toggleQuota(this,'orphan')" style="border-radius:0;border-bottom:none;">
+            <div class="quota-check" data-val="orphan"></div>
+            <span class="quota-lbl">Жетім балалар</span>
+            <span style="font-size:12px;color:var(--text3);">?</span>
           </div>
         </div>
       </div>
 
-    </div>
-    <div style="padding:0 16px 100px;">
-      <button class="btn-primary" onclick="calculateGrant()" data-i18n="calculate">Мүмкіндікті анықтау</button>
+      <!-- UBT TOTAL SLIDER -->
+      <div style="margin-top:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-size:15px;font-weight:700;color:var(--text);">ҰБТ жалпы балы</span>
+          <span id="ubtTotalDisplay" style="font-size:28px;font-weight:800;color:var(--accent);letter-spacing:-0.03em;">70</span>
+        </div>
+        <input type="range" class="slider grant-main-slider" min="0" max="140" value="70" id="grantMainSlider"
+          oninput="grantSliderChange(this.value)" style="--pct:50%;width:100%;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:5px;">
+          <span>0</span><span>35</span><span>70</span><span>105</span><span>140</span>
+        </div>
+        <!-- breakdown hint -->
+        <div id="ubtBreakdown" style="font-size:12px;color:var(--text3);margin-top:6px;text-align:center;"></div>
+      </div>
+
+      <!-- CONFIRM CHECKBOX -->
+      <div class="grant-confirm-row" onclick="toggleGrantConfirm()" id="grantConfirmRow">
+        <div class="grant-confirm-check" id="grantConfirmCheck"></div>
+        <span style="font-size:14px;font-weight:500;color:var(--text);">Деректерді дұрыс енгіздім</span>
+      </div>
+
+      <!-- CALCULATE BUTTON -->
+      <button class="grant-calc-btn" id="grantCalcBtn" onclick="doGrantCalc()">
+        Мүмкіндікті анықтау
+      </button>
+
     </div>
   </div>
 
@@ -2205,12 +2211,85 @@ function renderGrantResults(matches, effectiveScore, quotaBonus, cityFilter){
   }).join('');
 }
 
-// ===== QUOTA =====
+// ===== GRANT NEW UI FUNCTIONS =====
+var grantConfirmed = false;
+var grantMainScore = 70;
+
+function toggleGrantDropdown(type){
+  const bodyId = type==='subject' ? 'subjectDropBody' : 'quotaDropBody';
+  const arrowId = type==='subject' ? 'subjectDropArrow' : 'quotaDropArrow';
+  const body = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if(!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if(arrow) arrow.classList.toggle('open', !isOpen);
+}
+
+function selectSubject(val, label, btn){
+  // Update hidden select
+  const sel = document.getElementById('grantSubjectFilter');
+  if(sel) sel.value = val;
+  // Update label
+  const lbl = document.getElementById('subjectDropLabel');
+  if(lbl) lbl.textContent = label;
+  // Update active style
+  document.querySelectorAll('.grant-drop-opt').forEach(o=>o.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  // Close dropdown
+  document.getElementById('subjectDropBody').style.display = 'none';
+  document.getElementById('subjectDropArrow').classList.remove('open');
+}
+
+function grantSliderChange(val){
+  grantMainScore = parseInt(val);
+  const pct = (grantMainScore/140*100).toFixed(1);
+  const sl = document.getElementById('grantMainSlider');
+  if(sl) sl.style.setProperty('--pct', pct+'%');
+  const disp = document.getElementById('ubtTotalDisplay');
+  if(disp) disp.textContent = grantMainScore;
+  // sync ubtVals roughly for calculateGrant
+  ubtVals.sub1 = Math.round(grantMainScore * 50/140);
+  ubtVals.sub2 = Math.round(grantMainScore * 50/140);
+  ubtVals.hist = Math.round(grantMainScore * 20/140);
+  ubtVals.read = Math.round(grantMainScore * 10/140);
+  ubtVals.math = grantMainScore - ubtVals.sub1 - ubtVals.sub2 - ubtVals.hist - ubtVals.read;
+  if(ubtVals.math < 0) ubtVals.math = 0;
+}
+
+function toggleGrantConfirm(){
+  grantConfirmed = !grantConfirmed;
+  const check = document.getElementById('grantConfirmCheck');
+  const btn = document.getElementById('grantCalcBtn');
+  if(check) check.classList.toggle('on', grantConfirmed);
+  if(btn) btn.classList.toggle('ready', grantConfirmed);
+}
+
+function doGrantCalc(){
+  if(!grantConfirmed){ showToast('Деректерді растаңыз!'); return; }
+  // Force ubtVals total = grantMainScore
+  const total = ubtVals.hist + ubtVals.read + ubtVals.math + ubtVals.sub1 + ubtVals.sub2;
+  if(total !== grantMainScore){
+    // redistribute to match slider
+    const diff = grantMainScore - total;
+    ubtVals.sub1 = Math.max(0, Math.min(50, ubtVals.sub1 + Math.ceil(diff/2)));
+    ubtVals.sub2 = Math.max(0, Math.min(50, grantMainScore - ubtVals.hist - ubtVals.read - ubtVals.math - ubtVals.sub1));
+  }
+  calculateGrant();
+}
+
 function toggleQuota(el,val){
   const cb=el.querySelector('.quota-check');
   if(selectedQuotas.has(val)){selectedQuotas.delete(val);cb.classList.remove('on');}
   else{selectedQuotas.add(val);cb.classList.add('on');}
+  // Update quota badge
+  const badge = document.getElementById('quotaBadge');
+  if(badge){
+    if(selectedQuotas.size>0){ badge.style.display='inline'; badge.textContent='+'+Math.min(selectedQuotas.size*10,30); }
+    else { badge.style.display='none'; }
+  }
 }
+
 // ===== UBT SCORE INPUTS =====
 var ubtVals = {hist:10, read:5, math:5, sub1:25, sub2:25};
 var ubtMax  = {hist:20, read:10, math:10, sub1:50, sub2:50};
@@ -2882,7 +2961,10 @@ function qLoadSaved(){
     if (!box.querySelector('img')) {
       var img = document.createElement('img');
       img.src = LOGO;
-      img.style.cssText = 'width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block;padding:4px;box-sizing:border-box;';
+      var isLarge = box.classList.contains('auth-logo-big');
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;box-sizing:border-box;padding:'+(isLarge?'8px':'3px')+';';
+      box.style.background = 'black';
+      box.style.padding = '0';
       box.innerHTML = '';
       box.appendChild(img);
     }
