@@ -955,7 +955,6 @@ input[type="range"].grant-main-slider {
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-box">
     <div class="auth-logo-wrap">
-      <div class="auth-logo-big" style="background:black;padding:0;overflow:hidden;"></div>
       <div class="auth-title">Aven.ai</div>
       <div class="auth-sub" id="authSubtitle">ҰБТ-ға дайындық платформасы</div>
     </div>
@@ -1028,7 +1027,6 @@ input[type="range"].grant-main-slider {
   <div class="page show" id="homePage">
     <div class="top-nav">
       <div class="nav-brand">
-        <div class="nav-logo-box" id="navLogoBox1" style="background:black;padding:0;overflow:hidden;"></div>
         <span class="nav-brand-name">Aven.ai</span>
       </div>
       <div class="nav-right">
@@ -1094,7 +1092,6 @@ input[type="range"].grant-main-slider {
   <div class="page" id="specialtiesPage">
     <div class="top-nav">
       <div class="nav-brand">
-        <div class="nav-logo-box" id="navLogoBox1" style="background:black;padding:0;overflow:hidden;"></div>
         <span class="nav-brand-name" data-i18n="specialties">Мамандықтар</span>
       </div>
       <div class="nav-avatar" onclick="goPage('profile')" id="specAvatar">А</div>
@@ -1124,7 +1121,6 @@ input[type="range"].grant-main-slider {
   <div class="page" id="grantPage">
     <div class="top-nav">
       <div class="nav-brand">
-        <div class="nav-logo-box" id="navLogoBox2" style="background:black;padding:0;overflow:hidden;"></div>
         <span class="nav-brand-name" data-i18n="grant">Грант</span>
       </div>
       <div class="nav-avatar" onclick="goPage('profile')" id="grantAvatar">А</div>
@@ -1286,7 +1282,7 @@ input[type="range"].grant-main-slider {
   <!-- ===== AI CHAT PAGE ===== -->
   <div class="page ai-page" id="aiPage">
     <div class="ai-topbar">
-      <button class="ai-back" onclick="goPage('home')">‹ <span data-i18n="back">Артқа</span></button>
+      <button class="ai-back" onclick="goBack()">‹ <span data-i18n="back">Артқа</span></button>
       <div class="ai-logo-box" id="aiOrb" onclick="cycleOrbColor()" style="background:black;padding:0;overflow:hidden;"></div>
       <div class="ai-topbar-info">
         <div class="ai-topbar-name">Aven AI</div>
@@ -1337,7 +1333,6 @@ input[type="range"].grant-main-slider {
   <div class="page" id="unisPage">
     <div class="top-nav">
       <div class="nav-brand">
-        <div class="nav-logo-box" id="navLogoBox1" style="background:black;padding:0;overflow:hidden;"></div>
         <span class="nav-brand-name" data-i18n="universities">Университеттер</span>
       </div>
       <div class="nav-avatar" onclick="goPage('profile')" id="unisAvatar">А</div>
@@ -2060,7 +2055,9 @@ function doLogout(){
 }
 
 // ===== NAVIGATION =====
+var previousPage = 'home';
 function goPage(page){
+  if(currentPage && currentPage !== page) previousPage = currentPage;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
   document.querySelectorAll('.nav-tab').forEach(n=>n.classList.remove('active'));
   const map={home:'homePage',specialties:'specialtiesPage',grant:'grantPage',results:'resultsPage',ai:'aiPage',unis:'unisPage',profile:'profilePage',quiz:'quizPage'};
@@ -2074,6 +2071,9 @@ function goPage(page){
   if(page==='specialties') renderSpecialties();
   if(page==='unis') renderUnis();
   window.scrollTo(0,0);
+}
+function goBack(){
+  goPage(previousPage||'home');
 }
 
 // ===== SPECIALTIES =====
@@ -2545,7 +2545,7 @@ function openUniSheet(id){
 }
 
 // ===== AI CHAT =====
-const GROQ_API_KEY='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';
+const GROQ_API_KEY='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';
 function getSystemPrompt(){
   return `Сен Aven.ai — Қазақстандағы ҰБТ платформасының AI кеңесшісісің.
 МАҢЫЗДЫ: Кез келген сұраққа жауап бер: ғылым, технология, тіл, медицина, психология, мансап, мәдениет, спорт, саясат, рецептер, саяхат т.б.
@@ -2567,7 +2567,6 @@ function newConversation(){currentConvId=null;pendingFiles=[];renderFilePreview(
 function showAiEmpty(){
   const el=document.getElementById('aiMessages');
   el.innerHTML=`<div class="ai-empty">
-    <div class="ai-empty-logo" style="background:black;padding:0;overflow:hidden;"></div>
     <div class="ai-empty-title">${t('emptyTitle')}</div>
     <div class="ai-empty-sub">${t('emptySub').replace(/\n/g,'<br>')}</div>
   </div>`;
