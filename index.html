@@ -3089,23 +3089,6 @@ function setThinking(val){
   if(val){orb.classList.add('thinking');typing.classList.add('show');status.textContent=t('thinking');btn.disabled=true;document.getElementById('aiMessages').scrollTop=9999;}
   else{orb.classList.remove('thinking');typing.classList.remove('show');status.textContent=t('ready');btn.disabled=false;}
 }
-async function callGroq(userText,files,history){
-  const histSlice=history.slice(-10,-1);
-  const apiMsgs=[{role:'system',content:getSystemPrompt()}];
-  for(const m of histSlice) apiMsgs.push({role:m.role==='user'?'user':'assistant',content:m.text||'[медиа файл]'});
-  let msgText=userText||'';
-  if(files.length>0&&files[0].type==='image') msgText=(msgText?msgText+'\n':'')+'[Пайдаланушы фото жіберді]';
-  if(files.length>0&&files[0].type==='file') msgText=(msgText?msgText+'\n':'')+`[Пайдаланушы "${files[0].name}" файлын жіберді]`;
-  apiMsgs.push({role:'user',content:msgText||'Сәлем!'});
-  const resp=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+GROQ_API_KEY},
-    body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1500,messages:apiMsgs,temperature:0.7})
-  });
-  const data=await resp.json();
-  if(data.error) throw new Error(data.error.message);
-  return data.choices[0].message.content;
-}
 function usePrompt(text){document.getElementById('aiTextarea').value=text;sendMessage();}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
