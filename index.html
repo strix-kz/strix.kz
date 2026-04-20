@@ -964,66 +964,101 @@ input[type="range"].grant-main-slider {
 .quiz-saved-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
 .quiz-saved-pct{font-size:18px;font-weight:800;color:var(--accent);}
 
+/* ===== AVEN SETTINGS ===== */
+.aven-setting-row {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px; cursor:pointer; transition:background 0.1s;
+}
+.aven-setting-row:active { background:var(--bg3); }
+.aven-setting-icon {
+  width:36px; height:36px; border-radius:9px;
+  background:var(--bg3); display:flex; align-items:center;
+  justify-content:center; flex-shrink:0; color:var(--text);
+}
+.aven-setting-label { font-size:15px; font-weight:500; color:var(--text); }
+.aven-setting-sub { font-size:12px; color:var(--text3); margin-top:1px; }
+
 </style>
 </head>
 <body>
 
 <!-- ===== AUTH ===== -->
-<div class="auth-overlay" id="authOverlay">
+<div class="auth-overlay" id="authOverlay" style="background:#1a1917;">
   <div class="auth-box">
-    <div class="auth-logo-wrap">
-      <div class="auth-title">Aven.ai</div>
-      <div class="auth-sub" id="authSubtitle">ҰБТ-ға дайындық платформасы</div>
+    <!-- Logo -->
+    <div style="text-align:center;margin-bottom:32px;">
+      <div class="auth-logo-big" style="background:#2a2825;border-radius:50%;margin:0 auto 18px;animation:float 3s ease-in-out infinite;"></div>
+      <div style="font-size:28px;font-weight:700;color:#f0ede6;letter-spacing:-0.02em;font-family:'Georgia',serif;">aven</div>
     </div>
-    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
-      <div class="lang-sw">
-        <button class="lang-btn active" onclick="setLang('kk',this)">ҚАЗ</button>
-        <button class="lang-btn" onclick="setLang('ru',this)">РУС</button>
-        <button class="lang-btn" onclick="setLang('en',this)">ENG</button>
-      </div>
+
+    <!-- Tagline -->
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="font-size:26px;font-weight:800;color:#f0ede6;line-height:1.25;letter-spacing:-0.03em;" id="authTagline">Ең үздік нәтижеге<br>Aven-мен жет</div>
     </div>
-    <div class="auth-tabs" style="margin-bottom:20px;">
-      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')"><span data-i18n="login">Кіру</span></button>
-      <button class="auth-tab" id="tabReg" onclick="switchTab('register')"><span data-i18n="register">Тіркелу</span></button>
+
+    <!-- Google btn -->
+    <button onclick="doGoogleLogin()" style="width:100%;padding:16px;background:#f0ede6;border:none;border-radius:50px;font-size:16px;font-weight:600;color:#1a1917;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;font-family:inherit;transition:opacity 0.15s;" onmousedown="this.style.opacity=0.85" onmouseup="this.style.opacity=1">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Google арқылы кіру
+    </button>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
+      <span style="font-size:13px;color:rgba(240,237,230,0.4);">немесе</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
     </div>
-    <div id="loginForm">
-      <div class="form-group">
-        <label class="label" data-i18n="email">ЭЛЕКТРОНДЫҚ ПОШТА</label>
-        <input class="input-field" type="email" id="loginEmail" placeholder="email@example.com">
+
+    <!-- Email toggle -->
+    <div id="authEmailSection">
+      <input id="authEmailInput" type="email" placeholder="Email енгізіңіз"
+        style="width:100%;padding:16px 18px;background:#2a2825;border:1.5px solid rgba(255,255,255,0.1);border-radius:14px;font-size:16px;color:#f0ede6;outline:none;font-family:inherit;margin-bottom:10px;box-sizing:border-box;transition:border-color 0.2s;"
+        onfocus="this.style.borderColor='rgba(201,110,58,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+        onkeydown="if(event.key==='Enter')authContinueEmail()">
+
+      <!-- Email continue — expands to show pass -->
+      <div id="authPassSection" style="display:none;margin-bottom:10px;">
+        <input id="authPassInput" type="password" placeholder="Құпия сөз"
+          style="width:100%;padding:16px 18px;background:#2a2825;border:1.5px solid rgba(255,255,255,0.1);border-radius:14px;font-size:16px;color:#f0ede6;outline:none;font-family:inherit;box-sizing:border-box;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='rgba(201,110,58,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+          onkeydown="if(event.key==='Enter')authSubmit()">
       </div>
-      <div class="form-group">
-        <label class="label" data-i18n="password">ҚҰПИЯ СӨЗ</label>
-        <input class="input-field" type="password" id="loginPass" placeholder="••••••••">
+      <div id="authNameSection" style="display:none;margin-bottom:10px;">
+        <input id="authNameInput" type="text" placeholder="Атыңыз"
+          style="width:100%;padding:16px 18px;background:#2a2825;border:1.5px solid rgba(255,255,255,0.1);border-radius:14px;font-size:16px;color:#f0ede6;outline:none;font-family:inherit;box-sizing:border-box;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='rgba(201,110,58,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+          onkeydown="if(event.key==='Enter')authSubmit()">
       </div>
-      <button class="btn-primary" onclick="doLogin()" style="margin-bottom:12px;"><span data-i18n="login">Кіру</span></button>
-      <div class="auth-divider"><span data-i18n="or">немесе</span></div>
-      <button class="btn-secondary" onclick="doGoogleLogin()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        <span data-i18n="googleLogin">Google арқылы кіру</span>
+
+      <button id="authContinueBtn" onclick="authContinueEmail()"
+        style="width:100%;padding:16px;background:#2a2825;border:1.5px solid rgba(255,255,255,0.12);border-radius:50px;font-size:16px;font-weight:600;color:#f0ede6;cursor:pointer;font-family:inherit;transition:all 0.15s;"
+        onmousedown="this.style.opacity=0.7" onmouseup="this.style.opacity=1">
+        Жалғастыру
       </button>
     </div>
-    <div id="registerForm" style="display:none">
-      <div class="form-group">
-        <label class="label" data-i18n="fullName">АТЫ-ЖӨНІ</label>
-        <input class="input-field" type="text" id="regName" placeholder="Атыңызды жазыңыз">
-      </div>
-      <div class="form-group">
-        <label class="label" data-i18n="email">ЭЛЕКТРОНДЫҚ ПОШТА</label>
-        <input class="input-field" type="email" id="regEmail" placeholder="email@example.com">
-      </div>
-      <div class="form-group">
-        <label class="label" data-i18n="password">ҚҰПИЯ СӨЗ</label>
-        <input class="input-field" type="password" id="regPass" placeholder="Кемінде 6 символ">
-      </div>
-      <button class="btn-primary" onclick="doRegister()" style="margin-bottom:12px;"><span data-i18n="register">Тіркелу</span></button>
-      <div class="auth-divider"><span data-i18n="or">немесе</span></div>
-      <button class="btn-secondary" onclick="doGoogleLogin()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        <span data-i18n="googleRegister">Google арқылы тіркелу</span>
-      </button>
+
+    <!-- Terms -->
+    <div style="text-align:center;margin-top:20px;font-size:12px;color:rgba(240,237,230,0.35);line-height:1.6;padding:0 8px;">
+      Жалғастыру арқылы сіз <span style="text-decoration:underline;cursor:pointer;">Пайдаланушы шарттарымен</span> және <span style="text-decoration:underline;cursor:pointer;">Құпиялылық саясатымызбен</span> келісесіз.
     </div>
+
+    <!-- Lang switcher -->
+    <div style="display:flex;justify-content:center;margin-top:20px;">
+      <div class="lang-sw" style="background:rgba(255,255,255,0.06);">
+        <button class="lang-btn active" onclick="setLang('kk',this)" style="color:rgba(240,237,230,0.5);">ҚАЗ</button>
+        <button class="lang-btn" onclick="setLang('ru',this)" style="color:rgba(240,237,230,0.5);">РУС</button>
+        <button class="lang-btn" onclick="setLang('en',this)" style="color:rgba(240,237,230,0.5);">ENG</button>
+      </div>
+    </div>
+
+    <!-- Bottom label -->
+    <div style="text-align:center;margin-top:28px;font-size:12px;font-weight:700;color:rgba(240,237,230,0.2);letter-spacing:0.15em;">AVEN</div>
   </div>
 </div>
+
+<!-- Hidden legacy inputs for JS compatibility -->
+<input type="hidden" id="loginEmail"><input type="hidden" id="loginPass">
+<input type="hidden" id="regName"><input type="hidden" id="regEmail"><input type="hidden" id="regPass">
 
 <!-- ===== MAIN APP ===== -->
 <div class="app" id="mainApp">
@@ -1317,7 +1352,7 @@ input[type="range"].grant-main-slider {
     </div>
     <div class="ai-msgs" id="aiMessages"></div>
     <div class="typing-bubble" id="typingBubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="ai-input-wrap">
+    <div class="ai-input-wrap" style="background:var(--bg);border-top:none;padding:8px 12px 24px;">
       <div class="quick-prompts" id="quickPromptsRow">
         <button class="qprompt" onclick="usePrompt('ҰБТ-ға қалай дайындалу керек?')">ҰБТ дайындық</button>
         <button class="qprompt" onclick="usePrompt('Грант алу үшін қанша балл керек?')">Грант балы</button>
@@ -1327,17 +1362,33 @@ input[type="range"].grant-main-slider {
         <button class="qprompt" onclick="usePrompt('Python программалау тілін қалай үйренуге болады?')">Python</button>
       </div>
       <div class="file-preview-row" id="filePreviewRow" style="display:none;"></div>
-      <div class="input-row">
-        <div class="input-box">
-          <button class="attach-btn" onclick="toggleAttachMenu()">⊕</button>
-          <textarea id="aiTextarea" rows="1" placeholder="Сұрақ жазыңыз..." onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+
+      <!-- Aven-style input box -->
+      <div style="background:var(--card2);border-radius:20px;padding:12px 14px;border:1.5px solid var(--border);">
+        <textarea id="aiTextarea" rows="1"
+          placeholder="Reply to aven..."
+          onkeydown="handleKey(event)" oninput="autoResize(this)"
+          style="width:100%;border:none;outline:none;font-size:16px;font-family:inherit;resize:none;max-height:120px;min-height:24px;background:transparent;color:var(--text);line-height:1.5;display:block;"></textarea>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+          <!-- Left: attach -->
+          <button onclick="toggleAttachMenu()"
+            style="width:34px;height:34px;border-radius:50%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:20px;font-weight:300;">+</button>
+          <!-- Right: mic + send -->
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button id="voiceInputBtn" onclick="toggleVoice()"
+              style="width:34px;height:34px;border-radius:50%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+            </button>
+            <button id="sendBtn" onclick="sendMessage()"
+              style="width:40px;height:40px;border-radius:50%;background:var(--text);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--bg);transition:all 0.2s;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M22 2L11 13" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
       </div>
     </div>
     <div class="attach-menu" id="attachMenu">
@@ -1405,50 +1456,102 @@ input[type="range"].grant-main-slider {
 
   <!-- ===== PROFILE PAGE ===== -->
   <div class="page" id="profilePage">
-    <div class="top-nav">
-      <div class="nav-brand">
-        <div class="nav-logo-box" id="navLogoBox1" style="background:black;padding:0;overflow:hidden;"></div>
-        <span class="nav-brand-name" data-i18n="profile">Профиль</span>
-      </div>
+    <div class="top-nav" style="justify-content:center;position:relative;">
+      <button onclick="goBack()" style="position:absolute;left:16px;background:none;border:none;cursor:pointer;padding:4px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="3 12 9 6"/><polyline points="3 12 9 18"/></svg>
+      </button>
+      <span style="font-size:17px;font-weight:700;color:var(--text);">Settings</span>
+      <button style="position:absolute;right:16px;background:none;border:none;cursor:pointer;padding:4px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </button>
     </div>
-    <div class="profile-hero">
-      <div class="profile-av" id="profileAvatar">А</div>
-      <div class="profile-name" id="profileName">Пайдаланушы</div>
-      <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="384d4b5d4a784b4c4a5140165342">[email&#160;protected]</a></div>
-    </div>
-    <div style="padding:0 16px;">
-      <div class="section-label" data-i18n="settings">БАПТАУЛАР</div>
-      <div class="card" style="margin-bottom:14px;">
-        <div class="row-item">
-          <div class="row-icon" style="background:var(--bg3);font-size:16px;">🌙</div>
-          <span class="row-label" data-i18n="darkMode">Қараңғы режим</span>
-          <label class="toggle">
-            <input type="checkbox" id="darkToggle" onchange="toggleDark()">
-            <span class="toggle-slider"></span>
-          </label>
+
+    <div style="padding:12px 16px 100px;">
+
+      <!-- Group 1 -->
+      <div style="background:var(--card);border-radius:16px;overflow:hidden;margin-bottom:10px;">
+        <div class="aven-setting-row" onclick="showToast('Профиль')">
+          <div class="aven-setting-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div class="aven-setting-label">Profile</div>
+            <div class="aven-setting-sub" id="profileEmail">user@example.com</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
-        <div class="row-item" style="cursor:default;">
-          <div class="row-icon" style="background:var(--bg3);font-size:16px;">🌐</div>
-          <span class="row-label" data-i18n="language">Тіл</span>
-          <div class="lang-sw">
+      </div>
+
+      <!-- Group 2 -->
+      <div style="background:var(--card);border-radius:16px;overflow:hidden;margin-bottom:10px;">
+        <div class="aven-setting-row" onclick="toggleDark()">
+          <div class="aven-setting-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div class="aven-setting-label">Color mode</div>
+            <div class="aven-setting-sub" id="colorModeLabel">System</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div style="height:1px;background:var(--separator);margin-left:52px;"></div>
+        <div class="aven-setting-row" style="cursor:default;">
+          <div class="aven-setting-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div class="aven-setting-label">Speech language</div>
+            <div class="aven-setting-sub">Қазақша</div>
+          </div>
+          <div class="lang-sw" style="background:var(--bg3);">
             <button class="lang-btn active" onclick="setLangAll('kk',this)">ҚАЗ</button>
             <button class="lang-btn" onclick="setLangAll('ru',this)">РУС</button>
             <button class="lang-btn" onclick="setLangAll('en',this)">ENG</button>
           </div>
         </div>
-        <div class="row-item" onclick="goPage('ai')">
-          <div class="row-icon" style="background:var(--text);color:var(--bg);font-size:13px;font-weight:800;border-radius:9px;">S</div>
-          <span class="row-label" data-i18n="aiChat">Aven AI Чат</span>
-          <span class="row-arrow">›</span>
-        </div>
-        <div class="row-item" onclick="showToast(t('comingSoon'))">
-          <div class="row-icon" style="background:rgba(201,110,58,0.1);font-size:16px;">🔔</div>
-          <span class="row-label" data-i18n="notifications">Хабарландырулар</span>
-          <span class="row-arrow">›</span>
+        <div style="height:1px;background:var(--separator);margin-left:52px;"></div>
+        <div class="aven-setting-row">
+          <div class="aven-setting-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div style="flex:1;"><div class="aven-setting-label">AI чат</div></div>
+          <label class="toggle" style="flex-shrink:0;">
+            <input type="checkbox" id="darkToggle" onchange="toggleDark()">
+            <span class="toggle-slider"></span>
+          </label>
         </div>
       </div>
+
+      <!-- Group 3 -->
+      <div style="background:var(--card);border-radius:16px;overflow:hidden;margin-bottom:10px;">
+        <div class="aven-setting-row" onclick="showToast('Жақында')">
+          <div class="aven-setting-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div style="flex:1;"><div class="aven-setting-label">Privacy</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div style="height:1px;background:var(--separator);margin-left:52px;"></div>
+        <div class="aven-setting-row" onclick="showToast('Жақында')">
+          <div class="aven-setting-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </div>
+          <div style="flex:1;"><div class="aven-setting-label">Shared links</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+
+      <!-- Log out -->
+      <div style="background:var(--card);border-radius:16px;overflow:hidden;">
+        <div class="aven-setting-row" onclick="doLogout()">
+          <div class="aven-setting-icon" style="color:#e05040;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </div>
+          <div style="flex:1;"><div class="aven-setting-label" style="color:#e05040;">Log out</div></div>
+        </div>
+      </div>
+
     </div>
-    <button class="logout-btn" onclick="doLogout()" data-i18n="logout">Шығу</button>
   </div>
 
   <!-- ===== BOTTOM NAV ===== -->
@@ -2109,12 +2212,44 @@ let conversations={}, currentConvId=null;
 let pendingFiles=[], isAiThinking=false;
 let specFilter='', uniFilter='', uniCityFilter='';
 
-// ===== AUTH =====
+// ===== AUTH NEW FLOW =====
+let authMode = 'start'; // start | login | register
+function authContinueEmail() {
+  const email = document.getElementById('authEmailInput').value.trim();
+  if (!email || !email.includes('@')) { showToast('Email дұрыс емес'); return; }
+  if (authMode === 'start') {
+    // Check if user exists locally
+    const users = JSON.parse(localStorage.getItem('aven_users') || '[]');
+    const exists = users.find(u => u.email === email);
+    authMode = exists ? 'login' : 'register';
+    document.getElementById('authPassSection').style.display = 'block';
+    if (!exists) document.getElementById('authNameSection').style.display = 'block';
+    document.getElementById('authContinueBtn').textContent = exists ? 'Кіру' : 'Тіркелу';
+    document.getElementById('authPassInput').focus();
+  } else {
+    authSubmit();
+  }
+}
+function authSubmit() {
+  const email = document.getElementById('authEmailInput').value.trim();
+  const pass = document.getElementById('authPassInput').value;
+  if (!pass || pass.length < 6) { showToast('Кемінде 6 символ'); return; }
+  if (authMode === 'register') {
+    const name = document.getElementById('authNameInput').value.trim() || email.split('@')[0];
+    document.getElementById('regName').value = name;
+    document.getElementById('regEmail').value = email;
+    document.getElementById('regPass').value = pass;
+    doRegister();
+  } else {
+    document.getElementById('loginEmail').value = email;
+    document.getElementById('loginPass').value = pass;
+    doLogin();
+  }
+}
+
 function switchTab(tab){
-  document.getElementById('loginForm').style.display=tab==='login'?'block':'none';
-  document.getElementById('registerForm').style.display=tab==='register'?'block':'none';
-  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(tab==='login'?'tabLogin':'tabReg').classList.add('active');
+  document.getElementById('loginForm') && (document.getElementById('loginForm').style.display = tab==='login'?'block':'none');
+  document.getElementById('registerForm') && (document.getElementById('registerForm').style.display = tab==='register'?'block':'none');
 }
 function doLogin(){
   const email=document.getElementById('loginEmail').value.trim();
